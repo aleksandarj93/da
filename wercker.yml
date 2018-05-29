@@ -24,8 +24,7 @@ build:
   steps:
     # A step that executes `npm install` command
     - npm-install
-    # A step that executes `npm test` command
-    - npm-test
+    # A step that executes `npm test` comman
 
     # A custom script step, name value is used in the UI
     # and the code value contains the command that get executed
@@ -34,3 +33,9 @@ build:
         code: |
           echo "node version $(node -v) running"
           echo "npm version $(npm -v) running"
+    # Push to public docker repo
+    - internal/docker-push: 
+        username: $USERNAME
+        password: $PASSWORD
+        repository: $USERNAME/test
+        tag: latest
