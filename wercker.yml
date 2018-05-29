@@ -1,41 +1,23 @@
-# This references the default nodejs container from
-# the Docker Hub: https://registry.hub.docker.com/_/node/
-# If you want Nodesource's container you would reference nodesource/node
-# Read more about containers on our dev center
-# http://devcenter.wercker.com/docs/containers/index.html
-box: node
-# This is the build pipeline. Pipelines are the core of wercker
-# Read more about pipelines on our dev center
-# http://devcenter.wercker.com/docs/pipelines/index.html
-
-# You can also use services such as databases. Read more on our dev center:
-# http://devcenter.wercker.com/docs/services/index.html
-# services:
-    # - postgres
-    # http://devcenter.wercker.com/docs/services/postgresql.html
-
-    # - mongo
-    # http://devcenter.wercker.com/docs/services/mongodb.html
+box: node:latest
 build:
-  # The steps that will be executed on build
-  # Steps make up the actions in your pipeline
-  # Read more about steps on our dev center:
-  # http://devcenter.wercker.com/docs/steps/index.html
   steps:
-    # A step that executes `npm install` command
-    - npm-install
-    # A step that executes `npm test` comman
-
-    # A custom script step, name value is used in the UI
-    # and the code value contains the command that get executed
+    # Install latest npm version
     - script:
-        name: echo nodejs information
-        code: |
-          echo "node version $(node -v) running"
-          echo "npm version $(npm -v) running"
-    # Push to public docker repo
+        name: install latest npm version
+        code: npm install npm@latest -g
+    # Install latest angular-cli
+    - script:
+        name: install latest angular-cli version
+        code: npm install -g @angular/cli@latest --unsafe-perm
+    # Install npm dependencies
+    - script:
+        name: install npm dependencies
+        code: npm install --unsafe-perm
+    # Push to public docker repo and serve application
     - internal/docker-push: 
         username: $USERNAME
         password: $PASSWORD
-        repository: $USERNAME/test
+        repository: $USERNAME/daWercker
         tag: latest
+        working-dir: /pipeline/source
+        cmd: ng serve --host 0.0.0.0 --port 8081
