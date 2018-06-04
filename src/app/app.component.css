@@ -1,12 +1,6 @@
 #container-navbar{
     padding:20px;
 }
-/* #container{
-    padding-top:-50px;
-    padding-left:50px;
-    font-size:auto;
-} */
-/* The side navigation menu */
 .sidenav {
     height: 100%; /* 100% Full-height */
     width: 0; /* 0 width - change this with JavaScript */
@@ -55,3 +49,4 @@
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
 }
+

@@ -61,10 +61,10 @@ import { UserDetailsComponent } from './user-details/user-details.component';
       {
         path: 'login', 
         component:LoginComponent
-      },
-      {
-        path: 'user-details/:uid', component: UserDetailsComponent
       }
+      // {
+      //   path: 'user-details/:uid', component: UserDetailsComponent
+      // }
     ])
   ],
   providers: [AuthGuard, AuthService],

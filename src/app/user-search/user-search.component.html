@@ -64,4 +64,9 @@
 
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
   </div>
+  <hr />
+<div *ngIf="!hiddenDetails">
+  <app-user-details [user]="userDetails"></app-user-details>
 </div>
+</div>
+

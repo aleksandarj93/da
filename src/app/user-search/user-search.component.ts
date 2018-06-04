@@ -22,19 +22,22 @@ export class UserSearchComponent implements OnInit {
 
   category =
     [
-      { id: 1, name: "People" }
+      { id: "People", name: "Ljudi" }
     ];
     selectedValue = null;
   filter = [
-    { id: 1, attribute: "uid" },
-    { id: 2, attribute: "cn" },
-    { id: 3, attribute: "sn" },
-    { id: 4, attribute: "mail" }
+    { id: "uid", attribute: "UID" },
+    { id: "givenName", attribute: "Ime"},
+    { id: "sn", attribute: "Prezime" },
+    { id: "cn", attribute: "Ime i prezime" },
+    { id: "mail", attribute: "Mail" }
   ];
   selectedAttribute = null;
 
   // za tabelu
   hiddenTable: boolean = true;
+  hiddenDetails: boolean = true;
+  userDetails: any;
 
   displayedColumns = ['Ime i prezime', 'E-mail', 'Opcije'];
   dataSource: MatTableDataSource<ldapSearchData>;
@@ -55,17 +58,24 @@ export class UserSearchComponent implements OnInit {
   }
 
   onDetails(uid: string) {
-    this.router.navigate(['user-details', uid]);
+    this.hiddenDetails = false;
+    // this.router.navigate(['user-details', uid]);
+    const filter = "(uid=" + uid + ")";
+    this._userService.getUser("o=domen1.rs,o=isp", "SUB", filter).subscribe(
+      data => { 
+        console.log(JSON.stringify(data));
+        this.userDetails = data.ldapSearch[0];
+      });
   }
 
 
   onSubmit(){
     if(this.selectedValue !== null) {
-      this.baseDN ="ou=" + this.selectedValue.name +","+ "o=domen1.rs,o=isp";
+      this.baseDN ="ou=" + this.selectedValue.id +","+ "o=domen1.rs,o=isp";
     } else { this.baseDN = "o=domen1.rs,o=isp"; } 
 
     if(this.selectedAttribute !== null && this.userForm.value.value !== null) {
-      this.filterString = "(" + this.selectedAttribute.attribute + "=" + this.userForm.value.value + ")";
+      this.filterString = "(" + this.selectedAttribute.id + "=" + this.userForm.value.value + ")";
     }
     else { this.filterString = "(uid=*)"; }
 
