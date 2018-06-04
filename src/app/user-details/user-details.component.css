@@ -7,4 +7,17 @@
 .example-full-width {
    width: 100%;
 }
+
+
+.demo-tab-group {
+    border: 1px solid #e8e8e8;
+  }
+  /* u ovoj klasi je zakucana visina da se ne bi pomera skrol kad se krece kroz tabove */
+  /* povecati po potrebi */
+  .demo-group-coustom {
+    height: 400px; 
+  }
   
+  .demo-tab-content {
+    padding: 16px;
+  }
