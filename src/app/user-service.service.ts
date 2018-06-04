@@ -10,7 +10,7 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class UserServiceService {
-  private _userPostUrlAdd = "http://172.20.2.162:7080/ldaprest/User";
+  private _userPostUrlAdd = "http://130.61.78.8:8080/ldaprest/User";
 
   result: resultStatus;
 
@@ -39,7 +39,7 @@ export class UserServiceService {
   }
 
   getUser(baseDN: string, searchScope: string, filter: string) {
-    var _userPostUrl = "http://172.20.2.162:7080/ldaprest/User" + "?baseDN=" + baseDN + "&searchScope=" + searchScope + "&filter=" + filter;
+    var _userPostUrl = "http://130.61.78.8:8080/ldaprest/User" + "?baseDN=" + baseDN + "&searchScope=" + searchScope + "&filter=" + filter;
 
     console.log(_userPostUrl);
 

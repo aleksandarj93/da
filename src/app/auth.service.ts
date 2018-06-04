@@ -10,7 +10,7 @@ export class AuthService {
 
 
   getCheckUser(username: string, password: string) {
-    var authUrl = "http://172.20.2.162:7080/ldaprest/authentication?bindDN=uid=" + username + ",ou=People,o=domen1.rs,o=isp&password=" + password;
+    var authUrl = "http://130.61.78.8:8080/ldaprest/authentication?bindDN=uid=" + username + ",ou=People,o=domen1.rs,o=isp&password=" + password;
     console.log(authUrl);
     return this._http.get(authUrl);
   }
