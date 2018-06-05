@@ -20,11 +20,10 @@ build:
 deploy-push:
     box: httpd:latest
     steps:
-
     # Moving contents of dist folder
     - script:
         name: Moving contents of dist folder
-        code: mv dist/delegatedAdminApp/* /var/www/html/
+        code: mv dist/delegatedAdminApp/* /usr/local/apache2/htdocs/
     # Push to public docker repo and serve application
     - internal/docker-push: 
         username: $USERNAME
