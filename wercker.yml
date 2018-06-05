@@ -1,4 +1,4 @@
-box: node:latest
+box: httpd:latest
 build:
   steps:
     # Install latest npm version
@@ -13,11 +13,21 @@ build:
     - script:
         name: install npm dependencies
         code: npm install --unsafe-perm
+     # npm build
+    - script:
+        name: Build application
+        code: ng build
+    # npm build
+    - script:
+        name: Moving contents of dist folder
+        code: mv dist/delegatedAdminApp/* /var/www/html/
     # Push to public docker repo and serve application
     - internal/docker-push: 
         username: $USERNAME
         password: $PASSWORD
-        repository: $USERNAME/daWercker
+        repository: $USERNAME/daApacheWercker
         tag: latest
         working-dir: /pipeline/source
-        cmd: ng serve --host 0.0.0.0 --port 8081
+        # cmd: ng serve --host 0.0.0.0 --port 8081
+        cmd: systemctl start httpd.service 
+        
