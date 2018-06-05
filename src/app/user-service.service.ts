@@ -53,7 +53,6 @@ export class UserServiceService {
       }
     )
   }
-
   parseMessageResponse(obj: any) {
     if (obj.resultStatus === 'SUCCESS') {
       this.result = new resultStatus(obj.resultStatus, obj.userDN);
@@ -64,5 +63,4 @@ export class UserServiceService {
     }
     return this.result;
   }
-
 }
