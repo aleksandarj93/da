@@ -22,14 +22,13 @@ export class UserSearchComponent implements OnInit {
 
   category =
     [
-      { id: "People", name: "Ljudi" }
+      { id: "People", name: "People" }
     ];
     selectedValue = null;
   filter = [
     { id: "uid", attribute: "UID" },
-    { id: "givenName", attribute: "Ime"},
-    { id: "sn", attribute: "Prezime" },
-    { id: "cn", attribute: "Ime i prezime" },
+    { id: "givenName", attribute: "First Name"},
+    { id: "sn", attribute: "Last Name" },
     { id: "mail", attribute: "Mail" }
   ];
   selectedAttribute = null;
@@ -71,7 +70,17 @@ export class UserSearchComponent implements OnInit {
   onDelete(uid: string) {
     this._userService.deleteUser(uid).subscribe(
       data => {
-        // posalji poruku da je user obrisan
+        var result = JSON.parse(JSON.stringify(data));
+        if(result.resultStatus === 'SUCCESS')
+        {
+          window.alert("User successfully deleted!");
+        
+        }
+        else if (result.resultStatus === 'FAILURE')
+        {
+          window.alert("Wrong user uid!");
+        }
+        else { window.alert("An error has occurred!"); }
         this.onSubmit();
       }
     )

@@ -37,12 +37,12 @@ export class LoginComponent implements OnInit {
       }
       else if (result.resultStatus === 'FAILURE')
       {
-        window.alert("Uneti su pogrešni podaci!");
+        window.alert("Wrong credentials!");
       }
-      else { window.alert("Došlo je do greške!"); }
+      else { window.alert("An error has occurred!"); }
     })
   }
-  else { window.alert("Morate uneti Login Id i šifru!") }
+  else { window.alert("You need to enter Login ID and password!") }
   }
 
   // uid: string = "";
