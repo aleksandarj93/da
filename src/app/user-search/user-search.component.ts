@@ -81,6 +81,8 @@ export class UserSearchComponent implements OnInit {
           window.alert("Wrong user uid!");
         }
         else { window.alert("An error has occurred!"); }
+        this.userDetails = null;
+        this.hiddenDetails = true;
         this.onSubmit();
       }
     )
