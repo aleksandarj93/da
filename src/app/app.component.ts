@@ -25,7 +25,7 @@ export class AppComponent {
 
   logout() {
     sessionStorage.removeItem('dn');
-    window.alert("Uspešno ste se odjavili!");
+    window.alert("You have successfully logged out!");
   }
 
   isSessionExist() {

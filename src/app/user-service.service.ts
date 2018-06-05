@@ -25,7 +25,6 @@ export class UserServiceService {
       (response) => {
         var resJson = JSON.parse(JSON.stringify(response));
         this.parseMessageResponse(resJson);
-        
         return this.result; 
       }
     );
@@ -39,7 +38,6 @@ export class UserServiceService {
     return this._http.get(_userPostUrl).map(
       (response) => { 
         var resJson = JSON.parse(JSON.stringify(response));
-
         return resJson;
        }
     );
@@ -51,6 +49,7 @@ export class UserServiceService {
       (response) => {
         var resJson = JSON.parse(JSON.stringify(response));
         this.parseMessageResponse(resJson);
+        return this.result; 
       }
     )
   }
