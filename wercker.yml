@@ -1,4 +1,4 @@
-box: httpd:latest
+box: node:latest
 build:
   steps:
     # Install latest npm version
@@ -17,7 +17,9 @@ build:
     - script:
         name: Build application
         code: ng build
-    # npm build
+build-dev:
+    box: httpd:latest
+    # Moving contents of dist folder
     - script:
         name: Moving contents of dist folder
         code: mv dist/delegatedAdminApp/* /var/www/html/
@@ -29,5 +31,6 @@ build:
         tag: latest
         working-dir: /pipeline/source
         # cmd: ng serve --host 0.0.0.0 --port 8081
-        cmd: systemctl start httpd.service 
+        cmd: systemctl start httpd.service
+
         
