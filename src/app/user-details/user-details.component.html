@@ -1,8 +1,8 @@
 <mat-card>
   <mat-card-content>
-    <h2 class="example-h2">Informacije o korisniku</h2>
+    <h2 class="example-h2">{{ user.cn }} - Properties</h2>
     <mat-tab-group class="demo-tab-group demo-group-coustom">
-      <mat-tab label="Osnovne informacije">
+      <mat-tab label="User Information">
         <div class="demo-tab-content">
           <br>
           <form class="example-form" *ngIf="user != null">
@@ -13,23 +13,23 @@
             </div>
             <div class="form-group">
               <mat-form-field class="example-full-width">
-                <input matInput placeholder="Ime" value="{{ user.givenName }}">
+                <input matInput placeholder="First Name" value="{{ user.givenName }}">
               </mat-form-field>
             </div>
             <div class="form-group">
               <mat-form-field class="example-full-width">
-                <input matInput placeholder="Prezime" value="{{ user.sn }}">
+                <input matInput placeholder="Last Name" value="{{ user.sn }}">
               </mat-form-field>
             </div>
             <div class="form-group">
               <mat-form-field class="example-full-width">
-                <input matInput placeholder="Status korisnika" value="{{ user.inetUserStatus }}">
+                <input matInput placeholder="User status" value="{{ user.inetUserStatus }}">
               </mat-form-field>
             </div>
           </form>
         </div>
       </mat-tab>
-      <mat-tab label="Servisni paket" *ngIf="user != null">
+      <mat-tab label="Service Package Details" *ngIf="user != null">
         <div id="accordion">
           <div class="card">
             <div class="card-header" id="headingOne">
@@ -43,12 +43,12 @@
               <div class="card-body">
                 <div class="form-group">
                   <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Mail kvota" value="{{ user.mailQuota }}">
+                    <input matInput placeholder="Mail Quota" value="{{ user.mailQuota }}">
                   </mat-form-field>
                 </div>
                 <div class="form-group">
                   <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Maksimalna veličina priloga" value="{{ user.mailMsgQuota }}">
+                    <input matInput placeholder="Attachment Size Limit" value="{{ user.mailMsgQuota }}">
                   </mat-form-field>
                 </div>
               </div>
@@ -61,12 +61,12 @@
           <br>
           <div class="form-group">
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Mail host" value="{{ user.mailHost }}">
+              <input matInput placeholder="Mail Host" value="{{ user.mailHost }}">
             </mat-form-field>
           </div>
           <div class="form-group">
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Mail" value="{{ user.mail }}">
+              <input matInput placeholder="Email Address" value="{{ user.mail }}">
             </mat-form-field>
           </div>
           <div class="form-group">
@@ -76,12 +76,12 @@
           </div>
         </div>
       </mat-tab>
-      <mat-tab label="Kalendar servis">
+      <mat-tab label="Calendar Service Details">
         <div class="demo-tab-content" *ngIf="user != null">
           <br>
             <div class="form-group">
                 <mat-form-field class="example-full-width">
-                  <input matInput placeholder="Vremenska zona" value="{{ user.icsTimezone }}">
+                  <input matInput placeholder="Timezone" value="{{ user.icsTimezone }}">
                 </mat-form-field>
               </div>
         </div>

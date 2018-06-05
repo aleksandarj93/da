@@ -4,7 +4,7 @@
       <form [formGroup]="userForm" #form="ngForm" class="example-form" (ngSubmit)="onSubmit()">
         <div class="form-group">
           <mat-form-field class="example-full-width">
-            <mat-select [(ngModel)]="selectedValue" [ngModelOptions]="{standalone: true}" placeholder="Kategorija" required>
+            <mat-select [(ngModel)]="selectedValue" [ngModelOptions]="{standalone: true}" placeholder="Category" required>
               <mat-option *ngFor="let c of category" [value]="c">
                 {{ c.name }}
               </mat-option>
@@ -13,7 +13,7 @@
         </div>
         <div class="form-group">
           <mat-form-field class="example-full-width">
-            <mat-select [(ngModel)]="selectedAttribute" [ngModelOptions]="{standalone: true}" placeholder="Atribut" required>
+            <mat-select [(ngModel)]="selectedAttribute" [ngModelOptions]="{standalone: true}" placeholder="Attribute" required>
               <mat-option *ngFor="let f of filter" [value]="f">
                 {{ f.attribute }}
               </mat-option>
@@ -22,10 +22,10 @@
         </div>
         <div class="form-group">
           <mat-form-field class="example-full-width">
-            <input matInput placeholder="Unesite vrednost" formControlName="value">
+            <input matInput placeholder="Enter a value" formControlName="value">
           </mat-form-field>
         </div>
-        <button mat-raised-button color="primary" [disabled]="form.invalid">Pretraži</button>
+        <button mat-raised-button color="primary" [disabled]="form.invalid">Search</button>
       </form>
     </div>
   </div>
@@ -39,8 +39,8 @@
 
     <table mat-table [dataSource]="dataSource" matSort>
 
-      <ng-container matColumnDef="Ime i prezime">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Ime i prezime </th>
+      <ng-container matColumnDef="Full name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Full name </th>
 
         <td mat-cell *matCellDef="let row"> {{ row.cn }}</td>
       </ng-container>
@@ -50,10 +50,11 @@
         <td mat-cell *matCellDef="let row"> {{row.mail}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="Opcije">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Opcije </th>
+      <ng-container matColumnDef="Options">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Options </th>
         <td mat-cell *matCellDef="let row">
-          <button mat-raised-button color="primary" (click)="onDetails(row.uid)">Detalji</button>
+          <button mat-raised-button color="primary" (click)="onDetails(row.uid)">Details</button> | 
+          <button mat-raised-button color="warn" (click)="onDelete(row.uid)">Delete</button>
         </td>
       </ng-container>
 
@@ -61,7 +62,6 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;">
       </tr>
     </table>
-
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
   </div>
   <hr />

@@ -39,7 +39,7 @@ export class UserSearchComponent implements OnInit {
   hiddenDetails: boolean = true;
   userDetails: any;
 
-  displayedColumns = ['Ime i prezime', 'E-mail', 'Opcije'];
+  displayedColumns = ['Full name', 'E-mail', 'Options'];
   dataSource: MatTableDataSource<ldapSearchData>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -66,6 +66,15 @@ export class UserSearchComponent implements OnInit {
         console.log(JSON.stringify(data));
         this.userDetails = data.ldapSearch[0];
       });
+  }
+
+  onDelete(uid: string) {
+    this._userService.deleteUser(uid).subscribe(
+      data => {
+        // posalji poruku da je user obrisan
+        this.onSubmit();
+      }
+    )
   }
 
 

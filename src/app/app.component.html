@@ -8,16 +8,16 @@
         <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
         <div *ngIf="isSessionExist(); then logoutcontent; else logincontent"></div>
         <ng-template #logincontent>
-                <a routerLink="/login" href="#" (click)="closeNav()">Prijavi se</a>
+                <a routerLink="/login" href="#" (click)="closeNav()">Log in</a>
         </ng-template>
         <ng-template #logoutcontent>
-            <a routerLink="/login" href="#" (click)="closeNav(); logout()">Odjavi se</a>
+            <a routerLink="/login" href="#" (click)="closeNav(); logout()">Log out</a>
         </ng-template>
         <div *ngIf="isSessionExist()">
             <br>
-            <a routerLink="/users" href="#" (click)="closeNav()">Unesi korisnika</a>
+            <a routerLink="/users" href="#" (click)="closeNav()">New User</a>
             <br>
-            <a routerLink="/user-search" href="#" (click)="closeNav()">Pregled korisnika</a>
+            <a routerLink="/user-search" href="#" (click)="closeNav()">Retrieved Users</a>
         </div>
     </div>
     <span style="font-size:30px;cursor:pointer" (click)="openNav()">&#9776; Meni</span>

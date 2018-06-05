@@ -10,7 +10,7 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class UserServiceService {
-  private _userPostUrlAdd = "http://130.61.78.8:8080/ldaprest/User";
+  private _userBasicUrl = "http://130.61.78.8:8080/ldaprest/User";
 
   result: resultStatus;
 
@@ -21,25 +21,18 @@ export class UserServiceService {
     // const headers = new Headers({'Content-Type': 'application/json'});
     const head = {'Content-Type': 'application/json'};
 
-    return this._http.post(this._userPostUrlAdd, user, {headers: head}).map(
+    return this._http.post(this._userBasicUrl, user, {headers: head}).map(
       (response) => {
         var resJson = JSON.parse(JSON.stringify(response));
-        if (resJson.resultStatus === 'SUCCESS') {
-          this.result = new resultStatus(resJson.resultStatus, resJson.userDN);
-        }
-        else
-        {
-          this.result = new resultStatus(resJson.resultStatus, resJson.message);
-        }
+        this.parseMessageResponse(resJson);
         
-        console.log("ovo je result u json string: "+ JSON.stringify(this.result));
         return this.result; 
       }
     );
   }
 
   getUser(baseDN: string, searchScope: string, filter: string) {
-    var _userPostUrl = "http://130.61.78.8:8080/ldaprest/User" + "?baseDN=" + baseDN + "&searchScope=" + searchScope + "&filter=" + filter;
+    var _userPostUrl = this._userBasicUrl + "?baseDN=" + baseDN + "&searchScope=" + searchScope + "&filter=" + filter;
 
     console.log(_userPostUrl);
 
@@ -50,6 +43,27 @@ export class UserServiceService {
         return resJson;
        }
     );
+  }
+
+  deleteUser(uid: string) {
+    var _userDeleteUrl = this._userBasicUrl + "?dn=uid=" + uid + ",ou=People,o=domen1.rs,o=isp";
+    return this._http.delete(_userDeleteUrl).map(
+      (response) => {
+        var resJson = JSON.parse(JSON.stringify(response));
+        this.parseMessageResponse(resJson);
+      }
+    )
+  }
+
+  parseMessageResponse(obj: any) {
+    if (obj.resultStatus === 'SUCCESS') {
+      this.result = new resultStatus(obj.resultStatus, obj.userDN);
+    }
+    else
+    {
+      this.result = new resultStatus(obj.resultStatus, obj.message);
+    }
+    return this.result;
   }
 
 }
