@@ -17,7 +17,7 @@ build:
     - script:
         name: Build application
         code: ng build
-build-dev:
+deploy-push:
     box: httpd:latest
     # Moving contents of dist folder
     - script:
