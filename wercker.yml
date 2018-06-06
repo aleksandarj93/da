@@ -15,10 +15,8 @@ build:
         code: npm install --unsafe-perm
     # pwd code
     - script:
-        name: pwd
-        code: | 
-        pwd
-        ls -la
+        name: ls -la
+        code: ls -la
     # npm build
     - script:
         name: Build application
@@ -29,9 +27,7 @@ deploy-push:
     # ls 
     - script:
         name: ls
-        code: | 
-        pwd
-        ls -la
+        code: ls
     # Moving contents of dist folder
     - script:
         name: Moving contents of dist folder
