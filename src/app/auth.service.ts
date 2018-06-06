@@ -8,7 +8,7 @@ export class AuthService {
 
   constructor(private _http: HttpClient) { }
 
-  private _userBasicUrl = "http://" + window.location.host + "/ldaprest/User";
+  private _userBasicUrl = "http://" + window.location.host + "/ldaprest";
   // http://130.61.78.8:8080/ldaprest
 
 
