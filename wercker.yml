@@ -13,10 +13,6 @@ build:
     - script:
         name: install npm dependencies
         code: npm install --unsafe-perm
-    # pwd code
-    - script:
-        name: ls -la
-        code: ls -la
     # npm build
     - script:
         name: Build application
@@ -32,15 +28,6 @@ deploy-push:
     - script:
         name: Moving contents of dist folder
         code: mv dist/delegatedAdminApp/* /usr/local/apache2/htdocs/
-    - script:
-        name: cd /usr/local/apache2/htdocs/
-        code: cd /usr/local/apache2/htdocs
-    - script:
-        name: pwd htdocs
-        code: pwd
-    - script:
-        name: ls -la htdocs
-        code: ls -la
     # Push to public docker repo and serve application
     - internal/docker-push: 
         username: $USERNAME
