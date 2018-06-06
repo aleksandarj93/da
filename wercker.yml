@@ -41,9 +41,6 @@ deploy-push:
     - script:
         name: ls -la htdocs
         code: ls -la
-    - script:
-        name: httpd status
-        code: systemctl start httpd.service
     # Push to public docker repo and serve application
     - internal/docker-push: 
         username: $USERNAME
@@ -51,7 +48,5 @@ deploy-push:
         repository: $USERNAME/daApacheWercker
         tag: latest
         # working-dir: /pipeline/source
-        # # cmd: ng serve --host 0.0.0.0 --port 8081
-        # cmd: systemctl start httpd.service
-
+        cmd: httpd-foreground
         
