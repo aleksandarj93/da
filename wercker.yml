@@ -16,7 +16,9 @@ build:
     # pwd code
     - script:
         name: pwd
-        code: pwd
+        code: | 
+        pwd
+        ls -la
     # npm build
     - script:
         name: Build application
@@ -24,18 +26,16 @@ build:
 deploy-push:
     box: httpd:latest
     steps:
-    # pwd code 
+    # ls 
     - script:
-        name: pwd
-        code: pwd
+        name: ls
+        code: | 
+        pwd
+        ls -la
     # Moving contents of dist folder
     - script:
         name: Moving contents of dist folder
         code: mv dist/delegatedAdminApp/* /usr/local/apache2/htdocs/
-    # pwd code 
-    - script:
-        name: pwd
-        code: pwd
     # Push to public docker repo and serve application
     - internal/docker-push: 
         username: $USERNAME
