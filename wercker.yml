@@ -24,6 +24,10 @@ deploy-push:
     - script:
         name: Moving contents of dist folder
         code: mv dist/delegatedAdminApp/* /usr/local/apache2/htdocs/
+    # Configure apache to work like reverse proxy
+    - script:
+        name: Override httpd.conf
+        code: yes | cp -rf httpd.conf /usr/local/apache2/conf/httpd.conf
     # Push to public docker repo and serve application
     - internal/docker-push: 
         username: $USERNAME
