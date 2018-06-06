@@ -13,24 +13,27 @@ build:
     - script:
         name: install npm dependencies
         code: npm install --unsafe-perm
-     # npm build
-         - script:
+    # pwd code
+    - script:
         name: pwd
         code: pwd
+    # npm build
     - script:
         name: Build application
         code: ng build
 deploy-push:
     box: httpd:latest
     steps:
-             - script:
+    # pwd code 
+    - script:
         name: pwd
         code: pwd
     # Moving contents of dist folder
     - script:
         name: Moving contents of dist folder
         code: mv dist/delegatedAdminApp/* /usr/local/apache2/htdocs/
-                 - script:
+    # pwd code 
+    - script:
         name: pwd
         code: pwd
     # Push to public docker repo and serve application
