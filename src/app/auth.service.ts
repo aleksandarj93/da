@@ -8,9 +8,12 @@ export class AuthService {
 
   constructor(private _http: HttpClient) { }
 
+  private _userBasicUrl = "http://" + window.location.host + "/ldaprest/User";
+  // http://130.61.78.8:8080/ldaprest
+
 
   getCheckUser(username: string, password: string) {
-    var authUrl = "http://130.61.78.8:8080/ldaprest/authentication?bindDN=uid=" + username + ",ou=People,o=domen1.rs,o=isp&password=" + password;
+    var authUrl =  this._userBasicUrl + "/authentication?bindDN=uid=" + username + ",ou=People,o=domen1.rs,o=isp&password=" + password;
     console.log(authUrl);
     return this._http.get(authUrl);
   }

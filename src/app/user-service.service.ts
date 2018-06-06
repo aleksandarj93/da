@@ -10,7 +10,9 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class UserServiceService {
-  private _userBasicUrl = "http://130.61.78.8:8080/ldaprest/User";
+  // private _userBasicUrl = "http://130.61.78.8:8080/ldaprest/User";
+  private _userBasicUrl = "http://" + window.location.host + "/ldaprest/User";
+  
 
   result: resultStatus;
 
