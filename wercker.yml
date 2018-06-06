@@ -20,10 +20,6 @@ build:
 deploy-push:
     box: httpd:latest
     steps:
-    # ls 
-    - script:
-        name: ls
-        code: ls
     # Moving contents of dist folder
     - script:
         name: Moving contents of dist folder

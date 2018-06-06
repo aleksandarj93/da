@@ -1,6 +1,6 @@
 <div class="container">
   <h3>New User</h3>
-    <mat-horizontal-stepper [linear]="isLinear" #stepper>
+    <mat-horizontal-stepper [linear]="isLinear" class="fixedHeight" #stepper>
         <mat-step [stepControl]="firstFormGroup">
           <form [formGroup]="firstFormGroup">
             <ng-template matStepLabel>User Information</ng-template>
