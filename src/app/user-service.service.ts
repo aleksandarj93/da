@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Headers, Http } from '@angular/http';
-import { createJsonMode, resultStatus } from './shared/create-json-model';
-import { User } from './shared/interfaces';
+import { resultStatus } from './shared/create-json-model';
 import 'rxjs/Rx';
 import "reflect-metadata";
 import 'rxjs/add/operator/map';
@@ -35,7 +33,6 @@ export class UserServiceService {
   getUser(baseDN: string, searchScope: string, filter: string) {
     var _userPostUrl = this._userBasicUrl + "?baseDN=" + baseDN + "&searchScope=" + searchScope + "&filter=" + filter;
 
-    console.log(_userPostUrl);
 
     return this._http.get(_userPostUrl).map(
       (response) => { 

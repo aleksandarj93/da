@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserServiceService } from '../user-service.service';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
-import { createJsonMode, resultStatus } from '../shared/create-json-model';
-import { NameValue, Value } from '../shared/name-value';
-import { Jsonp } from '@angular/http';
-import { User } from '../shared/interfaces';
+import { FormGroup, FormControl } from '@angular/forms';
+import { resultStatus } from '../shared/create-json-model';
 import { FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 
@@ -47,7 +44,18 @@ export class UsersComponent implements OnInit {
       id: "neptune", 
       name: "neptune",
       attributes: {"mailMsgMaxBlocks": 800, "mailQuota": -2, "mailMsgQuota": 6000, "mailAllowedServiceAccess": "+imap:ALL$+imaps:ALL$+pop:ALL$+pops:ALL$+smtp:ALL$+http:ALL"}
+    },
+    {
+      id: "mars", 
+      name: "mars",
+      attributes: {"mailMsgMaxBlocks": 700, "mailQuota": 5242288, "mailMsgQuota": 3000, "mailAllowedServiceAccess": "+pop:ALL$+imap:ALL$+smtp:ALL$+http:ALL"}
+    },
+    {
+      id: "earth", 
+      name: "earth",
+      attributes: {"mailMsgMaxBlocks": 300, "mailQuota": 6291456, "mailMsgQuota": 2000, "mailAllowedServiceAccess": "+pop:ALL$+imap:ALL$+smtp:ALL$+http:ALL"}
     }
+
   ];
   selectedPackage = null;
   
@@ -131,11 +139,8 @@ export class UsersComponent implements OnInit {
       // za Kalendar
       attributes.push({"name": "icsTimezone", "values": [{"value": "Europe/Paris"}]});
     }
-   
 
     formResult = {"dn": "uid=" + uid + ",ou=People,o=domen1.rs,o=isp", "attributes": attributes};
-
-    console.log(JSON.stringify(formResult));
 
     this._userService.addUser(formResult)
     .subscribe(

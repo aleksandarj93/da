@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserServiceService } from '../user-service.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
-import {DataSource} from '@angular/cdk/table';
 import { ActivatedRoute, Router } from '@angular/router';
 
 

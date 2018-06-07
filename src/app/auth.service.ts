@@ -14,7 +14,6 @@ export class AuthService {
 
   getCheckUser(username: string, password: string) {
     var authUrl =  this._userBasicUrl + "/authentication?bindDN=uid=" + username + ",ou=People,o=domen1.rs,o=isp&password=" + password;
-    console.log(authUrl);
     return this._http.get(authUrl);
   }
 }

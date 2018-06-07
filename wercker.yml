@@ -13,6 +13,10 @@ build:
     - script:
         name: install npm dependencies
         code: npm install --unsafe-perm
+    # ng test
+    - script:
+        name: Test application
+        code: ng test
     # npm build
     - script:
         name: Build application
