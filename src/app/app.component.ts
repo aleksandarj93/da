@@ -23,18 +23,13 @@ export class AppComponent {
     document.body.style.backgroundColor = "white";
   }
 
-  logout() {
-    sessionStorage.removeItem('dn');
-    window.alert("You have successfully logged out!");
-  }
+  // logout() {
+  //   sessionStorage.removeItem('dn');
+  //   window.alert("You have successfully logged out!");
+  // }
 
   isSessionExist() {
-    var session = sessionStorage.getItem('dn');
-    if (session != null) 
-    {
       return true;
-    }
-    return false;
   }
 
 

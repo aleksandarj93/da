@@ -1,34 +1,36 @@
 <div class="container">
-  <div class="row">
-    <div class="form-horizontal col-md-5">
-      <form [formGroup]="userForm" #form="ngForm" class="example-form" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-          <mat-form-field class="example-full-width">
-            <mat-select [(ngModel)]="selectedValue" [ngModelOptions]="{standalone: true}" placeholder="Category" required>
-              <mat-option *ngFor="let c of category" [value]="c">
-                {{ c.name }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field class="example-full-width">
-            <mat-select [(ngModel)]="selectedAttribute" [ngModelOptions]="{standalone: true}" placeholder="Attribute" required>
-              <mat-option *ngFor="let f of filter" [value]="f">
-                {{ f.attribute }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="form-group">
-          <mat-form-field class="example-full-width">
-            <input matInput placeholder="Enter a value" formControlName="value">
-          </mat-form-field>
-        </div>
-        <button mat-raised-button color="primary" [disabled]="form.invalid">Search</button>
-      </form>
+  <form [formGroup]="userForm" #form="ngForm" (ngSubmit)="onSubmit()">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <select class="custom-select" [(ngModel)]="selectedAttribute" [ngModelOptions]="{standalone: true}">
+          <option *ngFor="let f of filter" [value]="f.id">{{ f.attribute }}</option>
+        </select>
+      </div>
+      <input type="text" class="form-control" formControlName="value" placeholder="Enter a value">
+      <div class="input-group-append">
+        <button class="btn btn-outline-primary" type="submit">Search</button>
+      </div>
     </div>
-  </div>
+  </form>
+
+  <!-- <form [formGroup]="userForm" #form="ngForm" class="form-inline" (ngSubmit)="onSubmit()">
+    <label class="control-label mb-3">Attribute: </label>
+    <div class="form-group mb-3">
+      <mat-form-field class="" appearance="outline">
+        <mat-select [(ngModel)]="selectedAttribute" [ngModelOptions]="{standalone: true}" placeholder="Choose Attribute" required>
+          <mat-option *ngFor="let f of filter" [value]="f">
+            {{ f.attribute }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="form-group mx-sm-3 mb-3">
+      <mat-form-field class="" appearance="outline">
+        <input matInput placeholder="Enter a value" formControlName="value">
+      </mat-form-field>
+    </div>
+    <button class="btn btn-primary mb-2" [disabled]="form.invalid">Search</button>
+  </form> -->
   <hr />
   <div class="example-header">
     <mat-form-field>
@@ -53,7 +55,7 @@
       <ng-container matColumnDef="Options">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Options </th>
         <td mat-cell *matCellDef="let row">
-          <button mat-raised-button color="primary" (click)="onDetails(row.uid)">Details</button> | 
+          <button mat-raised-button color="primary" (click)="onDetails(row.uid)">Details</button> |
           <button mat-raised-button color="warn" (click)="onDelete(row.uid)">Delete</button>
         </td>
       </ng-container>
@@ -65,8 +67,7 @@
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
   </div>
   <hr />
-<div *ngIf="!hiddenDetails">
-  <app-user-details [user]="userDetails"></app-user-details>
+  <div *ngIf="!hiddenDetails">
+    <app-user-details [user]="userDetails"></app-user-details>
+  </div>
 </div>
-</div>
-

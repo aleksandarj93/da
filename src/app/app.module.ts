@@ -46,22 +46,22 @@ import { UserDetailsComponent } from './user-details/user-details.component';
     RouterModule.forRoot([
       {
         path: '', 
-        component:LoginComponent
+        component:UserSearchComponent
       },
       {
         path:'users',
-        component:UsersComponent,
-        canActivate: [AuthGuard]
+        component:UsersComponent
+        // canActivate: [AuthGuard]
       },
       {
         path:'user-search',
-        component:UserSearchComponent,
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'login', 
-        component:LoginComponent
+        component:UserSearchComponent
+        // canActivate: [AuthGuard]
       }
+      // {
+      //   path: 'login', 
+      //   component:LoginComponent
+      // }
       // {
       //   path: 'user-details/:uid', component: UserDetailsComponent
       // }

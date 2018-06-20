@@ -3,15 +3,17 @@
         <img src="assets/MTS-Telekom-final-logo.png" width="30" height="30" class="d-inline-block align-top" alt=""> Delegated Administrator
     </a>
 </nav>
+
 <div id="container-navbar">
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
+        <!-- isSessionExist za sad je true...promeniti -->
         <div *ngIf="isSessionExist(); then logoutcontent; else logincontent"></div>
         <ng-template #logincontent>
                 <a routerLink="/login" href="#" (click)="closeNav()">Log in</a>
         </ng-template>
         <ng-template #logoutcontent>
-            <a routerLink="/login" href="#" (click)="closeNav(); logout()">Log out</a>
+            <a routerLink="/login" href="#" (click)="closeNav()">Log out</a>
         </ng-template>
         <div *ngIf="isSessionExist()">
             <br>

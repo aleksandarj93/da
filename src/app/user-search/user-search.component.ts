@@ -19,15 +19,10 @@ export class UserSearchComponent implements OnInit {
     value: new FormControl()
   });
 
-  category =
-    [
-      { id: "People", name: "People" }
-    ];
-    selectedValue = null;
+  category = "People";
+
   filter = [
     { id: "uid", attribute: "UID" },
-    { id: "givenName", attribute: "First Name"},
-    { id: "sn", attribute: "Last Name" },
     { id: "mail", attribute: "Mail" }
   ];
   selectedAttribute = null;
@@ -89,12 +84,10 @@ export class UserSearchComponent implements OnInit {
 
 
   onSubmit(){
-    if(this.selectedValue !== null) {
-      this.baseDN ="ou=" + this.selectedValue.id +","+ "o=domen1.rs,o=isp";
-    } else { this.baseDN = "o=domen1.rs,o=isp"; } 
+    this.baseDN ="ou=" + this.category +","+ "o=domen1.rs,o=isp";
 
     if(this.selectedAttribute !== null && this.userForm.value.value !== null) {
-      this.filterString = "(" + this.selectedAttribute.id + "=" + this.userForm.value.value + ")";
+      this.filterString = "(" + this.selectedAttribute + "=" + this.userForm.value.value + ")";
     }
     else { this.filterString = "(uid=*)"; }
 
