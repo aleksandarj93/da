@@ -1,4 +1,8 @@
 <div class="container">
+  <div class="form-group">
+      <button type="button" class="btn btn-lg btn-primary" routerLink="/users">Create new</button>
+  </div>
+  
   <form [formGroup]="userForm" #form="ngForm" (ngSubmit)="onSubmit()">
     <div class="input-group mb-3">
       <div class="input-group-prepend">
@@ -12,7 +16,6 @@
       </div>
     </div>
   </form>
-
   <!-- <form [formGroup]="userForm" #form="ngForm" class="form-inline" (ngSubmit)="onSubmit()">
     <label class="control-label mb-3">Attribute: </label>
     <div class="form-group mb-3">

@@ -9,8 +9,6 @@ import { UserServiceService } from './user-service.service';
 })
 export class AppComponent {
 
-
-
   openNav() {
     document.getElementById("mySidenav").style.width = "250px";
     document.getElementById("main").style.marginLeft = "250px";

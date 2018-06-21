@@ -6,7 +6,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import "reflect-metadata";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CdkTableModule} from '@angular/cdk/table';
-import {MatButtonModule, MatCheckboxModule, MatSelectModule, MatInputModule, MatTableModule, MatPaginatorModule, MatCardModule, MatStepperModule, MatExpansionModule } from '@angular/material';
+import {MatButtonModule,MatSidenavModule, MatSelectModule, MatInputModule, MatListModule, MatMenuModule, MatDividerModule, MatButtonToggleModule,
+  MatTableModule, MatPaginatorModule, MatCardModule, MatStepperModule, MatExpansionModule, MatToolbarModule, MatIconModule } from '@angular/material';
 import {MatTabsModule} from '@angular/material/tabs';
 import { AuthGuard } from './auth.guard';
 
@@ -18,6 +19,7 @@ import { RouterModule,Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './auth.service';
 import { UserDetailsComponent } from './user-details/user-details.component';
+import { NavBarComponent } from './nav-bar/nav-bar.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import { UserDetailsComponent } from './user-details/user-details.component';
     UsersComponent,
     UserSearchComponent,
     LoginComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
+    NavBarComponent
   ],
   imports: [
     BrowserModule,
@@ -43,6 +46,12 @@ import { UserDetailsComponent } from './user-details/user-details.component';
     MatCardModule,
     MatStepperModule,
     MatExpansionModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatListModule,
+    MatMenuModule,
+    MatButtonToggleModule,
     RouterModule.forRoot([
       {
         path: '', 

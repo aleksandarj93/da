@@ -5,7 +5,7 @@
           <form [formGroup]="firstFormGroup">
             <ng-template matStepLabel>User Information</ng-template>
             <div class="form-group">
-                <mat-form-field class="example-full-width">
+                <mat-form-field class="example-full-width" appearance="outline">
                   <input matInput placeholder="First Name*" formControlName="firstName" [errorStateMatcher]="matcher">
                   <mat-hint>Enter a Firs Name</mat-hint>
                   <mat-error *ngIf="firstFormGroup.value.firstName == ''">
@@ -15,7 +15,7 @@
                 </mat-form-field>
               </div>
               <div class="form-group">
-                <mat-form-field class="example-full-width">
+                <mat-form-field class="example-full-width" appearance="outline">
                   <input matInput placeholder="Last Name*" formControlName="lastName" [errorStateMatcher]="matcher">
                   <mat-hint>Enter a Last Name</mat-hint>
                   <mat-error *ngIf="firstFormGroup.value.lastName == ''">
@@ -25,7 +25,7 @@
                 </mat-form-field>
               </div>
               <div class="form-group">
-                <mat-form-field class="example-full-width">
+                <mat-form-field class="example-full-width" appearance="outline">
                   <input matInput placeholder="Password*" formControlName="password" [errorStateMatcher]="matcher" type="password">
                   <mat-hint>Enter a Password</mat-hint>
                   <mat-error *ngIf="firstFormGroup.value.password == ''">
@@ -35,7 +35,7 @@
                 </mat-form-field>
               </div>
               <div class="form-group">
-                  <mat-form-field class="example-full-width">
+                  <mat-form-field class="example-full-width" appearance="outline">
                     <mat-select [(ngModel)]="selectedLanguage" [ngModelOptions]="{standalone: true}" placeholder="Language">
                       <mat-option *ngFor="let l of languages" [value]="l.id">
                         {{ l.name }}
@@ -44,7 +44,7 @@
                   </mat-form-field>
                 </div>
             <div>
-              <button mat-button matStepperNext [disabled]="notEntered()">Next</button>
+              <button mat-raised-button matStepperNext [disabled]="notEntered()">Next</button>
             </div>
           </form>
         </mat-step>
@@ -88,22 +88,27 @@
                 </div>
               <div>
                   <br>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button matStepperNext>Next</button>
+                <button mat-raised-button matStepperPrevious>Back</button>
               </div>
             </form>
           </mat-step>
-        <mat-step>
+        <!-- <mat-step>
           <ng-template matStepLabel>Done</ng-template>
           You are now done,.
           <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="notEntered()">Create</button>
           <div>
             <button mat-button matStepperPrevious>Back</button>
-            <!-- <button mat-button (click)="stepper.reset()">Reset</button> -->
+            <button mat-button (click)="stepper.reset()">Reset</button>
           </div>
-        </mat-step>
+        </mat-step> -->
       </mat-horizontal-stepper>
-
+      <hr />
+      <div class="form-group">
+          <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="notEntered()">Create</button> |
+          <!-- <button mat-raised-button (click)="stepper.reset()">Reset</button> -->
+          <button mat-raised-button  routerLink="/user-search">Cancel</button>
+      </div>
+     
       <div *ngIf="!IsHidden">
         <div class="alert alert-success" *ngIf="onlyStatus == 'SUCCESS'; else errorResponse">
           <strong>{{ message }}</strong>

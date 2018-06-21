@@ -1,4 +1,4 @@
-<nav class="navbar navbar-light bg-light">
+<!-- <nav class="navbar navbar-light bg-light">
     <a class="navbar-brand">
         <img src="assets/MTS-Telekom-final-logo.png" width="30" height="30" class="d-inline-block align-top" alt=""> Delegated Administrator
     </a>
@@ -7,7 +7,6 @@
 <div id="container-navbar">
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
-        <!-- isSessionExist za sad je true...promeniti -->
         <div *ngIf="isSessionExist(); then logoutcontent; else logincontent"></div>
         <ng-template #logincontent>
                 <a routerLink="/login" href="#" (click)="closeNav()">Log in</a>
@@ -22,13 +21,13 @@
             <a routerLink="/user-search" href="#" (click)="closeNav()">Retrieved Users</a>
         </div>
     </div>
-    <span style="font-size:30px;cursor:pointer" (click)="openNav()">&#9776; Menu</span>
-
-    <div id="main">
+    <span style="font-size:30px;cursor:pointer" (click)="openNav()">&#9776; Menu</span> -->
+<app-nav-bar></app-nav-bar>
+    <!-- <div id="main">
         <div id="container" class="container">
             <div class="jumbotron">
                 <router-outlet></router-outlet>
             </div>
         </div>
-    </div>
-</div>
+    </div> -->
+<!-- </div> -->
