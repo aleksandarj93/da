@@ -4,6 +4,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { resultStatus } from '../shared/create-json-model';
 import { FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -66,7 +67,7 @@ export class UsersComponent implements OnInit {
   IsHidden= true;
   
 
-  constructor(private _userService: UserServiceService) { }
+  constructor(private _userService: UserServiceService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -84,7 +85,8 @@ export class UsersComponent implements OnInit {
     var attributes = [];
     var valuesObjClas = [];
 
-    var listObjClass = ["top", "person", "account", "inetuser", "inetOrgPerson", "ipuser", "organizationalperson", "iplanetpreferences", 
+    var listObjClass = ["top", "person", "account", "inetuser", "inetOrgPerson", "ipuser", "ipgroup","inetsubscriber", "userpresenceprofile",
+     "organizationalperson", "iplanetpreferences", "nabUser",
     "daventity", "inetLocalMailRecipient", "icscalendaruser", "inetmailUser"];
 
     listObjClass.forEach(element => {
@@ -103,7 +105,7 @@ export class UsersComponent implements OnInit {
 
     attributes.push({"name": "sn", "values": [{"value": this.firstFormGroup.value.lastName}]});
 
-    attributes.push({"name": "inetUserStatus", "values": [{"value": "active"}]});
+    // attributes.push({"name": "inetUserStatus", "values": [{"value": "active"}]});
 
     attributes.push({"name": "userPassword", "values": [{"value": this.firstFormGroup.value.password}]});
 
@@ -114,30 +116,29 @@ export class UsersComponent implements OnInit {
 
       // za E-mail
       attributes.push({"name": "mail", "values": [{"value": this.firstFormGroup.value.firstName + "." + this.firstFormGroup.value.lastName + "@domen1.rs"}]});
-      attributes.push({"name": "mailUserStatus", "values": [{"value": "active"}]});
+      // attributes.push({"name": "mailUserStatus", "values": [{"value": "active"}]});
 
-      attributes.push({"name": "mailHost", "values": [{"value": "ucs7.sun.saga.rs"}]});
+      // attributes.push({"name": "mailHost", "values": [{"value": "ucs7.sun.saga.rs"}]});
 
       // cekiran local inbox
-      attributes.push({"name": "mailDeliveryOption", "values": [{"value": "mailbox"}]});
+      // attributes.push({"name": "mailDeliveryOption", "values": [{"value": "mailbox"}]});
       
 
       // dodati atribute sa vrednostima iz paketa
-      this.packages.forEach(element => { 
-        if (element.id == this.selectedPackage) {
-          if (this.secondFormGroup.value.mailQuota != null) { attributes.push({"name": "mailQuota", "values": [{"value": this.secondFormGroup.value.mailQuota}]}); }
-          else { attributes.push({"name": "mailQuota", "values": [{"value": element.attributes.mailQuota}]}); }
+      // this.packages.forEach(element => { 
+      //   if (element.id == this.selectedPackage) {
+      //     if (this.secondFormGroup.value.mailQuota != null) { attributes.push({"name": "mailQuota", "values": [{"value": this.secondFormGroup.value.mailQuota}]}); }
+      //     else { attributes.push({"name": "mailQuota", "values": [{"value": element.attributes.mailQuota}]}); }
           
-          if(this.secondFormGroup.value.mailMsgQuota != null) { attributes.push({"name": "mailMsgQuota", "values": [{"value": this.secondFormGroup.value.mailMsgQuota}]}); }
-          else { attributes.push({"name": "mailMsgQuota", "values": [{"value": element.attributes.mailMsgQuota}]}); }
+      //     if(this.secondFormGroup.value.mailMsgQuota != null) { attributes.push({"name": "mailMsgQuota", "values": [{"value": this.secondFormGroup.value.mailMsgQuota}]}); }
+      //     else { attributes.push({"name": "mailMsgQuota", "values": [{"value": element.attributes.mailMsgQuota}]}); }
 
-          attributes.push({"name": "mailMsgMaxBlocks", "values": [{"value": element.attributes.mailMsgMaxBlocks}]});
-          attributes.push({"name": "mailAllowedServiceAccess", "values": [{"value": element.attributes.mailAllowedServiceAccess}]});
-        }
-      });
+      //     attributes.push({"name": "mailMsgMaxBlocks", "values": [{"value": element.attributes.mailMsgMaxBlocks}]});
+      //     attributes.push({"name": "mailAllowedServiceAccess", "values": [{"value": element.attributes.mailAllowedServiceAccess}]});
+      //   }
+      // });
 
-      // za Kalendar
-      attributes.push({"name": "icsTimezone", "values": [{"value": "Europe/Paris"}]});
+      // attributes.push({"name": "icsTimezone", "values": [{"value": "Europe/Paris"}]});
     }
 
     formResult = {"dn": "uid=" + uid + ",ou=People,o=domen1.rs,o=isp", "attributes": attributes};
@@ -151,6 +152,8 @@ export class UsersComponent implements OnInit {
       },
       (error: Error) => {  console.log(error) }
     );
+
+    this.router.navigate(['user-search']);
   }
 }
 

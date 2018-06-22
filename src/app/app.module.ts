@@ -6,15 +6,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import "reflect-metadata";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CdkTableModule} from '@angular/cdk/table';
-import {MatButtonModule,MatSidenavModule, MatSelectModule, MatInputModule, MatListModule, MatMenuModule, MatDividerModule, MatButtonToggleModule,
-  MatTableModule, MatPaginatorModule, MatCardModule, MatStepperModule, MatExpansionModule, MatToolbarModule, MatIconModule } from '@angular/material';
+import {MatButtonModule,MatSidenavModule, MatSelectModule, MatInputModule, MatListModule, MatMenuModule, MatDialogModule, MatButtonToggleModule,
+  MatTableModule, MatPaginatorModule, MatCardModule, MatStepperModule, MatExpansionModule, MatToolbarModule, MatIconModule, MatCheckboxModule } from '@angular/material';
 import {MatTabsModule} from '@angular/material/tabs';
 import { AuthGuard } from './auth.guard';
 
 
 import { AppComponent } from './app.component';
 import { UsersComponent } from './users/users.component';
-import { UserSearchComponent } from './user-search/user-search.component';
+import { UserSearchComponent, DialogDelete } from './user-search/user-search.component';
 import { RouterModule,Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './auth.service';
@@ -28,7 +28,8 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
     UserSearchComponent,
     LoginComponent,
     UserDetailsComponent,
-    NavBarComponent
+    NavBarComponent,
+    DialogDelete
   ],
   imports: [
     BrowserModule,
@@ -52,6 +53,8 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
     MatListModule,
     MatMenuModule,
     MatButtonToggleModule,
+    MatDialogModule,
+    MatCheckboxModule,
     RouterModule.forRoot([
       {
         path: '', 
@@ -77,6 +80,7 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
     ])
   ],
   providers: [AuthGuard, AuthService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [DialogDelete]
 })
 export class AppModule { }

@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { UserServiceService } from '../user-service.service';
 import { FormGroup, FormControl } from '@angular/forms';
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
-import { ActivatedRoute, Router } from '@angular/router';
+import { MatPaginator, MatSort, MatTableDataSource, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { SelectionModel } from '@angular/cdk/collections';
 
 
 @Component({
@@ -32,18 +32,33 @@ export class UserSearchComponent implements OnInit {
   hiddenDetails: boolean = true;
   userDetails: any;
 
-  displayedColumns = ['Full name', 'E-mail', 'Options'];
+  displayedColumns = ['select', 'Full name', 'E-mail', 'Options'];
   dataSource: MatTableDataSource<ldapSearchData>;
+  selection = new SelectionModel<ldapSearchData>(true, []);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private _userService: UserServiceService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private _userService: UserServiceService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.onSubmit();
   }
-  
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected() ?
+      this.selection.clear() :
+      this.dataSource.data.forEach(row => this.selection.select(row));
+  }
+
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
@@ -55,8 +70,7 @@ export class UserSearchComponent implements OnInit {
     // this.router.navigate(['user-details', uid]);
     const filter = "(uid=" + uid + ")";
     this._userService.getUser("o=domen1.rs,o=isp", "SUB", filter).subscribe(
-      data => { 
-        console.log(JSON.stringify(data));
+      data => {
         this.userDetails = data.ldapSearch[0];
       });
   }
@@ -65,13 +79,10 @@ export class UserSearchComponent implements OnInit {
     this._userService.deleteUser(uid).subscribe(
       data => {
         var result = JSON.parse(JSON.stringify(data));
-        if(result.resultStatus === 'SUCCESS')
-        {
+        if (result.resultStatus === 'SUCCESS') {
           window.alert("User successfully deleted!");
-        
         }
-        else if (result.resultStatus === 'FAILURE')
-        {
+        else if (result.resultStatus === 'FAILURE') {
           window.alert("Wrong user uid!");
         }
         else { window.alert("An error has occurred!"); }
@@ -83,47 +94,86 @@ export class UserSearchComponent implements OnInit {
   }
 
 
-  onSubmit(){
-    this.baseDN ="ou=" + this.category +","+ "o=domen1.rs,o=isp";
+  onSubmit() {
+    this.baseDN = "ou=" + this.category + "," + "o=domen1.rs,o=isp";
 
-    if(this.selectedAttribute !== null && this.userForm.value.value !== null) {
+    if (this.selectedAttribute !== null && this.userForm.value.value !== null) {
       this.filterString = "(" + this.selectedAttribute + "=" + this.userForm.value.value + ")";
     }
     else { this.filterString = "(uid=*)"; }
 
     this._userService.getUser(this.baseDN, this.scope, this.filterString)
-    .subscribe(
-      (data: any) => { 
-      if (data !== null) { this.hiddenTable = false; } 
+      .subscribe(
+        (data: any) => {
+          if (data !== null) { this.hiddenTable = false; }
 
-      var getData: ldapSearchData[] = [];
-        for (let i = 0; i < data.ldapSearch.length; i++) {
-          const element = data.ldapSearch[i];
-          getData.push(mapJsonUser(data.ldapSearch[i]))
-          
-        }
+          var getData: ldapSearchData[] = [];
+          for (let i = 0; i < data.ldapSearch.length; i++) {
+            getData.push(mapJsonUser(data.ldapSearch[i]))
 
-      this.dataSource = new MatTableDataSource(getData);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    });
-   
+          }
+
+          this.dataSource = new MatTableDataSource(getData);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        });
   }
+
+  openDialog(uid: string): void {
+    let dialogRef = this.dialog.open(DialogDelete, {
+      data: { uid: uid }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) { console.log(result); this.onDelete(uid) }
+      else { console.log(result) }
+    });
+  }
+
+  checkDeleteEnable(): boolean {
+    if (this.selection.isEmpty()) {
+      return true;
+    } 
+    return false;
+  }
+  onNotifyClose(hideDetails: boolean): void {
+    this.hiddenDetails = hideDetails;
+  }
+
 }
 
-function mapJsonUser(obj: any):ldapSearchData
-{
+function mapJsonUser(obj: any): ldapSearchData {
   return {
     uid: obj.uid,
     cn: obj.cn,
-    sn:obj.cn,
+    sn: obj.cn,
     mail: obj.mail,
   }
 }
-
 export interface ldapSearchData {
-    uid: string;
-    cn: string;
-    sn:string;
-    mail: string;
+  uid: string;
+  cn: string;
+  sn: string;
+  mail: string;
+}
+
+@Component({
+  selector: 'dialog-delete',
+  templateUrl: 'dialog-delete.html',
+})
+export class DialogDelete {
+  uid: string;
+  constructor(
+    public dialogRef: MatDialogRef<DialogDelete>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { this.uid = data.uid }
+
+  onYesClick(): void {
+    this.dialogRef.close(true);
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close(false);
+  }
+
+
 }

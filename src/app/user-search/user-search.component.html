@@ -1,6 +1,7 @@
 <div class="container">
-  <div class="form-group">
+  <div class="form-group row">
       <button type="button" class="btn btn-lg btn-primary" routerLink="/users">Create new</button>
+      <button type="button" class="btn btn-lg btn-danger" [disabled]="checkDeleteEnable()">Delete users</button>
   </div>
   
   <form [formGroup]="userForm" #form="ngForm" (ngSubmit)="onSubmit()">
@@ -44,6 +45,21 @@
 
     <table mat-table [dataSource]="dataSource" matSort>
 
+        <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-checkbox (change)="$event ? masterToggle() : null"
+                            [checked]="selection.hasValue() && isAllSelected()"
+                            [indeterminate]="selection.hasValue() && !isAllSelected()">
+              </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox (click)="$event.stopPropagation()"
+                            (change)="$event ? selection.toggle(row) : null"
+                            [checked]="selection.isSelected(row)">
+              </mat-checkbox>
+            </td>
+          </ng-container>
+
       <ng-container matColumnDef="Full name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Full name </th>
 
@@ -59,7 +75,7 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Options </th>
         <td mat-cell *matCellDef="let row">
           <button mat-raised-button color="primary" (click)="onDetails(row.uid)">Details</button> |
-          <button mat-raised-button color="warn" (click)="onDelete(row.uid)">Delete</button>
+          <button mat-raised-button color="warn" (click)="openDialog(row.uid)">Delete</button>
         </td>
       </ng-container>
 
@@ -71,6 +87,6 @@
   </div>
   <hr />
   <div *ngIf="!hiddenDetails">
-    <app-user-details [user]="userDetails"></app-user-details>
+    <app-user-details [user]="userDetails" (notifyClose)="onNotifyClose($event)"></app-user-details>
   </div>
 </div>
