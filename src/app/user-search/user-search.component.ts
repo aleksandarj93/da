@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserServiceService } from '../user-service.service';
 import { FormGroup, FormControl } from '@angular/forms';
-import { MatPaginator, MatSort, MatTableDataSource, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource, MatDialog } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
+import { SingleDeleteDialogComponent } from '../dialogs/single-delete-dialog/single-delete-dialog.component';
 
 
 @Component({
@@ -75,7 +76,7 @@ export class UserSearchComponent implements OnInit {
       });
   }
 
-  onDelete(uid: string) {
+  DeleteSingleUser(uid: string) {
     this._userService.deleteUser(uid).subscribe(
       data => {
         var result = JSON.parse(JSON.stringify(data));
@@ -88,11 +89,64 @@ export class UserSearchComponent implements OnInit {
         else { window.alert("An error has occurred!"); }
         this.userDetails = null;
         this.hiddenDetails = true;
+        this.selection.clear();
         this.onSubmit();
       }
     )
   }
+  DeleteListOfUsers() {
+    var sDeleted: Array<ldapSearchData>;
+    var fDeleted: Array<ldapSearchData>;
+    var promises = [];
 
+    this.selection.selected.forEach(element => {
+      var promise = this._userService.deleteUser(element.uid);
+      promises.push(promise);
+      // this._userService.deleteUser(element.uid).subscribe(
+      //   data => { 
+      //     var result = JSON.parse(JSON.stringify(data));
+      //     if (result.resultStatus === 'SUCCESS') {
+      //       sDeleted.push(element);
+      //     } else {
+      //       fDeleted.push(element);
+      //     }
+      //   }
+      // )
+    });
+    
+    window.alert("Uspesno obrisani korisnici!");
+    this.userDetails = null;
+    this.hiddenDetails = true;
+    this.selection.clear();
+    this.onSubmit();
+  }
+
+  onDeleteListOfUsers() {
+    if(this.selection.selected.length == 1) {
+      this.openDelUserDialog(this.selection.selected[0].uid, null);
+    }
+    else {
+      this.openDelUserDialog(null, this.selection.selected);
+    }
+
+  }
+  openDelUserDialog(uid?: string, userList?: Array<ldapSearchData>): void {
+    let dialogRef = this.dialog.open(SingleDeleteDialogComponent, {
+      data: { uid: uid, userList: userList }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result.decision) { 
+         console.log(result);
+         if(result.option == 0) { this.DeleteSingleUser(uid) }
+         else { this.DeleteListOfUsers() } 
+         
+      }
+      else { 
+        console.log(result) 
+      }
+    });
+  }
 
   onSubmit() {
     this.baseDN = "ou=" + this.category + "," + "o=domen1.rs,o=isp";
@@ -110,25 +164,14 @@ export class UserSearchComponent implements OnInit {
           var getData: ldapSearchData[] = [];
           for (let i = 0; i < data.ldapSearch.length; i++) {
             getData.push(mapJsonUser(data.ldapSearch[i]))
-
           }
-
           this.dataSource = new MatTableDataSource(getData);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
         });
   }
 
-  openDialog(uid: string): void {
-    let dialogRef = this.dialog.open(DialogDelete, {
-      data: { uid: uid }
-    });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) { console.log(result); this.onDelete(uid) }
-      else { console.log(result) }
-    });
-  }
 
   checkDeleteEnable(): boolean {
     if (this.selection.isEmpty()) {
@@ -157,23 +200,3 @@ export interface ldapSearchData {
   mail: string;
 }
 
-@Component({
-  selector: 'dialog-delete',
-  templateUrl: 'dialog-delete.html',
-})
-export class DialogDelete {
-  uid: string;
-  constructor(
-    public dialogRef: MatDialogRef<DialogDelete>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { this.uid = data.uid }
-
-  onYesClick(): void {
-    this.dialogRef.close(true);
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close(false);
-  }
-
-
-}

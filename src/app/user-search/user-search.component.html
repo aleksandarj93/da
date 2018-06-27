@@ -1,7 +1,7 @@
 <div class="container">
   <div class="form-group row">
       <button type="button" class="btn btn-lg btn-primary" routerLink="/users">Create new</button>
-      <button type="button" class="btn btn-lg btn-danger" [disabled]="checkDeleteEnable()">Delete users</button>
+      <button type="button" class="btn btn-lg btn-danger" [disabled]="checkDeleteEnable()" (click)="onDeleteListOfUsers()">Delete users</button>
   </div>
   
   <form [formGroup]="userForm" #form="ngForm" (ngSubmit)="onSubmit()">
@@ -43,7 +43,7 @@
   </div>
   <div class="example-container mat-elevation-z8">
 
-    <table mat-table [dataSource]="dataSource" matSort>
+    <table mat-table [dataSource]="dataSource" matSort matSortActive="Full name" matSortDisableClear matSortDirection="asc">
 
         <ng-container matColumnDef="select">
             <th mat-header-cell *matHeaderCellDef>
@@ -61,21 +61,21 @@
           </ng-container>
 
       <ng-container matColumnDef="Full name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Full name </th>
-
-        <td mat-cell *matCellDef="let row"> {{ row.cn }}</td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear> Full name </th>
+        <td mat-cell *matCellDef="let row"> {{row.cn}}</td>
       </ng-container>
 
-      <ng-container matColumnDef="E-mail">
+      <ng-container matColumnDef="E-mail" >
         <th mat-header-cell *matHeaderCellDef mat-sort-header> E-mail </th>
         <td mat-cell *matCellDef="let row"> {{row.mail}} </td>
       </ng-container>
 
       <ng-container matColumnDef="Options">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Options </th>
+        <th mat-header-cell *matHeaderCellDef> Options </th>
         <td mat-cell *matCellDef="let row">
-          <button mat-raised-button color="primary" (click)="onDetails(row.uid)">Details</button> |
-          <button mat-raised-button color="warn" (click)="openDialog(row.uid)">Delete</button>
+          <button mat-raised-button color="primary" (click)="onDetails(row.uid)">Details</button> 
+          <!-- |
+          <button mat-raised-button color="warn" (click)="openDForDeleteSingleUser(row.uid)">Delete</button> -->
         </td>
       </ng-container>
 

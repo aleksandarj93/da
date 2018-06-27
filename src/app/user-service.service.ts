@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { resultStatus } from './shared/create-json-model';
 import 'rxjs/Rx';
 import "reflect-metadata";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
+import { Observable } from 'rxjs/Rx';
 
 @Injectable()
 export class UserServiceService {
-  // private _userBasicUrl = "http://130.61.78.8:8080/ldaprest/User";
+  // private _userBasicUrl = "http://130.61.78.8:8081/ldaprest/User";
+  // private _userBasicUrl = "http://172.20.2.162:7809/ldaprest/User";
   private _userBasicUrl = "http://" + window.location.host + "/ldaprest/User";
   
 
@@ -29,17 +31,12 @@ export class UserServiceService {
       }
     );
   }
-
-  getUser(baseDN: string, searchScope: string, filter: string) {
+ 
+  getUser(baseDN: string, searchScope: string, filter: string): Observable<any> {
     var _userPostUrl = this._userBasicUrl + "?baseDN=" + baseDN + "&searchScope=" + searchScope + "&filter=" + filter;
 
-
-    return this._http.get(_userPostUrl).map(
-      (response) => { 
-        var resJson = JSON.parse(JSON.stringify(response));
-        return resJson;
-       }
-    );
+    var header: HttpHeaders;
+    return this._http.get<any>(_userPostUrl );
   }
 
   deleteUser(uid: string) {

@@ -7,19 +7,20 @@ import "reflect-metadata";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CdkTableModule} from '@angular/cdk/table';
 import {MatButtonModule,MatSidenavModule, MatSelectModule, MatInputModule, MatListModule, MatMenuModule, MatDialogModule, MatButtonToggleModule,
-  MatTableModule, MatPaginatorModule, MatCardModule, MatStepperModule, MatExpansionModule, MatToolbarModule, MatIconModule, MatCheckboxModule } from '@angular/material';
+  MatTableModule, MatPaginatorModule, MatCardModule, MatStepperModule, MatExpansionModule, MatToolbarModule, MatIconModule, MatCheckboxModule, MatSortModule } from '@angular/material';
 import {MatTabsModule} from '@angular/material/tabs';
 import { AuthGuard } from './auth.guard';
 
 
 import { AppComponent } from './app.component';
 import { UsersComponent } from './users/users.component';
-import { UserSearchComponent, DialogDelete } from './user-search/user-search.component';
+import { UserSearchComponent } from './user-search/user-search.component';
 import { RouterModule,Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './auth.service';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { SingleDeleteDialogComponent } from './dialogs/single-delete-dialog/single-delete-dialog.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
     LoginComponent,
     UserDetailsComponent,
     NavBarComponent,
-    DialogDelete
+    SingleDeleteDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -41,6 +42,7 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
     MatInputModule,
     MatSelectModule,
     MatTableModule,
+    MatSortModule,
     CdkTableModule,
     MatPaginatorModule,
     MatTabsModule,
@@ -81,6 +83,6 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
   ],
   providers: [AuthGuard, AuthService],
   bootstrap: [AppComponent],
-  entryComponents: [DialogDelete]
+  entryComponents: [SingleDeleteDialogComponent]
 })
 export class AppModule { }
