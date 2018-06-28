@@ -1,0 +1,14 @@
+{
+ "dn": "o=domen1.rs,o=isp",
+ "modifications":
+    [
+     {"type": "replace",
+      "name": "sunAvailableServices",
+      "values": 
+      [
+       {"value":"neptune:10:9"},
+       {"value":"earth:10:2"}
+      ]
+     }
+    ]
+}

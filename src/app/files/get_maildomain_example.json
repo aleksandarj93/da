@@ -1,0 +1,50 @@
+{
+    "ldapSearch": [
+        {
+            "dn": "o=domen1.rs,o=isp",
+            "o": "domen1.rs",
+            "preferredLanguage": "en",
+            "sunPreferredDomain": "domen1.rs",
+            "sunOrgType": "full",
+            "preferredMailHost": "ucs7.sun.saga.rs",
+            "sunMaxUsers": "-1",
+            "inetDomainStatus": "active",
+            "sunEnableGAB": "false",
+            "objectClass": [
+                "icscalendardomain",
+                "nabDomain",
+                "inetdomainauthinfo",
+                "maildomain",
+                "top",
+                "organization",
+                "sunmanagedorganization",
+                "sunnamespace",
+                "sundelegatedorganization"
+            ],
+            "icsStatus": "active",
+            "icsTimezone": "America/Denver",
+            "nabStatus": "active",
+            "mailDomainStatus": "active",
+            "mailAccessProxyPreAuth": "no",
+            "sunRegisteredServiceName": [
+                "UserCalendarService",
+                "DomainMailService",
+                "DomainContactsService",
+                "DomainIMService",
+                "UserMailService",
+                "DomainCalendarService",
+                "UserIMService",
+                "UserContactsService"
+            ],
+            "sunMaxGroups": "-1",
+            "sunNameSpaceUniqueAttrs": "uid",
+            "preferredMailMessageStore": "primary",
+            "sunNumGroups": "1",
+            "sunNumUsers": "7",
+            "sunAvailableServices": [
+                "neptune:10:9",
+                "earth:10:2"
+            ]
+        }
+    ]
+}

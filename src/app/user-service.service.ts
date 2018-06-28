@@ -9,9 +9,9 @@ import { Observable } from 'rxjs/Rx';
 
 @Injectable()
 export class UserServiceService {
-  // private _userBasicUrl = "http://130.61.78.8:8081/ldaprest/User";
+  private _userBasicUrl = "http://130.61.78.8:8081/ldaprest/User";
   // private _userBasicUrl = "http://172.20.2.162:7809/ldaprest/User";
-  private _userBasicUrl = "http://" + window.location.host + "/ldaprest/User";
+  // private _userBasicUrl = "http://" + window.location.host + "/ldaprest/User";
   
 
   result: resultStatus;
@@ -33,8 +33,8 @@ export class UserServiceService {
   }
  
   getUser(baseDN: string, searchScope: string, filter: string): Observable<any> {
-    var _userPostUrl = this._userBasicUrl + "?baseDN=" + baseDN + "&searchScope=" + searchScope + "&filter=" + filter;
-    return this._http.get<any>(_userPostUrl );
+    var _userGetUrl = this._userBasicUrl + "?baseDN=" + baseDN + "&searchScope=" + searchScope + "&filter=" + filter;
+    return this._http.get<any>(_userGetUrl );
   }
 
   deleteUser(uid: string) {
@@ -47,6 +47,16 @@ export class UserServiceService {
       }
     )
   }
+
+  getMailDomain(): Observable<any> {
+    var _mailDomainGetUrl = this._userBasicUrl + "?baseDN=o=domen1.rs,o=isp&searchScope=SUB&filter=(objectclass=maildomain)";
+    return this._http.get<any>(_mailDomainGetUrl);
+  }
+
+  modifySunAvailableServices(object) {
+    return this._http.put(this._userBasicUrl, object);
+  }
+
   parseMessageResponse(obj: any) {
     if (obj.resultStatus === 'SUCCESS') {
       this.result = new resultStatus(obj.resultStatus, obj.userDN);

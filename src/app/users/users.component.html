@@ -54,7 +54,7 @@
               <div class="form-group">
                   <mat-form-field class="example-full-width">
                     <mat-select [(ngModel)]="selectedPackage" [ngModelOptions]="{standalone: true}" placeholder="Service Packages">
-                      <mat-option *ngFor="let p of packages" [value]="p.id">
+                      <mat-option *ngFor="let p of availablePackages" [value]="p">
                         {{ p.name }}
                       </mat-option>
                     </mat-select>

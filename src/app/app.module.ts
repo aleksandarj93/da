@@ -31,6 +31,7 @@ import { SingleDeleteDialogComponent } from './dialogs/single-delete-dialog/sing
     UserDetailsComponent,
     NavBarComponent,
     SingleDeleteDialogComponent
+    
   ],
   imports: [
     BrowserModule,

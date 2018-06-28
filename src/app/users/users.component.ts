@@ -5,6 +5,7 @@ import { resultStatus } from '../shared/create-json-model';
 import { FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher} from '@angular/material/core';
 import { Router } from '@angular/router';
+import { Package } from '../shared/package.model';
 
 
 @Component({
@@ -39,29 +40,15 @@ export class UsersComponent implements OnInit {
   ];
   selectedLanguage = "en";
 
-  packages =
-  [
-    { 
-      id: "neptune", 
-      name: "neptune",
-      attributes: {"mailMsgMaxBlocks": 800, "mailQuota": -2, "mailMsgQuota": 6000, "mailAllowedServiceAccess": "+imap:ALL$+imaps:ALL$+pop:ALL$+pops:ALL$+smtp:ALL$+http:ALL"}
-    },
-    {
-      id: "mars", 
-      name: "mars",
-      attributes: {"mailMsgMaxBlocks": 700, "mailQuota": 5242288, "mailMsgQuota": 3000, "mailAllowedServiceAccess": "+pop:ALL$+imap:ALL$+smtp:ALL$+http:ALL"}
-    },
-    {
-      id: "earth", 
-      name: "earth",
-      attributes: {"mailMsgMaxBlocks": 300, "mailQuota": 6291456, "mailMsgQuota": 2000, "mailAllowedServiceAccess": "+pop:ALL$+imap:ALL$+smtp:ALL$+http:ALL"}
-    }
-
-  ];
-  selectedPackage = null;
+  // paketi
+  packageStringList = Array<string>(); // lista paketa u string obliku, kako servis vraca
+  allPackages: Array<Package> = new Array<Package>(); // svi paketi kao objekti
+  availablePackages: Array<Package> = new Array<Package>(); // paketi koji mogu biti dodeljeni pri kreiranju
+  selectedPackage: Package = null; // izabrani paket
   
   matcher = new MyErrorStateMatcher();
 
+  // status i poruka 
   onlyStatus: string;
   message: string;
   IsHidden= true;
@@ -70,6 +57,38 @@ export class UsersComponent implements OnInit {
   constructor(private _userService: UserServiceService, private router: Router) { }
 
   ngOnInit() {
+    this.getPackages();
+  }
+
+  getPackages() {
+    var stringlist = Array<string>();
+    this._userService.getMailDomain().subscribe(data => {
+      stringlist = data.ldapSearch[0].sunAvailableServices;
+      this.packageStringList = data.ldapSearch[0].sunAvailableServices;
+    });
+    setTimeout(() => {
+      this.allPackages = this.extractAllPackages(stringlist);
+      this.allPackages.forEach(element => {
+        if(element.status) {
+          this.availablePackages.push(element);
+        }
+      });
+    }, 2000);
+    
+  }
+
+  extractAllPackages(stringPackageList: Array<string>): Array<Package> {
+    var packages: Array<Package> = new Array<Package>();
+    stringPackageList.forEach(element => {
+      var list: Array<string> = element.split(':');
+      var status: boolean = false;
+      if (Number(list[1]) > Number(list[2]))  {
+        status = true;
+      }
+      var p = new Package(list[0], Number(list[1]), Number(list[2]), status);
+      packages.push(p);
+    });
+    return packages;
   }
 
   notEntered() {
@@ -112,33 +131,10 @@ export class UsersComponent implements OnInit {
     attributes.push({"name": "preferredlanguage", "values": [{"value": this.selectedLanguage}]});
 
     if(this.selectedPackage != null) {
-      attributes.push({"name": "inetCos", "values": [{"value": this.selectedPackage}]});
+      attributes.push({"name": "inetCos", "values": [{"value": this.selectedPackage.name}]});
 
       // za E-mail
       attributes.push({"name": "mail", "values": [{"value": this.firstFormGroup.value.firstName + "." + this.firstFormGroup.value.lastName + "@domen1.rs"}]});
-      // attributes.push({"name": "mailUserStatus", "values": [{"value": "active"}]});
-
-      // attributes.push({"name": "mailHost", "values": [{"value": "ucs7.sun.saga.rs"}]});
-
-      // cekiran local inbox
-      // attributes.push({"name": "mailDeliveryOption", "values": [{"value": "mailbox"}]});
-      
-
-      // dodati atribute sa vrednostima iz paketa
-      // this.packages.forEach(element => { 
-      //   if (element.id == this.selectedPackage) {
-      //     if (this.secondFormGroup.value.mailQuota != null) { attributes.push({"name": "mailQuota", "values": [{"value": this.secondFormGroup.value.mailQuota}]}); }
-      //     else { attributes.push({"name": "mailQuota", "values": [{"value": element.attributes.mailQuota}]}); }
-          
-      //     if(this.secondFormGroup.value.mailMsgQuota != null) { attributes.push({"name": "mailMsgQuota", "values": [{"value": this.secondFormGroup.value.mailMsgQuota}]}); }
-      //     else { attributes.push({"name": "mailMsgQuota", "values": [{"value": element.attributes.mailMsgQuota}]}); }
-
-      //     attributes.push({"name": "mailMsgMaxBlocks", "values": [{"value": element.attributes.mailMsgMaxBlocks}]});
-      //     attributes.push({"name": "mailAllowedServiceAccess", "values": [{"value": element.attributes.mailAllowedServiceAccess}]});
-      //   }
-      // });
-
-      // attributes.push({"name": "icsTimezone", "values": [{"value": "Europe/Paris"}]});
     }
 
     formResult = {"dn": "uid=" + uid + ",ou=People,o=domen1.rs,o=isp", "attributes": attributes};
@@ -157,7 +153,34 @@ export class UsersComponent implements OnInit {
     }, 1000);
     
   }
+
+
+
+  updatePackageListString() {
+    if (this.onlyStatus == 'SUCCESS') {
+      // kad je user kreiran uspesno, za izabarani pakt update used +1, i update all package sa izabranim, sve pretvoriti u string
+      
+    }
+  }
+
+  modifySunAvailableServices() {
+     var object = {};
+     var modifications = [];
+     var values = [];
+
+     this.packageStringList.forEach(element => {
+       values.push({"value": element});
+     });
+
+     modifications.push({"type": "replace", "name": "sunAvailableServices", "values": values });
+     object = { "dn": "o=domen1.rs,o=isp", "modifications": modifications  };
+
+
+
+  }
+
 }
+
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
