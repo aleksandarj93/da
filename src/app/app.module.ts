@@ -6,7 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import "reflect-metadata";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CdkTableModule} from '@angular/cdk/table';
-import {MatButtonModule,MatSidenavModule, MatSelectModule, MatInputModule, MatListModule, MatMenuModule, MatDialogModule, MatButtonToggleModule,
+import {MatButtonModule,MatSidenavModule, MatSelectModule, MatInputModule, MatListModule, MatMenuModule, MatDialogModule, MatButtonToggleModule, MatProgressSpinnerModule,
   MatTableModule, MatPaginatorModule, MatCardModule, MatStepperModule, MatExpansionModule, MatToolbarModule, MatIconModule, MatCheckboxModule, MatSortModule } from '@angular/material';
 import {MatTabsModule} from '@angular/material/tabs';
 import { AuthGuard } from './auth.guard';
@@ -57,6 +57,7 @@ import { SingleDeleteDialogComponent } from './dialogs/single-delete-dialog/sing
     MatButtonToggleModule,
     MatDialogModule,
     MatCheckboxModule,
+    MatProgressSpinnerModule,
     RouterModule.forRoot([
       {
         path: '', 

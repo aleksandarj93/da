@@ -1,7 +1,7 @@
 <div class="container">
   <div class="form-group row">
-      <button type="button" class="btn btn-lg btn-primary" routerLink="/users">Create new</button>
-      <button type="button" class="btn btn-lg btn-danger" [disabled]="checkDeleteEnable()" (click)="onDeleteListOfUsers()">Delete users</button>
+      <button type="button" class="btn btn-primary" routerLink="/users">Create new</button> | 
+      <button type="button" class="btn btn-danger" [disabled]="checkDeleteEnable()" (click)="onDeleteListOfUsers()">Delete users</button>
   </div>
   
   <form [formGroup]="userForm" #form="ngForm" (ngSubmit)="onSubmit()">

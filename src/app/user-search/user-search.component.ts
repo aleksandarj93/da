@@ -95,30 +95,30 @@ export class UserSearchComponent implements OnInit {
     )
   }
   DeleteListOfUsers() {
-    var sDeleted: Array<ldapSearchData>;
-    var fDeleted: Array<ldapSearchData>;
-    var promises = [];
+    var sDeleted: Array<string> = new Array<string>();
+    var fDeleted: Array<string> = new Array<string>();
 
     this.selection.selected.forEach(element => {
-      var promise = this._userService.deleteUser(element.uid);
-      promises.push(promise);
-      // this._userService.deleteUser(element.uid).subscribe(
-      //   data => { 
-      //     var result = JSON.parse(JSON.stringify(data));
-      //     if (result.resultStatus === 'SUCCESS') {
-      //       sDeleted.push(element);
-      //     } else {
-      //       fDeleted.push(element);
-      //     }
-      //   }
-      // )
+      this._userService.deleteUser(element.uid).subscribe(
+        data => { 
+          var result = JSON.parse(JSON.stringify(data));
+          if (result.resultStatus === 'SUCCESS') {
+            sDeleted.push(element.cn);
+          } else {
+            fDeleted.push(element.cn);
+          }
+        }
+      )
     });
-    
+    setTimeout(()=>
+  { 
     window.alert("Uspesno obrisani korisnici!");
     this.userDetails = null;
     this.hiddenDetails = true;
     this.selection.clear();
     this.onSubmit();
+  }, 2000)
+
   }
 
   onDeleteListOfUsers() {

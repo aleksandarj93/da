@@ -152,8 +152,10 @@ export class UsersComponent implements OnInit {
       },
       (error: Error) => {  console.log(error) }
     );
-
-    this.router.navigate(['user-search']);
+    setTimeout(() => {
+      this.router.navigate(['user-search']);
+    }, 1000);
+    
   }
 }
 
