@@ -171,8 +171,6 @@ export class UserSearchComponent implements OnInit {
         });
   }
 
-
-
   checkDeleteEnable(): boolean {
     if (this.selection.isEmpty()) {
       return true;

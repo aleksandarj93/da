@@ -60,6 +60,9 @@ export class UsersComponent implements OnInit {
     this.getPackages();
   }
 
+  // Metoda koja poziva servis getMailDomain() da bi dobila pakete u obliku niza stringova,
+  // zatim poziva metodu extractAllPackages() i popunjava globalne promenljive allPackages, i availablePackages
+  // paket se svrstava u availablePackages ako mu je status prethodno postavljan na true.
   getPackages() {
     var stringlist = Array<string>();
     this._userService.getMailDomain().subscribe(data => {
@@ -77,6 +80,9 @@ export class UsersComponent implements OnInit {
     
   }
 
+  // Metoda kao ulazni parametar prima listu stringova u formatu: paket:broj alociranih:broj potrosenih
+  //na osnovu tih stringova prave se paketi, pakektu se dodeljuje status = true (moguce ga je dodeliti novom korisniku)
+  // ako je broj alociranih veci od broja potrosenih
   extractAllPackages(stringPackageList: Array<string>): Array<Package> {
     var packages: Array<Package> = new Array<Package>();
     stringPackageList.forEach(element => {
@@ -91,6 +97,7 @@ export class UsersComponent implements OnInit {
     return packages;
   }
 
+  // Metoda koja proverava da li su obavezni parametri popunjeni i omogucava korisniku da klikne dugme Create
   notEntered() {
     if (this.firstFormGroup.value.firstName == '' || this.firstFormGroup.value.lastName == '' || this.firstFormGroup.value.password == '') {
       return true;
@@ -98,6 +105,7 @@ export class UsersComponent implements OnInit {
     return false;
   }
 
+  // Metoda se izvrsava klikom na dugme Create. Uzima sa forme sve unete informacije i pozvia servis addUser(user)
   onSubmit() {
 
     var formResult = {};
@@ -138,7 +146,7 @@ export class UsersComponent implements OnInit {
     }
 
     formResult = {"dn": "uid=" + uid + ",ou=People,o=domen1.rs,o=isp", "attributes": attributes};
-
+    console.log("stara lista:   " + this.packageStringList)
     this._userService.addUser(formResult)
     .subscribe(
       (data: resultStatus) => { 
@@ -149,21 +157,46 @@ export class UsersComponent implements OnInit {
       (error: Error) => {  console.log(error) }
     );
     setTimeout(() => {
+      if (this.onlyStatus == 'SUCCESS' && this.selectedPackage != null) {
+        this.modifySunAvailableServices();
+      }
+    }, 1500);
+
+    setTimeout(() => {
       this.router.navigate(['user-search']);
-    }, 1000);
+    }, 2000);
     
   }
-
-
-
+// Ako je user kreiran i dodeljen mu je paket, za izabrani paket dodaje se + 1 za used atribut
+// i poziva se metoda convertPackagesToStringList().
   updatePackageListString() {
-    if (this.onlyStatus == 'SUCCESS') {
-      // kad je user kreiran uspesno, za izabarani pakt update used +1, i update all package sa izabranim, sve pretvoriti u string
-      
+    if (this.onlyStatus == 'SUCCESS' && this.selectedPackage != null) {
+      this.allPackages.forEach(element => {
+        if(element.name == this.selectedPackage.name) {
+          element.used = element.used + 1;
+        }
+      });
+      this.packageStringList =  this.convertPackagesToStringList(this.allPackages);
+      console.log("NOVA lista:   " + this.packageStringList)
     }
   }
 
+  // Metoda koja dobija listu svih paketa koji su update-ovani za + 1 used, za izabrani paket
+  // i konvertuje ih u niz stringova
+  convertPackagesToStringList(allPackages: Array<Package>): Array<string>{
+    var stringList = Array<string>();
+    allPackages.forEach(element => {
+      var string = element.name + ":" + element.alocated.toString() + ":" + element.used.toString();
+      stringList.push(string);
+    });
+    console.log("convertPackagesToStringList    string lista      " + stringList)
+    return stringList;
+  }
+
+  //
   modifySunAvailableServices() {
+     this.updatePackageListString();
+
      var object = {};
      var modifications = [];
      var values = [];
@@ -174,13 +207,14 @@ export class UsersComponent implements OnInit {
 
      modifications.push({"type": "replace", "name": "sunAvailableServices", "values": values });
      object = { "dn": "o=domen1.rs,o=isp", "modifications": modifications  };
-
-
+     console.log("modifySunAvailableServices   object      "+object);
+      this._userService.modifySunAvailableServices(object).subscribe(
+        data => { console.log(JSON.stringify(data)) } 
+      );
 
   }
 
 }
-
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
