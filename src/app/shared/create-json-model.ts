@@ -1,6 +1,5 @@
 import { NameValue } from "./name-value";
-import { Serializer } from "@angular/compiler";
-//import { trigger } from "@angular/core";
+
 
 export class createJsonMode {
     dn: string;
@@ -18,4 +17,13 @@ export class resultStatus{
         this.userDN = userDN;
     }
 
+    public static parseMessageResponse(obj: any): resultStatus {
+        if (obj.resultStatus === 'SUCCESS') {
+          return new resultStatus(obj.resultStatus, obj.userDN);
+        }
+        else
+        {
+          return new resultStatus(obj.resultStatus, obj.message);
+        }
+      }
 }

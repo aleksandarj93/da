@@ -21,6 +21,7 @@ import { AuthService } from './auth.service';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { SingleDeleteDialogComponent } from './dialogs/single-delete-dialog/single-delete-dialog.component';
+import { UserModifyDialogComponent } from './dialogs/user-modify-dialog/user-modify-dialog.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { SingleDeleteDialogComponent } from './dialogs/single-delete-dialog/sing
     LoginComponent,
     UserDetailsComponent,
     NavBarComponent,
-    SingleDeleteDialogComponent
+    SingleDeleteDialogComponent,
+    UserModifyDialogComponent
     
   ],
   imports: [
@@ -85,6 +87,6 @@ import { SingleDeleteDialogComponent } from './dialogs/single-delete-dialog/sing
   ],
   providers: [AuthGuard, AuthService],
   bootstrap: [AppComponent],
-  entryComponents: [SingleDeleteDialogComponent]
+  entryComponents: [SingleDeleteDialogComponent, UserModifyDialogComponent]
 })
 export class AppModule { }

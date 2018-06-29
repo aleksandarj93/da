@@ -52,7 +52,6 @@ export class UsersComponent implements OnInit {
   onlyStatus: string;
   message: string;
   IsHidden= true;
-  
 
   constructor(private _userService: UserServiceService, private router: Router) { }
 
@@ -70,32 +69,15 @@ export class UsersComponent implements OnInit {
       this.packageStringList = data.ldapSearch[0].sunAvailableServices;
     });
     setTimeout(() => {
-      this.allPackages = this.extractAllPackages(stringlist);
+      this.allPackages = Package.extractAllPackages(stringlist);
       this.allPackages.forEach(element => {
         if(element.status) {
           this.availablePackages.push(element);
         }
       });
     }, 2000);
-    
   }
 
-  // Metoda kao ulazni parametar prima listu stringova u formatu: paket:broj alociranih:broj potrosenih
-  //na osnovu tih stringova prave se paketi, pakektu se dodeljuje status = true (moguce ga je dodeliti novom korisniku)
-  // ako je broj alociranih veci od broja potrosenih
-  extractAllPackages(stringPackageList: Array<string>): Array<Package> {
-    var packages: Array<Package> = new Array<Package>();
-    stringPackageList.forEach(element => {
-      var list: Array<string> = element.split(':');
-      var status: boolean = false;
-      if (Number(list[1]) > Number(list[2]))  {
-        status = true;
-      }
-      var p = new Package(list[0], Number(list[1]), Number(list[2]), status);
-      packages.push(p);
-    });
-    return packages;
-  }
 
   // Metoda koja proverava da li su obavezni parametri popunjeni i omogucava korisniku da klikne dugme Create
   notEntered() {
@@ -106,6 +88,8 @@ export class UsersComponent implements OnInit {
   }
 
   // Metoda se izvrsava klikom na dugme Create. Uzima sa forme sve unete informacije i pozvia servis addUser(user)
+  // ako je user uspesno kreiran i neki paket odabran poziva se metoda za update-ovanje iskoriscenih paketa
+  // modifySunAvailableServices().
   onSubmit() {
 
     var formResult = {};
@@ -176,24 +160,12 @@ export class UsersComponent implements OnInit {
           element.used = element.used + 1;
         }
       });
-      this.packageStringList =  this.convertPackagesToStringList(this.allPackages);
+      this.packageStringList =  Package.convertPackagesToStringList(this.allPackages);
       console.log("NOVA lista:   " + this.packageStringList)
     }
   }
 
-  // Metoda koja dobija listu svih paketa koji su update-ovani za + 1 used, za izabrani paket
-  // i konvertuje ih u niz stringova
-  convertPackagesToStringList(allPackages: Array<Package>): Array<string>{
-    var stringList = Array<string>();
-    allPackages.forEach(element => {
-      var string = element.name + ":" + element.alocated.toString() + ":" + element.used.toString();
-      stringList.push(string);
-    });
-    console.log("convertPackagesToStringList    string lista      " + stringList)
-    return stringList;
-  }
-
-  //
+  // Poziva se metoda updatePackageListString(), i konstruise se objekat koji se salje servisu modifySunAvailableServices().
   modifySunAvailableServices() {
      this.updatePackageListString();
 

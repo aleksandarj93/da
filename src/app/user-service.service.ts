@@ -13,10 +13,6 @@ export class UserServiceService {
   // private _userBasicUrl = "http://172.20.2.162:7809/ldaprest/User";
   private _userBasicUrl = "http://" + window.location.host + "/ldaprest/User";
   
-
-  result: resultStatus;
-
-
   constructor(private _http: HttpClient) { }
 
   addUser(user) {
@@ -26,8 +22,7 @@ export class UserServiceService {
     return this._http.post(this._userBasicUrl, user, {headers: head}).map(
       (response) => {
         var resJson = JSON.parse(JSON.stringify(response));
-        this.parseMessageResponse(resJson);
-        return this.result; 
+        return resultStatus.parseMessageResponse(resJson)
       }
     );
   }
@@ -42,8 +37,7 @@ export class UserServiceService {
     return this._http.delete(_userDeleteUrl).map(
       (response) => {
         var resJson = JSON.parse(JSON.stringify(response));
-        this.parseMessageResponse(resJson);
-        return this.result; 
+        return resultStatus.parseMessageResponse(resJson);
       }
     )
   }
@@ -57,14 +51,7 @@ export class UserServiceService {
     return this._http.put(this._userBasicUrl, object);
   }
 
-  parseMessageResponse(obj: any) {
-    if (obj.resultStatus === 'SUCCESS') {
-      this.result = new resultStatus(obj.resultStatus, obj.userDN);
-    }
-    else
-    {
-      this.result = new resultStatus(obj.resultStatus, obj.message);
-    }
-    return this.result;
+  modifyUser(object) {
+    return this._http.put(this._userBasicUrl, object);
   }
 }

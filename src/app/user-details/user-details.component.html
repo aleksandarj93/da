@@ -39,11 +39,18 @@
         <div id="accordion">
           <div class="card">
             <div class="card-header" id="headingOne">
-              <h5 class="mb-0">
+                <mat-form-field class="example-full-width">
+                    <mat-select [(ngModel)]="oldSelectedPackage" [ngModelOptions]="{standalone: true}" placeholder="Service Packages">
+                      <mat-option *ngFor="let p of availablePackages" [value]="p">
+                        {{ p.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+              <!-- <h5 class="mb-0">
                 <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                   {{ user.inetCOS }}
                 </button>
-              </h5>
+              </h5> -->
             </div>
             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
               <div class="card-body">
@@ -96,7 +103,7 @@
   </mat-card-content>
   <hr />
   <div class="form-group">
-      <button mat-raised-button color="primary" (click)="onModify()">Modify</button> |
+      <button mat-raised-button color="primary" (click)="openModifyUserDialog()">Modify</button> |
       <button mat-raised-button (click)="onClose()">Cancel</button>
   </div>
 </mat-card>
