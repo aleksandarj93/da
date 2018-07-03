@@ -13,7 +13,7 @@ export class Package {
     }
 
     
-  // Metoda kao ulazni parametar prima listu stringova u formatu: paket:broj alociranih:broj potrosenih
+  // Metoda kao ulazni parametar prima listu stringova u formatu: "paket:broj alociranih:broj potrosenih"
   //na osnovu tih stringova prave se paketi, pakektu se dodeljuje status = true (moguce ga je dodeliti novom korisniku)
   // ako je broj alociranih veci od broja potrosenih
   public static extractAllPackages(stringPackageList: Array<string>): Array<Package> {

@@ -12,7 +12,7 @@ import { Package } from '../shared/package.model';
 })
 export class UserDetailsComponent implements OnInit, OnChanges {
 
-    // userInformation = new FormGroup({
+  // userInformation = new FormGroup({
   //   uid: new FormControl(),
   //   firstName: new FormControl(),
   //   lastName: new FormControl(),
@@ -36,36 +36,53 @@ export class UserDetailsComponent implements OnInit, OnChanges {
 
   constructor(private _userService: UserServiceService, public dialog: MatDialog) {
     this.getPackages();
+    
    }
 
   ngOnChanges() {
-    this.oldUser = this.user;
-    console.log(JSON.stringify(this.user));
-    
-
+    if (this.user != undefined) {
+      this.oldUser = this.user;
+      // console.log(JSON.stringify(" ovo je user     " + this.user));
+      console.log("3")
+      console.log(JSON.stringify(this.oldUser));
+      setTimeout(() => {
+        this.availablePackages.forEach(element => {
+          if(element.name == this.user.inetCOS)
+          {
+            this.oldSelectedPackage = element;
+            this.newSelectedPackage = element;
+            // console.log("Paketi setovani    ++++ " + this.oldSelectedPackage.name + this.newSelectedPackage.name);
+            console.log("4")
+          }
+        });
+      }, 1500);
+   
+      
+    }
   }
 
   ngOnInit() {
-    this.oldSelectedPackage = new Package();
-    this.oldSelectedPackage.name = this.user.inetCOS;
-    console.log(this.user.inetCOS)
+    
   }
 
 
-  getPackages() {
+   getPackages() {
+     console.log("0")
     var stringlist = Array<string>();
     this._userService.getMailDomain().subscribe(data => {
       stringlist = data.ldapSearch[0].sunAvailableServices;
       this.packageStringList = data.ldapSearch[0].sunAvailableServices;
+      console.log("1")
     });
     setTimeout(() => {
       this.allPackages = Package.extractAllPackages(stringlist);
       this.allPackages.forEach(element => {
         if(element.status) {
           this.availablePackages.push(element);
+          console.log("2")
         }
       });
-    }, 2000);
+    }, 1000);
   }
 
 
@@ -87,6 +104,8 @@ export class UserDetailsComponent implements OnInit, OnChanges {
 
   onModify() {
     // pozovi servis za modify user i za modify package.
+    console.log(JSON.stringify(this.oldSelectedPackage))
+    console.log(JSON.stringify(this.newSelectedPackage))
     console.log(JSON.stringify(this.user))
   }
 

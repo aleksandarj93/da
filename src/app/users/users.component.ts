@@ -116,7 +116,7 @@ export class UsersComponent implements OnInit {
 
     attributes.push({"name": "sn", "values": [{"value": this.firstFormGroup.value.lastName}]});
 
-    // attributes.push({"name": "inetUserStatus", "values": [{"value": "active"}]});
+    attributes.push({"name": "inetUserStatus", "values": [{"value": "active"}]}); // ovo mora da bi se video na pravom DA
 
     attributes.push({"name": "userPassword", "values": [{"value": this.firstFormGroup.value.password}]});
 
