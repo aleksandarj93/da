@@ -4,6 +4,9 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { MatPaginator, MatSort, MatTableDataSource, MatDialog } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { SingleDeleteDialogComponent } from '../dialogs/single-delete-dialog/single-delete-dialog.component';
+import { Package } from '../shared/package.model';
+import { PackageService } from '../package.service';
+import { async } from 'rxjs/internal/scheduler/async';
 
 
 @Component({
@@ -40,9 +43,16 @@ export class UserSearchComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private _userService: UserServiceService, public dialog: MatDialog) { }
+  // paketi
+  packageStringList = Array<string>(); // lista paketa u string obliku, kako servis vraca
+  allPackages: Array<Package> = new Array<Package>(); // svi paketi kao objekti
+  selectedPackage: Package = undefined; // izabrani paket
 
-  ngOnInit() {
+  constructor(private _userService: UserServiceService, public dialog: MatDialog, private _packageService: PackageService) { }
+
+  async ngOnInit() {
+    this.packageStringList = await this._packageService.getPackageStringList();
+    this.allPackages = this._packageService.getAllPackagesObjs(this.packageStringList);
     this.onSubmit();
   }
 
@@ -76,74 +86,89 @@ export class UserSearchComponent implements OnInit {
       });
   }
 
-  DeleteSingleUser(uid: string) {
-    this._userService.deleteUser(uid).subscribe(
-      data => {
-        var result = JSON.parse(JSON.stringify(data));
-        if (result.resultStatus === 'SUCCESS') {
-          window.alert("User successfully deleted!");
-        }
-        else if (result.resultStatus === 'FAILURE') {
-          window.alert("Wrong user uid!");
-        }
-        else { window.alert("An error has occurred!"); }
-        this.userDetails = null;
-        this.hiddenDetails = true;
-        this.selection.clear();
-        this.onSubmit();
+  async DeleteSingleUser(userDel: ldapSearchData) {
+    let delResult = await this._userService.deleteUser(userDel.uid);
+    if (delResult.resultStatus === 'SUCCESS') {
+      if (userDel.inetCos != undefined && userDel.inetCos != null) {
+        let selectedPackage = this._packageService.findSelectedPackage(userDel.inetCos, this.allPackages);
+        this.packageStringList = this._packageService.updatePackageListString(delResult.resultStatus, selectedPackage, this.allPackages, "delete");
+        let res;
+        res = await this._packageService.modifySunAvailableServices(this.packageStringList);
       }
-    )
-  }
-  DeleteListOfUsers() {
-    var sDeleted: Array<string> = new Array<string>();
-    var fDeleted: Array<string> = new Array<string>();
-
-    this.selection.selected.forEach(element => {
-      this._userService.deleteUser(element.uid).subscribe(
-        data => { 
-          var result = JSON.parse(JSON.stringify(data));
-          if (result.resultStatus === 'SUCCESS') {
-            sDeleted.push(element.cn);
-          } else {
-            fDeleted.push(element.cn);
-          }
-        }
-      )
-    });
-    setTimeout(()=>
-  { 
-    window.alert("Uspesno obrisani korisnici!");
+      window.alert("User successfully deleted!");
+    }
+    else if (delResult.resultStatus === 'FAILURE') {
+      window.alert("Wrong user uid!");
+    }
+    else { window.alert("An error has occurred!"); }
     this.userDetails = null;
     this.hiddenDetails = true;
     this.selection.clear();
     this.onSubmit();
-  }, 2000)
-
   }
 
-  onDeleteListOfUsers() {
-    if(this.selection.selected.length == 1) {
-      this.openDelUserDialog(this.selection.selected[0].uid, null);
+  async DeleteListOfUsers() {
+    var sDeleted: Array<string> = new Array<string>();
+    var fDeleted: Array<string> = new Array<string>();
+
+    for (const element of this.selection.selected) {
+      let delResult = await this._userService.deleteUser(element.uid);
+
+      if (delResult.resultStatus === 'SUCCESS') {
+        sDeleted.push(element.cn);
+        if (element.inetCos != undefined && element.inetCos != null) {
+          let selectedPackage = this._packageService.findSelectedPackage(element.inetCos, this.allPackages);
+          this.packageStringList = this._packageService.updatePackageListString(delResult.resultStatus, selectedPackage, this.allPackages, "delete");
+          let res;
+          res = await this._packageService.modifySunAvailableServices(this.packageStringList);
+        }
+
+      } else {
+        fDeleted.push(element.cn);
+      }
+    }
+
+    console.log(sDeleted);
+    console.log(fDeleted);
+    var SalertString = "Uspesno obrisani korisnici: ";
+    for (const iterator of sDeleted) {
+      SalertString += iterator + ", ";
+    }
+    var FalertString = "Neuspesno obrisani korisnici: ";
+    for (const iterator of fDeleted) {
+      FalertString += iterator + ", ";
+    }
+
+    window.alert(SalertString + "\n" + FalertString);
+    this.userDetails = null;
+    this.hiddenDetails = true;
+    this.selection.clear();
+    this.onSubmit();
+  }
+
+  onDeleteButton() {
+    if (this.selection.selected.length == 1) {
+      this.openDelUserDialog(this.selection.selected[0], null);
     }
     else {
       this.openDelUserDialog(null, this.selection.selected);
     }
 
   }
-  openDelUserDialog(uid?: string, userList?: Array<ldapSearchData>): void {
+  openDelUserDialog(userDel?: ldapSearchData, userList?: Array<ldapSearchData>): void {
     let dialogRef = this.dialog.open(SingleDeleteDialogComponent, {
-      data: { uid: uid, userList: userList }
+      data: { userDel: userDel, userList: userList }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result.decision) { 
-         console.log(result);
-         if(result.option == 0) { this.DeleteSingleUser(uid) }
-         else { this.DeleteListOfUsers() } 
-         
+      if (result.decision) {
+        console.log(result);
+        if (result.option == 0) { this.DeleteSingleUser(userDel) }
+        else { this.DeleteListOfUsers() }
+
       }
-      else { 
-        console.log(result) 
+      else {
+        console.log(result)
       }
     });
   }
@@ -174,13 +199,12 @@ export class UserSearchComponent implements OnInit {
   checkDeleteEnable(): boolean {
     if (this.selection.isEmpty()) {
       return true;
-    } 
+    }
     return false;
   }
   onNotifyClose(hideDetails: boolean): void {
     this.hiddenDetails = hideDetails;
   }
-
 }
 
 function mapJsonUser(obj: any): ldapSearchData {
@@ -189,6 +213,7 @@ function mapJsonUser(obj: any): ldapSearchData {
     cn: obj.cn,
     sn: obj.cn,
     mail: obj.mail,
+    inetCos: obj.inetCOS,
   }
 }
 export interface ldapSearchData {
@@ -196,5 +221,6 @@ export interface ldapSearchData {
   cn: string;
   sn: string;
   mail: string;
+  inetCos: string;
 }
 

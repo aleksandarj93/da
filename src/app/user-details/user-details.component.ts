@@ -4,6 +4,7 @@ import { UserServiceService } from '../user-service.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { UserModifyDialogComponent } from '../dialogs/user-modify-dialog/user-modify-dialog.component';
 import { Package } from '../shared/package.model';
+import { PackageService } from '../package.service';
 
 @Component({
   selector: 'app-user-details',
@@ -34,8 +35,7 @@ export class UserDetailsComponent implements OnInit, OnChanges {
 
 
 
-  constructor(private _userService: UserServiceService, public dialog: MatDialog) {
-    this.getPackages();
+  constructor(private _userService: UserServiceService, public dialog: MatDialog, private _packageService: PackageService) {
     
    }
 
@@ -64,29 +64,6 @@ export class UserDetailsComponent implements OnInit, OnChanges {
   ngOnInit() {
     
   }
-
-
-   getPackages() {
-     console.log("0")
-    var stringlist = Array<string>();
-    this._userService.getMailDomain().subscribe(data => {
-      stringlist = data.ldapSearch[0].sunAvailableServices;
-      this.packageStringList = data.ldapSearch[0].sunAvailableServices;
-      console.log("1")
-    });
-    setTimeout(() => {
-      this.allPackages = Package.extractAllPackages(stringlist);
-      this.allPackages.forEach(element => {
-        if(element.status) {
-          this.availablePackages.push(element);
-          console.log("2")
-        }
-      });
-    }, 1000);
-  }
-
-
-
 
   onClose() {
     this.notifyClose.emit(true);

@@ -1,18 +1,18 @@
 
 export class Package {
-    name: string;
-    alocated: number;
-    used: number;
-    status: boolean;
+  name: string;
+  alocated: number;
+  used: number;
+  status: boolean;
 
-    constructor(name?: string, alocated?: number, used?: number, status?: boolean ) {
-        this.name = name;
-        this.alocated = alocated;
-        this.used = used;
-        this.status = status;
-    }
+  constructor(name?: string, alocated?: number, used?: number, status?: boolean) {
+    this.name = name;
+    this.alocated = alocated;
+    this.used = used;
+    this.status = status;
+  }
 
-    
+
   // Metoda kao ulazni parametar prima listu stringova u formatu: "paket:broj alociranih:broj potrosenih"
   //na osnovu tih stringova prave se paketi, pakektu se dodeljuje status = true (moguce ga je dodeliti novom korisniku)
   // ako je broj alociranih veci od broja potrosenih
@@ -21,7 +21,7 @@ export class Package {
     stringPackageList.forEach(element => {
       var list: Array<string> = element.split(':');
       var status: boolean = false;
-      if (Number(list[1]) > Number(list[2]))  {
+      if (Number(list[1]) > Number(list[2])) {
         status = true;
       }
       var p = new Package(list[0], Number(list[1]), Number(list[2]), status);
@@ -30,9 +30,9 @@ export class Package {
     return packages;
   }
 
-    // Metoda koja dobija listu svih paketa koji su update-ovani za + 1 used, za izabrani paket
+  // Metoda koja dobija listu svih paketa koji su update-ovani, za izabrani paket
   // i konvertuje ih u niz stringova
-  public static convertPackagesToStringList(allPackages: Array<Package>): Array<string>{
+  public static convertPackagesToStringList(allPackages: Array<Package>): Array<string> {
     var stringList = Array<string>();
     allPackages.forEach(element => {
       var string = element.name + ":" + element.alocated.toString() + ":" + element.used.toString();

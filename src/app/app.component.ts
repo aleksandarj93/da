@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { UserServiceService } from './user-service.service';
+import { PackageService } from './package.service'
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers: [UserServiceService]
+  providers: [UserServiceService, PackageService]
 })
 export class AppComponent {
 

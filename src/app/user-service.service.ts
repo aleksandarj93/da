@@ -9,22 +9,20 @@ import { Observable } from 'rxjs/Rx';
 
 @Injectable()
 export class UserServiceService {
-  // private _userBasicUrl = "http://130.61.78.8:8081/ldaprest/User";
+  private _userBasicUrl = "http://130.61.78.8:8081/ldaprest/User";
   // private _userBasicUrl = "http://172.20.2.162:7809/ldaprest/User";
-  private _userBasicUrl = "http://" + window.location.host + "/ldaprest/User";
+  // private _userBasicUrl = "http://" + window.location.host + "/ldaprest/User";
   
   constructor(private _http: HttpClient) { }
 
-  addUser(user) {
-    // const headers = new Headers({'Content-Type': 'application/json'});
-    const head = {'Content-Type': 'application/json'};
-
-    return this._http.post(this._userBasicUrl, user, {headers: head}).map(
-      (response) => {
-        var resJson = JSON.parse(JSON.stringify(response));
-        return resultStatus.parseMessageResponse(resJson)
-      }
-    );
+  async addUser(user): Promise<any> {
+    try {
+      let response = await this._http.post(this._userBasicUrl, user)
+      .toPromise();
+      return response;
+    } catch (error) {
+      
+    }
   }
  
   getUser(baseDN: string, searchScope: string, filter: string): Observable<any> {
@@ -32,23 +30,41 @@ export class UserServiceService {
     return this._http.get<any>(_userGetUrl );
   }
 
-  deleteUser(uid: string) {
+  async deleteUser(uid: string): Promise<any> {
     var _userDeleteUrl = this._userBasicUrl + "?dn=uid=" + uid + ",ou=People,o=domen1.rs,o=isp";
-    return this._http.delete(_userDeleteUrl).map(
-      (response) => {
-        var resJson = JSON.parse(JSON.stringify(response));
-        return resultStatus.parseMessageResponse(resJson);
-      }
-    )
+    try {
+      let response = await this._http.delete(_userDeleteUrl)
+      .toPromise();
+      return response;
+    } catch (error) {
+      
+    }
   }
 
-  getMailDomain(): Observable<any> {
+  private delay(ms: number): Promise<void> {
+    return new Promise<void>(resolve =>
+      setTimeout(resolve, ms));
+  }
+
+  async getMailDomain(): Promise<any> {
     var _mailDomainGetUrl = this._userBasicUrl + "?baseDN=o=domen1.rs,o=isp&searchScope=SUB&filter=(objectclass=maildomain)";
-    return this._http.get<any>(_mailDomainGetUrl);
+    try {
+      let response = await this._http.get<any>(_mailDomainGetUrl)
+      .toPromise();
+      return response;
+    } catch (error) {
+      // hendler 
+    }
   }
 
-  modifySunAvailableServices(object) {
-    return this._http.put(this._userBasicUrl, object);
+  async modifySunAvailableServices(object): Promise<any> {
+    try {
+      let response = await this._http.put(this._userBasicUrl, object)
+      .toPromise();
+      return response;
+    } catch (error) {
+      
+    }
   }
 
   modifyUser(object) {
