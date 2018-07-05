@@ -53,7 +53,6 @@ export class UserServiceService {
       .toPromise();
       return response;
     } catch (error) {
-      // hendler 
     }
   }
 
@@ -67,7 +66,13 @@ export class UserServiceService {
     }
   }
 
-  modifyUser(object) {
-    return this._http.put(this._userBasicUrl, object);
+  async modifyUser(object): Promise<any> {
+    try {
+      let response = await this._http.put(this._userBasicUrl, object)
+      .toPromise();
+      return response;
+    } catch (error) {
+      
+    }
   }
 }

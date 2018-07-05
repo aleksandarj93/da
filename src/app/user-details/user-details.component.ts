@@ -18,13 +18,23 @@ export class UserDetailsComponent implements OnInit, OnChanges {
   //   firstName: new FormControl(),
   //   lastName: new FormControl(),
   //   inetUserStatus: new FormControl()
-
   // });
-
-
-  @Input() user: any;
   @Output() notifyClose: EventEmitter<boolean> = new EventEmitter<boolean>();
-  oldUser: any;
+
+  private _user;
+  private oldUser: any;
+
+  get user(): any {
+    return this._user;
+  }
+
+  @Input()
+  set user(val: any) {
+    this._user = val;
+  }
+  
+  // oldUser: any;
+  // newUser: any;
 
    // paketi
    packageStringList = Array<string>(); // lista paketa u string obliku, kako servis vraca
@@ -36,33 +46,29 @@ export class UserDetailsComponent implements OnInit, OnChanges {
 
 
   constructor(private _userService: UserServiceService, public dialog: MatDialog, private _packageService: PackageService) {
-    
    }
 
   ngOnChanges() {
-    if (this.user != undefined) {
-      this.oldUser = this.user;
-      // console.log(JSON.stringify(" ovo je user     " + this.user));
-      console.log("3")
-      console.log(JSON.stringify(this.oldUser));
-      setTimeout(() => {
-        this.availablePackages.forEach(element => {
-          if(element.name == this.user.inetCOS)
-          {
-            this.oldSelectedPackage = element;
-            this.newSelectedPackage = element;
-            // console.log("Paketi setovani    ++++ " + this.oldSelectedPackage.name + this.newSelectedPackage.name);
-            console.log("4")
-          }
-        });
-      }, 1500);
-   
+    console.log("ngOnChanges")
+    if(this._user != undefined && this.allPackages.length != 0) {
+      console.log(JSON.stringify(this._user))
+      this.oldUser = this._user;
+      if (this._user.inetCOS != undefined) {
+        this.oldSelectedPackage = this._packageService.findSelectedPackage(this._user.inetCOS, this.allPackages);
+        this.newSelectedPackage = this.oldSelectedPackage;
+      }
       
     }
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.packageStringList = await this._packageService.getPackageStringList();
+    this.allPackages = this._packageService.getAllPackagesObjs(this.packageStringList);
+    this.availablePackages = this._packageService.getAvailablePackagesObjs(this.allPackages);
+    console.log("ngOnInit");
     
+    this.ngOnChanges();
+ 
   }
 
   onClose() {
@@ -79,11 +85,30 @@ export class UserDetailsComponent implements OnInit, OnChanges {
     });
   }
 
-  onModify() {
-    // pozovi servis za modify user i za modify package.
+  async onModify() {
+    if(this.oldSelectedPackage == undefined || this.oldSelectedPackage == null) {
+      if (this.newSelectedPackage != undefined && this.newSelectedPackage != null) {
+        this.packageStringList = this._packageService.updatePackageListString("SUCCESS", this.newSelectedPackage, this.allPackages, "create");
+        let res = await this._packageService.modifySunAvailableServices(this.packageStringList);
+      }
+    }
+    else {
+      if (this.newSelectedPackage != undefined && this.newSelectedPackage != null && this.newSelectedPackage.name != this.oldSelectedPackage.name) {
+        this.packageStringList = this._packageService.updatePackageListString("SUCCESS", this.newSelectedPackage, this.allPackages, "create");
+        this.packageStringList = this._packageService.updatePackageListString("SUCCESS", this.oldSelectedPackage, this.allPackages, "delete");
+        let res = await this._packageService.modifySunAvailableServices(this.packageStringList);
+      }
+    }
+
     console.log(JSON.stringify(this.oldSelectedPackage))
     console.log(JSON.stringify(this.newSelectedPackage))
-    console.log(JSON.stringify(this.user))
+    console.log(JSON.stringify(this._user))
+    console.log(JSON.stringify(this.oldUser))
+    if(JSON.stringify(this._user).toLowerCase() == JSON.stringify(this.oldUser).toLowerCase()) {
+      console.log("true")
+    }
+    else console.log("false")
+    
   }
 
 }
