@@ -1,6 +1,6 @@
-<mat-card *ngIf="_user != null">
+<mat-card *ngIf="newUser != null">
   <div class="modal-header">
-    <h4 class="example-h2">{{ user.cn }} - Properties</h4>
+    <h4 class="example-h2">{{ newUser.cn }} - Properties</h4>
     <button type="button" class="close" aria-label="Close" (click)="onClose()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -13,23 +13,23 @@
           <form class="example-form">
             <div class="form-group">
               <mat-form-field class="example-full-width">
-                <input matInput placeholder="Login ID" disabled [(ngModel)]="_user.uid" [ngModelOptions]="{standalone: true}">
+                <input matInput placeholder="Login ID" disabled [(ngModel)]="newUser.uid" [ngModelOptions]="{standalone: true}">
               </mat-form-field>
             </div>
             <div class="form-group">
               <mat-form-field class="example-full-width">
                 <!-- <input matInput placeholder="First Name" value="{{ user.givenName }}"> -->
-                <input matInput placeholder="First Name" [(ngModel)]="_user.givenName" [ngModelOptions]="{standalone: true}">
+                <input matInput placeholder="First Name" [(ngModel)]="newUser.givenName" [ngModelOptions]="{standalone: true}">
               </mat-form-field>
             </div>
             <div class="form-group">
               <mat-form-field class="example-full-width">
-                <input matInput placeholder="Last Name" [(ngModel)]="_user.sn" [ngModelOptions]="{standalone: true}">
+                <input matInput placeholder="Last Name" [(ngModel)]="newUser.sn" [ngModelOptions]="{standalone: true}">
               </mat-form-field>
             </div>
             <div class="form-group">
               <mat-form-field class="example-full-width">
-                <input matInput placeholder="User status" [(ngModel)]="_user.inetUserStatus" [ngModelOptions]="{standalone: true}">
+                <input matInput placeholder="User status" [(ngModel)]="newUser.inetUserStatus" [ngModelOptions]="{standalone: true}">
               </mat-form-field>
             </div>
           </form>
@@ -56,12 +56,12 @@
               <div class="card-body">
                 <div class="form-group">
                   <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Mail Quota" [(ngModel)]="_user.mailQuota" [ngModelOptions]="{standalone: true}">
+                    <input matInput placeholder="Mail Quota" [(ngModel)]="newUser.mailQuota" [ngModelOptions]="{standalone: true}">
                   </mat-form-field>
                 </div>
                 <div class="form-group">
                   <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Attachment Size Limit"  [(ngModel)]="_user.mailMsgQuota" [ngModelOptions]="{standalone: true}">
+                    <input matInput placeholder="Attachment Size Limit"  [(ngModel)]="newUser.mailMsgQuota" [ngModelOptions]="{standalone: true}">
                   </mat-form-field>
                 </div>
               </div>
@@ -74,27 +74,27 @@
           <br>
           <div class="form-group">
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Mail Host" [(ngModel)]="_user.mailHost" [ngModelOptions]="{standalone: true}">
+              <input matInput placeholder="Mail Host" [(ngModel)]="newUser.mailHost" [ngModelOptions]="{standalone: true}">
             </mat-form-field>
           </div>
           <div class="form-group">
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Email Address" [(ngModel)]="_user.mail" [ngModelOptions]="{standalone: true}">
+              <input matInput placeholder="Email Address" [(ngModel)]="newUser.mail" [ngModelOptions]="{standalone: true}">
             </mat-form-field>
           </div>
           <div class="form-group">
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Mail servis status" [(ngModel)]="_user.mailUserStatus" [ngModelOptions]="{standalone: true}">
+              <input matInput placeholder="Mail servis status" [(ngModel)]="newUser.mailUserStatus" [ngModelOptions]="{standalone: true}">
             </mat-form-field>
           </div>
         </div>
       </mat-tab>
       <mat-tab label="Calendar Service Details">
-        <div class="demo-tab-content" *ngIf="_user != null">
+        <div class="demo-tab-content" *ngIf="newUser != null">
           <br>
           <div class="form-group">
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Timezone" [(ngModel)]="_user.icsTimezone" [ngModelOptions]="{standalone: true}">
+              <input matInput placeholder="Timezone" [(ngModel)]="newUser.icsTimezone" [ngModelOptions]="{standalone: true}">
             </mat-form-field>
           </div>
         </div>

@@ -34,7 +34,7 @@ export class UserSearchComponent implements OnInit {
   // za tabelu
   hiddenTable: boolean = true;
   hiddenDetails: boolean = true;
-  userDetails: any;
+  userDetailsUID: any;
 
   displayedColumns = ['select', 'Full name', 'E-mail', 'Options'];
   dataSource: MatTableDataSource<ldapSearchData>;
@@ -76,15 +76,20 @@ export class UserSearchComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
+  // onDetails(uid: string) {
+  //   this.hiddenDetails = false;
+  //   const filter = "(uid=" + uid + ")";
+  //   this._userService.getUser("o=domen1.rs,o=isp", "SUB", filter).subscribe(
+  //     data => {
+  //       this.userDetailsUID = data.ldapSearch[0];
+  //     });
+  // }
+
   onDetails(uid: string) {
+    this.userDetailsUID = uid;
     this.hiddenDetails = false;
-    // this.router.navigate(['user-details', uid]);
-    const filter = "(uid=" + uid + ")";
-    this._userService.getUser("o=domen1.rs,o=isp", "SUB", filter).subscribe(
-      data => {
-        this.userDetails = data.ldapSearch[0];
-      });
   }
+
 
   async DeleteSingleUser(userDel: ldapSearchData) {
     let delResult = await this._userService.deleteUser(userDel.uid);
@@ -101,7 +106,7 @@ export class UserSearchComponent implements OnInit {
       window.alert("Wrong user uid!");
     }
     else { window.alert("An error has occurred!"); }
-    this.userDetails = null;
+    this.userDetailsUID = null;
     this.hiddenDetails = true;
     this.selection.clear();
     this.onSubmit();
@@ -140,7 +145,7 @@ export class UserSearchComponent implements OnInit {
     }
 
     window.alert(SalertString + "\n" + FalertString);
-    this.userDetails = null;
+    this.userDetailsUID = null;
     this.hiddenDetails = true;
     this.selection.clear();
     this.onSubmit();
@@ -211,7 +216,7 @@ function mapJsonUser(obj: any): ldapSearchData {
   return {
     uid: obj.uid,
     cn: obj.cn,
-    sn: obj.cn,
+    sn: obj.sn,
     mail: obj.mail,
     inetCos: obj.inetCOS,
   }

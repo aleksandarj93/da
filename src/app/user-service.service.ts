@@ -27,7 +27,18 @@ export class UserServiceService {
  
   getUser(baseDN: string, searchScope: string, filter: string): Observable<any> {
     var _userGetUrl = this._userBasicUrl + "?baseDN=" + baseDN + "&searchScope=" + searchScope + "&filter=" + filter;
-    return this._http.get<any>(_userGetUrl );
+    return this._http.get<any>(_userGetUrl);
+  }
+
+  async asyncGetUser(baseDN: string, searchScope: string, filter: string): Promise<any> {
+    var _userGetUrl = this._userBasicUrl + "?baseDN=" + baseDN + "&searchScope=" + searchScope + "&filter=" + filter;
+    try {
+      let response = await this._http.get<any>(_userGetUrl)
+      .toPromise();
+      return response;
+    } catch (error) {
+      
+    }
   }
 
   async deleteUser(uid: string): Promise<any> {

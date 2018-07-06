@@ -87,6 +87,6 @@
   </div>
   <hr />
   <div *ngIf="!hiddenDetails">
-    <app-user-details [user]="userDetails" (notifyClose)="onNotifyClose($event)"></app-user-details>
+    <app-user-details [userUID]="userDetailsUID" (notifyClose)="onNotifyClose($event)"></app-user-details>
   </div>
 </div>

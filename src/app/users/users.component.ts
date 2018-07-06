@@ -95,9 +95,9 @@ export class UsersComponent implements OnInit {
 
     attributes.push({ "name": "givenName", "values": [{ "value": this.firstFormGroup.value.firstName }] }); //first name
 
-    attributes.push({ "name": "cn", "values": [{ "value": this.firstFormGroup.value.firstName + " " + this.firstFormGroup.value.lastName }] });
+    attributes.push({ "name": "cn", "values": [{ "value": this.firstFormGroup.value.firstName + " " + this.firstFormGroup.value.lastName }] }); // ime i preizme
 
-    attributes.push({ "name": "sn", "values": [{ "value": this.firstFormGroup.value.lastName }] });
+    attributes.push({ "name": "sn", "values": [{ "value": this.firstFormGroup.value.lastName }] }); //preizme
 
     attributes.push({ "name": "inetUserStatus", "values": [{ "value": "active" }] }); // ovo mora da bi se video na pravom DA
 

@@ -72,17 +72,20 @@ export class PackageService {
     let response;
     try {
       response = await this._userService.modifySunAvailableServices(object);
+      return response;
     } catch (error) {
     }
-    return response;
+    
   }
 
   findSelectedPackage(packageName: string, allPackages: Array<Package>): Package {
-  for (const iterator of allPackages) {
-    if(iterator.name == packageName) {
-      return iterator;
+    if (packageName != undefined && packageName != null) {
+      for (const iterator of allPackages) {
+        if (iterator.name == packageName) {
+          return iterator;
+        }
+      }
     }
-  }
     return undefined;
   }
 }

@@ -5,6 +5,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { UserModifyDialogComponent } from '../dialogs/user-modify-dialog/user-modify-dialog.component';
 import { Package } from '../shared/package.model';
 import { PackageService } from '../package.service';
+import { BuildJSObjects } from '../shared/buildJSObjects';
 
 @Component({
   selector: 'app-user-details',
@@ -21,20 +22,10 @@ export class UserDetailsComponent implements OnInit, OnChanges {
   // });
   @Output() notifyClose: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  private _user;
-  private oldUser: any;
-
-  get user(): any {
-    return this._user;
-  }
-
-  @Input()
-  set user(val: any) {
-    this._user = val;
-  }
+  @Input() userUID: string;
   
-  // oldUser: any;
-  // newUser: any;
+  oldUser: any = {};
+  newUser: any = {};
 
    // paketi
    packageStringList = Array<string>(); // lista paketa u string obliku, kako servis vraca
@@ -48,26 +39,26 @@ export class UserDetailsComponent implements OnInit, OnChanges {
   constructor(private _userService: UserServiceService, public dialog: MatDialog, private _packageService: PackageService) {
    }
 
-  ngOnChanges() {
+  async ngOnChanges() {
     console.log("ngOnChanges")
-    if(this._user != undefined && this.allPackages.length != 0) {
-      console.log(JSON.stringify(this._user))
-      this.oldUser = this._user;
-      if (this._user.inetCOS != undefined) {
-        this.oldSelectedPackage = this._packageService.findSelectedPackage(this._user.inetCOS, this.allPackages);
+
+    const filter = "(uid=" + this.userUID + ")";
+      let res = await this._userService.asyncGetUser("o=domen1.rs,o=isp", "SUB", filter);
+      this.oldUser = res.ldapSearch[0];
+      let newObject = Object.assign({}, this.oldUser); // mora ovako da se ne referencira na isti objekat
+      this.newUser = newObject;
+
+      this.packageStringList = await this._packageService.getPackageStringList();
+      this.allPackages = this._packageService.getAllPackagesObjs(this.packageStringList);
+      this.availablePackages = this._packageService.getAvailablePackagesObjs(this.allPackages);
+
+    if(this.oldUser != undefined && this.allPackages.length != 0) {
+        this.oldSelectedPackage = this._packageService.findSelectedPackage(this.oldUser.inetCOS, this.allPackages);
         this.newSelectedPackage = this.oldSelectedPackage;
-      }
-      
     }
   }
 
-  async ngOnInit() {
-    this.packageStringList = await this._packageService.getPackageStringList();
-    this.allPackages = this._packageService.getAllPackagesObjs(this.packageStringList);
-    this.availablePackages = this._packageService.getAvailablePackagesObjs(this.allPackages);
-    console.log("ngOnInit");
-    
-    this.ngOnChanges();
+  ngOnInit() {
  
   }
 
@@ -85,30 +76,46 @@ export class UserDetailsComponent implements OnInit, OnChanges {
     });
   }
 
+
   async onModify() {
+    console.log(this.oldSelectedPackage)
+    console.log(this.newSelectedPackage)
+    if(JSON.stringify(this.oldUser).toLowerCase() != JSON.stringify(this.newUser).toLowerCase()) {
+
+      if (this.newSelectedPackage != undefined) {
+          this.newUser.inetCOS = this.newSelectedPackage.name;
+      }
+
+    console.log(this.oldUser)
+    console.log(this.newUser)
+    
+    this.newUser.cn = this.newUser.givenName + " " + this.newUser.sn;
+    var object = BuildJSObjects.createUserModifyObject(this.oldUser,this.newUser);
+    var userResponse = await this._userService.modifyUser(object);
+    var packageResponse;
+
     if(this.oldSelectedPackage == undefined || this.oldSelectedPackage == null) {
       if (this.newSelectedPackage != undefined && this.newSelectedPackage != null) {
         this.packageStringList = this._packageService.updatePackageListString("SUCCESS", this.newSelectedPackage, this.allPackages, "create");
-        let res = await this._packageService.modifySunAvailableServices(this.packageStringList);
+        packageResponse = await this._packageService.modifySunAvailableServices(this.packageStringList);
       }
     }
     else {
       if (this.newSelectedPackage != undefined && this.newSelectedPackage != null && this.newSelectedPackage.name != this.oldSelectedPackage.name) {
         this.packageStringList = this._packageService.updatePackageListString("SUCCESS", this.newSelectedPackage, this.allPackages, "create");
         this.packageStringList = this._packageService.updatePackageListString("SUCCESS", this.oldSelectedPackage, this.allPackages, "delete");
-        let res = await this._packageService.modifySunAvailableServices(this.packageStringList);
+        packageResponse = await this._packageService.modifySunAvailableServices(this.packageStringList);
       }
     }
 
-    console.log(JSON.stringify(this.oldSelectedPackage))
-    console.log(JSON.stringify(this.newSelectedPackage))
-    console.log(JSON.stringify(this._user))
-    console.log(JSON.stringify(this.oldUser))
-    if(JSON.stringify(this._user).toLowerCase() == JSON.stringify(this.oldUser).toLowerCase()) {
-      console.log("true")
+    if (userResponse.resultStatus == "SUCCESS" && (packageResponse.resultStatus == "SUCCESS" || packageResponse == undefined)) {
+      window.alert("Korisnik je uspesno izmenjen!")
     }
-    else console.log("false")
-    
+    else { 
+      window.alert("Doslo je do greske!")
+    }
   }
+  else { window.alert("Niste nista izmenili"); }
+}
 
 }
