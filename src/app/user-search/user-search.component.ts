@@ -35,6 +35,7 @@ export class UserSearchComponent implements OnInit {
   hiddenTable: boolean = true;
   hiddenDetails: boolean = true;
   userDetailsUID: any;
+  isLoadingResults = true;
 
   displayedColumns = ['select', 'Full name', 'E-mail', 'Options'];
   dataSource: MatTableDataSource<ldapSearchData>;
@@ -76,15 +77,6 @@ export class UserSearchComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
-  // onDetails(uid: string) {
-  //   this.hiddenDetails = false;
-  //   const filter = "(uid=" + uid + ")";
-  //   this._userService.getUser("o=domen1.rs,o=isp", "SUB", filter).subscribe(
-  //     data => {
-  //       this.userDetailsUID = data.ldapSearch[0];
-  //     });
-  // }
-
   onDetails(uid: string) {
     this.userDetailsUID = uid;
     this.hiddenDetails = false;
@@ -113,6 +105,7 @@ export class UserSearchComponent implements OnInit {
   }
 
   async DeleteListOfUsers() {
+    this.isLoadingResults = true;
     var sDeleted: Array<string> = new Array<string>();
     var fDeleted: Array<string> = new Array<string>();
 
@@ -148,6 +141,7 @@ export class UserSearchComponent implements OnInit {
     this.userDetailsUID = null;
     this.hiddenDetails = true;
     this.selection.clear();
+    this.isLoadingResults = false;
     this.onSubmit();
   }
 
@@ -179,6 +173,7 @@ export class UserSearchComponent implements OnInit {
   }
 
   onSubmit() {
+    this.isLoadingResults = true;
     this.baseDN = "ou=" + this.category + "," + "o=domen1.rs,o=isp";
 
     if (this.selectedAttribute !== null && this.userForm.value.value !== null) {
@@ -199,6 +194,7 @@ export class UserSearchComponent implements OnInit {
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
         });
+        this.isLoadingResults = false;
   }
 
   checkDeleteEnable(): boolean {

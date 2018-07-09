@@ -42,6 +42,10 @@
     </mat-form-field>
   </div>
   <div class="example-container mat-elevation-z8">
+      <div class="example-loading-shade"
+      *ngIf="isLoadingResults">
+   <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+   </div>
 
     <table mat-table [dataSource]="dataSource" matSort matSortActive="Full name" matSortDisableClear matSortDirection="asc">
 

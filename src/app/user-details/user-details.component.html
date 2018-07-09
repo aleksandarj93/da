@@ -1,4 +1,8 @@
 <mat-card *ngIf="newUser != null">
+    <div class="example-loading-shade"
+    *ngIf="isLoadingResults">
+ <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+ </div>
   <div class="modal-header">
     <h4 class="example-h2">{{ newUser.cn }} - Properties</h4>
     <button type="button" class="close" aria-label="Close" (click)="onClose()">

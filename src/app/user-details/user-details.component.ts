@@ -34,7 +34,7 @@ export class UserDetailsComponent implements OnInit, OnChanges, OnDestroy {
    oldSelectedPackage: Package = null; // stari izabrani paket
    newSelectedPackage: Package = null; // novi izabrani paket
 
-
+  isLoadingResults = false;
 
   constructor(private _userService: UserServiceService, public dialog: MatDialog, private _packageService: PackageService) {
    }
@@ -81,6 +81,7 @@ export class UserDetailsComponent implements OnInit, OnChanges, OnDestroy {
 
 
   async onModify() {
+    this.isLoadingResults = true;
     console.log(this.oldSelectedPackage)
     console.log(this.newSelectedPackage)
     if(JSON.stringify(this.oldUser).toLowerCase() != JSON.stringify(this.newUser).toLowerCase() || this.newSelectedPackage != this.oldSelectedPackage) {
@@ -94,7 +95,7 @@ export class UserDetailsComponent implements OnInit, OnChanges, OnDestroy {
     
     this.newUser.cn = this.newUser.givenName + " " + this.newUser.sn;
     this.newUser.mail = String(this.newUser.givenName).toLowerCase() + "." + String(this.newUser.sn).toLowerCase() + "@domen1.rs";
-    
+
     var object = BuildJSObjects.createUserModifyObject(this.oldUser,this.newUser);
     var userResponse = await this._userService.modifyUser(object);
 
@@ -121,6 +122,7 @@ export class UserDetailsComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
   else { window.alert("Niste nista izmenili"); }
+  this.isLoadingResults = false;
 }
 
 }

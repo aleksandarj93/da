@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { resultStatus } from './shared/create-json-model';
 import 'rxjs/Rx';
 import "reflect-metadata";
 import 'rxjs/add/operator/map';
