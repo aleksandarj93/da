@@ -109,7 +109,8 @@ export class UsersComponent implements OnInit {
       attributes.push({ "name": "inetCos", "values": [{ "value": this.selectedPackage.name }] });
 
       // za E-mail
-      attributes.push({ "name": "mail", "values": [{ "value": this.firstFormGroup.value.firstName + "." + this.firstFormGroup.value.lastName + "@domen1.rs" }] });
+      attributes.push({ "name": "mail", "values": [{ "value": String(this.firstFormGroup.value.firstName).toLowerCase()  + "." 
+      + String(this.firstFormGroup.value.lastName).toLowerCase()  + "@domen1.rs" }] });
     }
 
     formResult = { "dn": "uid=" + uid + ",ou=People,o=domen1.rs,o=isp", "attributes": attributes };

@@ -209,6 +209,7 @@ export class UserSearchComponent implements OnInit {
   }
   onNotifyClose(hideDetails: boolean): void {
     this.hiddenDetails = hideDetails;
+    this.onSubmit();
   }
 }
 

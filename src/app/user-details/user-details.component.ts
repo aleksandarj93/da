@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, OnChanges, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { UserServiceService } from '../user-service.service';
 import { FormGroup, FormControl } from '@angular/forms';
@@ -12,7 +12,7 @@ import { BuildJSObjects } from '../shared/buildJSObjects';
   templateUrl: './user-details.component.html',
   styleUrls: ['./user-details.component.css']
 })
-export class UserDetailsComponent implements OnInit, OnChanges {
+export class UserDetailsComponent implements OnInit, OnChanges, OnDestroy {
 
   // userInformation = new FormGroup({
   //   uid: new FormControl(),
@@ -59,7 +59,10 @@ export class UserDetailsComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
- 
+  }
+
+  ngOnDestroy() {
+    console.log("ngOnDestroy");
   }
 
   onClose() {
@@ -80,7 +83,7 @@ export class UserDetailsComponent implements OnInit, OnChanges {
   async onModify() {
     console.log(this.oldSelectedPackage)
     console.log(this.newSelectedPackage)
-    if(JSON.stringify(this.oldUser).toLowerCase() != JSON.stringify(this.newUser).toLowerCase()) {
+    if(JSON.stringify(this.oldUser).toLowerCase() != JSON.stringify(this.newUser).toLowerCase() || this.newSelectedPackage != this.oldSelectedPackage) {
 
       if (this.newSelectedPackage != undefined) {
           this.newUser.inetCOS = this.newSelectedPackage.name;
@@ -90,26 +93,28 @@ export class UserDetailsComponent implements OnInit, OnChanges {
     console.log(this.newUser)
     
     this.newUser.cn = this.newUser.givenName + " " + this.newUser.sn;
+    this.newUser.mail = String(this.newUser.givenName).toLowerCase() + "." + String(this.newUser.sn).toLowerCase() + "@domen1.rs";
+    
     var object = BuildJSObjects.createUserModifyObject(this.oldUser,this.newUser);
     var userResponse = await this._userService.modifyUser(object);
-    var packageResponse;
 
     if(this.oldSelectedPackage == undefined || this.oldSelectedPackage == null) {
       if (this.newSelectedPackage != undefined && this.newSelectedPackage != null) {
         this.packageStringList = this._packageService.updatePackageListString("SUCCESS", this.newSelectedPackage, this.allPackages, "create");
-        packageResponse = await this._packageService.modifySunAvailableServices(this.packageStringList);
+        var packageResponse = await this._packageService.modifySunAvailableServices(this.packageStringList);
       }
     }
     else {
       if (this.newSelectedPackage != undefined && this.newSelectedPackage != null && this.newSelectedPackage.name != this.oldSelectedPackage.name) {
         this.packageStringList = this._packageService.updatePackageListString("SUCCESS", this.newSelectedPackage, this.allPackages, "create");
         this.packageStringList = this._packageService.updatePackageListString("SUCCESS", this.oldSelectedPackage, this.allPackages, "delete");
-        packageResponse = await this._packageService.modifySunAvailableServices(this.packageStringList);
+        var packageResponse = await this._packageService.modifySunAvailableServices(this.packageStringList);
       }
     }
 
-    if (userResponse.resultStatus == "SUCCESS" && (packageResponse.resultStatus == "SUCCESS" || packageResponse == undefined)) {
+    if (userResponse.resultStatus == "SUCCESS" && (packageResponse == undefined || packageResponse.resultStatus == "SUCCESS" )) {
       window.alert("Korisnik je uspesno izmenjen!")
+      this.onClose();
     }
     else { 
       window.alert("Doslo je do greske!")
