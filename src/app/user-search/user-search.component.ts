@@ -6,7 +6,6 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { SingleDeleteDialogComponent } from '../dialogs/single-delete-dialog/single-delete-dialog.component';
 import { Package } from '../shared/package.model';
 import { PackageService } from '../package.service';
-import { async } from 'rxjs/internal/scheduler/async';
 
 
 @Component({
@@ -32,7 +31,6 @@ export class UserSearchComponent implements OnInit {
   selectedAttribute = null;
 
   // za tabelu
-  hiddenTable: boolean = true;
   hiddenDetails: boolean = true;
   userDetailsUID: any;
   isLoadingResults = true;
@@ -55,7 +53,10 @@ export class UserSearchComponent implements OnInit {
     this.packageStringList = await this._packageService.getPackageStringList();
     this.allPackages = this._packageService.getAllPackagesObjs(this.packageStringList);
     this.onSubmit();
+    
   }
+
+
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -172,7 +173,7 @@ export class UserSearchComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  async onSubmit() {
     this.isLoadingResults = true;
     this.baseDN = "ou=" + this.category + "," + "o=domen1.rs,o=isp";
 
@@ -181,20 +182,35 @@ export class UserSearchComponent implements OnInit {
     }
     else { this.filterString = "(uid=*)"; }
 
-    this._userService.getUser(this.baseDN, this.scope, this.filterString)
-      .subscribe(
-        (data: any) => {
-          if (data !== null) { this.hiddenTable = false; }
+    var res = await this._userService.asyncGetUser(this.baseDN, this.scope, this.filterString);
+    var getData: ldapSearchData[] = [];
+    for (const iterator of res.ldapSearch) {
+      getData.push(mapJsonUser(iterator));
+    }
+    this.dataSource = new MatTableDataSource(getData);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      switch(property) {
+        case 'Full name': return item.cn;
+        case 'E-mail': return item.mail;
+      }
+    };
+    this.dataSource.sort = this.sort;
+    this.isLoadingResults = false;
 
-          var getData: ldapSearchData[] = [];
-          for (let i = 0; i < data.ldapSearch.length; i++) {
-            getData.push(mapJsonUser(data.ldapSearch[i]))
-          }
-          this.dataSource = new MatTableDataSource(getData);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        });
-        this.isLoadingResults = false;
+
+    // this._userService.getUser(this.baseDN, this.scope, this.filterString)
+    //   .subscribe(
+    //     (data: any) => {
+    //       var getData: ldapSearchData[] = [];
+    //       for (let i = 0; i < data.ldapSearch.length; i++) {
+    //         getData.push(mapJsonUser(data.ldapSearch[i]))
+    //       }
+    //       this.dataSource = new MatTableDataSource(getData);
+    //       this.dataSource.paginator = this.paginator;
+    //       this.dataSource.sort = this.sort;
+    //     });
+    //     this.isLoadingResults = false;
   }
 
   checkDeleteEnable(): boolean {

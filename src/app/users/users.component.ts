@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserServiceService } from '../user-service.service';
 import { FormGroup, FormControl } from '@angular/forms';
-import { resultStatus } from '../shared/create-json-model';
 import { FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Router } from '@angular/router';
@@ -111,6 +110,8 @@ export class UsersComponent implements OnInit {
       // za E-mail
       attributes.push({ "name": "mail", "values": [{ "value": String(this.firstFormGroup.value.firstName).toLowerCase()  + "." 
       + String(this.firstFormGroup.value.lastName).toLowerCase()  + "@domen1.rs" }] });
+      
+      attributes.push({"name": "mailUserStatus", "values": [{ "value": "active" }] });
     }
 
     formResult = { "dn": "uid=" + uid + ",ou=People,o=domen1.rs,o=isp", "attributes": attributes };
