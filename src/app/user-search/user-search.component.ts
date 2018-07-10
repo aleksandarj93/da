@@ -138,11 +138,11 @@ export class UserSearchComponent implements OnInit {
       FalertString += iterator + ", ";
     }
 
+    this.isLoadingResults = false;
     window.alert(SalertString + "\n" + FalertString);
     this.userDetailsUID = null;
     this.hiddenDetails = true;
     this.selection.clear();
-    this.isLoadingResults = false;
     this.onSubmit();
   }
 
@@ -197,20 +197,6 @@ export class UserSearchComponent implements OnInit {
     };
     this.dataSource.sort = this.sort;
     this.isLoadingResults = false;
-
-
-    // this._userService.getUser(this.baseDN, this.scope, this.filterString)
-    //   .subscribe(
-    //     (data: any) => {
-    //       var getData: ldapSearchData[] = [];
-    //       for (let i = 0; i < data.ldapSearch.length; i++) {
-    //         getData.push(mapJsonUser(data.ldapSearch[i]))
-    //       }
-    //       this.dataSource = new MatTableDataSource(getData);
-    //       this.dataSource.paginator = this.paginator;
-    //       this.dataSource.sort = this.sort;
-    //     });
-    //     this.isLoadingResults = false;
   }
 
   checkDeleteEnable(): boolean {
@@ -221,6 +207,7 @@ export class UserSearchComponent implements OnInit {
   }
   onNotifyClose(hideDetails: boolean): void {
     this.hiddenDetails = hideDetails;
+    this.selection.clear();
     this.onSubmit();
   }
 }
