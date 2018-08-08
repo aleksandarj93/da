@@ -8,9 +8,9 @@ import { Observable } from 'rxjs/Rx';
 
 @Injectable()
 export class UserServiceService {
-  // private _userBasicUrl = "http://130.61.78.8:8081/ldaprest/User";
+  private _userBasicUrl = "http://130.61.78.8:8081/ldaprest/User";
   // private _userBasicUrl = "http://172.20.2.162:7809/ldaprest/User";
-  private _userBasicUrl = "http://" + window.location.host + "/ldaprest/User";
+  // private _userBasicUrl = "http://" + window.location.host + "/ldaprest/User";
   
   constructor(private _http: HttpClient) { }
 

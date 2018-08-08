@@ -19,7 +19,6 @@ import { RouterModule,Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './auth.service';
 import { UserDetailsComponent } from './user-details/user-details.component';
-import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { SingleDeleteDialogComponent } from './dialogs/single-delete-dialog/single-delete-dialog.component';
 import { UserModifyDialogComponent } from './dialogs/user-modify-dialog/user-modify-dialog.component';
 
@@ -30,7 +29,6 @@ import { UserModifyDialogComponent } from './dialogs/user-modify-dialog/user-mod
     UserSearchComponent,
     LoginComponent,
     UserDetailsComponent,
-    NavBarComponent,
     SingleDeleteDialogComponent,
     UserModifyDialogComponent
     

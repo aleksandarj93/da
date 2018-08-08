@@ -95,6 +95,10 @@ export class UserDetailsComponent implements OnInit, OnChanges, OnDestroy {
     console.log(this.newUser)
     
     this.newUser.cn = this.newUser.givenName + " " + this.newUser.sn;
+    if (this.oldUser.mail != undefined) {
+      this.newUser.mail = String(this.newUser.givenName).toLowerCase() + "." + String(this.newUser.sn).toLowerCase() + "@domen1.rs";
+      // razmisli za mail
+    }
     
 
     var object = BuildJSObjects.createUserModifyObject(this.oldUser,this.newUser);
