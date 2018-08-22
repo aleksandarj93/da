@@ -45,7 +45,7 @@
             <div class="card-header" id="headingOne">
                 <mat-form-field class="example-full-width">
                     <mat-select [(ngModel)]="newSelectedPackage" [ngModelOptions]="{standalone: true}" placeholder="Service Packages">
-                      <mat-option *ngFor="let p of availablePackages" [value]="p">
+                      <mat-option *ngFor="let p of allPackages" [value]="p">
                         {{ p.name }}
                       </mat-option>
                     </mat-select>

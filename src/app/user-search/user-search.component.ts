@@ -56,8 +56,6 @@ export class UserSearchComponent implements OnInit {
     
   }
 
-
-
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;

@@ -12,11 +12,11 @@ import {MatTabsModule} from '@angular/material/tabs';
 import { AuthGuard } from './auth.guard';
 
 
+import { CookieService } from 'ngx-cookie-service';
 import { AppComponent } from './app.component';
 import { UsersComponent } from './users/users.component';
 import { UserSearchComponent } from './user-search/user-search.component';
 import { RouterModule,Routes } from '@angular/router';
-import { AuthService } from './auth.service';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { SingleDeleteDialogComponent } from './dialogs/single-delete-dialog/single-delete-dialog.component';
 import { UserModifyDialogComponent } from './dialogs/user-modify-dialog/user-modify-dialog.component';
@@ -59,29 +59,22 @@ import { UserModifyDialogComponent } from './dialogs/user-modify-dialog/user-mod
     MatProgressSpinnerModule,
     RouterModule.forRoot([
       {
-        path: '', 
-        component:UserSearchComponent
+        path: '', pathMatch: 'full',  redirectTo: 'user-search'
+        // component:UserSearchComponent
       },
       {
         path:'users',
         component:UsersComponent
-        // canActivate: [AuthGuard]
       },
       {
         path:'user-search',
         component:UserSearchComponent
         // canActivate: [AuthGuard]
       }
-      // {
-      //   path: 'login', 
-      //   component:LoginComponent
-      // }
-      // {
-      //   path: 'user-details/:uid', component: UserDetailsComponent
-      // }
-    ])
+    ]),
+    
   ],
-  providers: [AuthGuard, AuthService],
+  providers: [AuthGuard, CookieService ],
   bootstrap: [AppComponent],
   entryComponents: [SingleDeleteDialogComponent, UserModifyDialogComponent]
 })
