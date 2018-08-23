@@ -20,6 +20,7 @@ import { RouterModule,Routes } from '@angular/router';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { SingleDeleteDialogComponent } from './dialogs/single-delete-dialog/single-delete-dialog.component';
 import { UserModifyDialogComponent } from './dialogs/user-modify-dialog/user-modify-dialog.component';
+import { DomainsComponent } from './domains/domains.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { UserModifyDialogComponent } from './dialogs/user-modify-dialog/user-mod
     UserSearchComponent,
     UserDetailsComponent,
     SingleDeleteDialogComponent,
-    UserModifyDialogComponent
+    UserModifyDialogComponent,
+    DomainsComponent
     
   ],
   imports: [
@@ -59,15 +61,20 @@ import { UserModifyDialogComponent } from './dialogs/user-modify-dialog/user-mod
     MatProgressSpinnerModule,
     RouterModule.forRoot([
       {
-        path: '', pathMatch: 'full',  redirectTo: 'user-search'
+        path: '', pathMatch: 'full',  redirectTo: 'domains'
         // component:UserSearchComponent
+      },
+      {
+        path: 'domains',
+        component:DomainsComponent,
+        canActivate: [AuthGuard]
       },
       {
         path:'users',
         component:UsersComponent
       },
       {
-        path:'user-search',
+        path:'user-search/:id',
         component:UserSearchComponent
         // canActivate: [AuthGuard]
       }

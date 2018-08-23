@@ -11,7 +11,7 @@
   <mat-sidenav-container class="example-sidenav-container">
     <mat-sidenav #snav >
       <mat-nav-list>
-        <a mat-list-item routerLink="/user-search" (click)="snav.toggle()">Search users</a>
+        <a mat-list-item [routerLink]="['/user-search', domain]" (click)="snav.toggle()">Search users</a>
         <a mat-list-item routerLink="/users" (click)="snav.toggle()">New user</a>
       </mat-nav-list>
     </mat-sidenav>

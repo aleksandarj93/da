@@ -6,6 +6,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { SingleDeleteDialogComponent } from '../dialogs/single-delete-dialog/single-delete-dialog.component';
 import { Package } from '../shared/package.model';
 import { PackageService } from '../package.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -14,7 +15,8 @@ import { PackageService } from '../package.service';
   styleUrls: ['./user-search.component.css']
 })
 export class UserSearchComponent implements OnInit {
-  baseDN: string = ""; // u zavisnosti ko je ulogovan!!
+  baseDN: string = ""; 
+  domain: string =""; // u zavisnosti ko je ulogovan!!
   scope: string = 'SUB';
   filterString: string = "";
 
@@ -47,7 +49,9 @@ export class UserSearchComponent implements OnInit {
   allPackages: Array<Package> = new Array<Package>(); // svi paketi kao objekti
   selectedPackage: Package = undefined; // izabrani paket
 
-  constructor(private _userService: UserServiceService, public dialog: MatDialog, private _packageService: PackageService) { }
+  constructor(private activetedRoute: ActivatedRoute ,private _userService: UserServiceService, public dialog: MatDialog, private _packageService: PackageService) {
+    this.domain = this.activetedRoute.snapshot.params['id'];
+   }
 
   async ngOnInit() {
     this.packageStringList = await this._packageService.getPackageStringList();
@@ -173,7 +177,7 @@ export class UserSearchComponent implements OnInit {
 
   async onSubmit() {
     this.isLoadingResults = true;
-    this.baseDN = "ou=" + this.category + "," + "o=domen1.rs,o=isp";
+    this.baseDN = "ou=" + this.category + ",o=" + this.domain +",o=isp";
 
     if (this.selectedAttribute !== null && this.userForm.value.value !== null) {
       this.filterString = "(" + this.selectedAttribute + "=" + this.userForm.value.value + ")";

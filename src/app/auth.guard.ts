@@ -1,39 +1,29 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { CookieService } from 'ngx-cookie-service';
+import { CookieServiceService } from './cookie-service.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-  constructor(private cookieService: CookieService) { }
-
-  extractNSRoleValue(value: string): string {
-    var splitList = value.split('=');
-    var nsrole = splitList[1].split(',').shift();
-    console.log(nsrole)
-    return nsrole;
-  }
-
-  getNSRole(): string {
-    // staviti komentar kad se postavlja na server
-    this.cookieService.set( 'OAM_USER_ADMIN', 'cn=Top-level Admin Role,o=mts.rs,o=isp' );
-    
-    var cookieValue = this.cookieService.get('OAM_USER_ADMIN');
-    return this.extractNSRoleValue(cookieValue);
-  }
+  constructor(private cookieService: CookieServiceService, private router: Router) { }
 
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    var nsrole = this.getNSRole();
-    var validator = false;
-    if (nsrole === "Top-level Admin Role"){
-      validator = true;
-    }
-    return validator;
+    return this.checkNSRole();
   }
 
+  checkNSRole(): boolean {
+    var nsrole = this.cookieService.getNSRole();
+    if (nsrole === "Top-level Admin Role"){
+      return true;
+    } else {
+      var domain = this.cookieService.getDomain();
+      this.router.navigate(['/user-search', domain]);
+      return false;
+    }
+  }
 
 }
