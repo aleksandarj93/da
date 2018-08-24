@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import "reflect-metadata";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CdkTableModule} from '@angular/cdk/table';
 import {MatButtonModule,MatSidenavModule, MatSelectModule, MatInputModule, MatListModule, MatMenuModule, MatDialogModule, MatButtonToggleModule, MatProgressSpinnerModule,
@@ -21,6 +20,7 @@ import { UserDetailsComponent } from './user-details/user-details.component';
 import { SingleDeleteDialogComponent } from './dialogs/single-delete-dialog/single-delete-dialog.component';
 import { UserModifyDialogComponent } from './dialogs/user-modify-dialog/user-modify-dialog.component';
 import { DomainsComponent } from './domains/domains.component';
+import { SharedService } from './shared.service';
 
 @NgModule({
   declarations: [
@@ -31,7 +31,6 @@ import { DomainsComponent } from './domains/domains.component';
     SingleDeleteDialogComponent,
     UserModifyDialogComponent,
     DomainsComponent
-    
   ],
   imports: [
     BrowserModule,
@@ -62,7 +61,6 @@ import { DomainsComponent } from './domains/domains.component';
     RouterModule.forRoot([
       {
         path: '', pathMatch: 'full',  redirectTo: 'domains'
-        // component:UserSearchComponent
       },
       {
         path: 'domains',
@@ -74,14 +72,13 @@ import { DomainsComponent } from './domains/domains.component';
         component:UsersComponent
       },
       {
-        path:'user-search/:id',
+        path:'user-search',
         component:UserSearchComponent
-        // canActivate: [AuthGuard]
       }
     ]),
     
   ],
-  providers: [AuthGuard, CookieService ],
+  providers: [AuthGuard, CookieService, SharedService],
   bootstrap: [AppComponent],
   entryComponents: [SingleDeleteDialogComponent, UserModifyDialogComponent]
 })

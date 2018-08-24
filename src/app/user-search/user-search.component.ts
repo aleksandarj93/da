@@ -6,7 +6,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { SingleDeleteDialogComponent } from '../dialogs/single-delete-dialog/single-delete-dialog.component';
 import { Package } from '../shared/package.model';
 import { PackageService } from '../package.service';
-import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { SharedService } from '../shared.service';
 
 
 @Component({
@@ -16,7 +17,17 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class UserSearchComponent implements OnInit {
   baseDN: string = ""; 
-  domain: string =""; // u zavisnosti ko je ulogovan!!
+  // domain: any;
+  
+ get domain(): string {
+    return this._sharedService.domain;
+ }
+ set domain(value: string) {
+  this._sharedService.domain = value;
+ }
+  
+
+
   scope: string = 'SUB';
   filterString: string = "";
 
@@ -49,8 +60,9 @@ export class UserSearchComponent implements OnInit {
   allPackages: Array<Package> = new Array<Package>(); // svi paketi kao objekti
   selectedPackage: Package = undefined; // izabrani paket
 
-  constructor(private activetedRoute: ActivatedRoute ,private _userService: UserServiceService, public dialog: MatDialog, private _packageService: PackageService) {
-    this.domain = this.activetedRoute.snapshot.params['id'];
+  constructor(private _sharedService: SharedService, private _userService: UserServiceService, public dialog: MatDialog, private _packageService: PackageService) {
+    // this.subscription = this._sharedService.getDomain().subscribe(message => { this.domain = message; });
+    this.domain = this._sharedService.domain;
    }
 
   async ngOnInit() {
@@ -59,6 +71,7 @@ export class UserSearchComponent implements OnInit {
     this.onSubmit();
     
   }
+
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {

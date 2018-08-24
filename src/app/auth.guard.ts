@@ -20,8 +20,7 @@ export class AuthGuard implements CanActivate {
     if (nsrole === "Top-level Admin Role"){
       return true;
     } else {
-      var domain = this.cookieService.getDomain();
-      this.router.navigate(['/user-search', domain]);
+      this.router.navigate(['/user-search']);
       return false;
     }
   }
