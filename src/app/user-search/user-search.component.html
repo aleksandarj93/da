@@ -1,6 +1,6 @@
 <div class="container">
   <div class="form-group row">
-      <button type="button" class="btn btn-primary" routerLink="/users">Create new</button> | 
+      <button type="button" class="btn btn-primary" [routerLink]="['/users', domain]">Create new</button> | 
       <button type="button" class="btn btn-danger" [disabled]="checkDeleteEnable()" (click)="onDeleteButton()">Delete users</button>
   </div>
   
@@ -89,6 +89,6 @@
   </div>
   <hr />
   <div *ngIf="!hiddenDetails">
-    <app-user-details [userUID]="userDetailsUID" (notifyClose)="onNotifyClose($event)"></app-user-details>
+    <app-user-details [uad]="userAndDomani" (notifyClose)="onNotifyClose($event)"></app-user-details>
   </div>
 </div>

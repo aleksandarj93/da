@@ -1,11 +1,8 @@
 <p>
   domains works!
 </p>
-<!-- <div class="form-group">
-  <button mat-raised-button (click)="onChoseDomain()">mts.rs</button>
-</div> -->
-<a [routerLink]="['/user-search']" (click)="sendDomain('domen1.rs')">domen1.rs</a>
+<a [routerLink]="['/user-search', 'domen1.rs']" >domen1.rs</a>
 <br>
-<a [routerLink]="['/user-search']" (click)="sendDomain('domen2.rs')">domen2.rs</a>
+<a [routerLink]="['/user-search', 'domen2.rs']" >domen2.rs</a>
 <br>
-<a [routerLink]="['/user-search']" (click)="sendDomain('mts.rs')">mts.rs</a>
+<a [routerLink]="['/user-search', 'mts.rs']">mts.rs</a>

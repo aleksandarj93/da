@@ -20,7 +20,7 @@ import { UserDetailsComponent } from './user-details/user-details.component';
 import { SingleDeleteDialogComponent } from './dialogs/single-delete-dialog/single-delete-dialog.component';
 import { UserModifyDialogComponent } from './dialogs/user-modify-dialog/user-modify-dialog.component';
 import { DomainsComponent } from './domains/domains.component';
-import { SharedService } from './shared.service';
+import { UserPageGuard } from './user-page.guard';
 
 @NgModule({
   declarations: [
@@ -68,17 +68,19 @@ import { SharedService } from './shared.service';
         canActivate: [AuthGuard]
       },
       {
-        path:'users',
-        component:UsersComponent
+        path:'users/:domain',
+        component:UsersComponent,
+        canActivate: [UserPageGuard]
       },
       {
-        path:'user-search',
-        component:UserSearchComponent
+        path:'user-search/:domain',
+        component:UserSearchComponent,
+        canActivate: [UserPageGuard]
       }
     ]),
     
   ],
-  providers: [AuthGuard, CookieService, SharedService],
+  providers: [AuthGuard, UserPageGuard, CookieService],
   bootstrap: [AppComponent],
   entryComponents: [SingleDeleteDialogComponent, UserModifyDialogComponent]
 })

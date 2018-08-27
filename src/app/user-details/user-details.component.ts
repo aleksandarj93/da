@@ -22,7 +22,7 @@ export class UserDetailsComponent implements OnInit, OnChanges, OnDestroy {
   // });
   @Output() notifyClose: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  @Input() userUID: string;
+  @Input() uad: any;
   
   oldUser: any = {};
   newUser: any = {};
@@ -42,13 +42,13 @@ export class UserDetailsComponent implements OnInit, OnChanges, OnDestroy {
   async ngOnChanges() {
     console.log("ngOnChanges")
 
-    const filter = "(uid=" + this.userUID + ")";
-      let res = await this._userService.asyncGetUser("o=domen1.rs,o=isp", "SUB", filter);
+    const filter = "(uid=" + this.uad.uid + ")";
+      let res = await this._userService.asyncGetUser("o="+ this.uad.domain +",o=isp", "SUB", filter);
       this.oldUser = res.ldapSearch[0];
       let newObject = Object.assign({}, this.oldUser); // mora ovako da se ne referencira na isti objekat
       this.newUser = newObject;
 
-      this.packageStringList = await this._packageService.getPackageStringList();
+      this.packageStringList = await this._packageService.getPackageStringList(this.uad.domain);
       this.allPackages = this._packageService.getAllPackagesObjs(this.packageStringList);
       this.availablePackages = this._packageService.getAvailablePackagesObjs(this.allPackages);
 

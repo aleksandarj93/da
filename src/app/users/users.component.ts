@@ -3,7 +3,7 @@ import { UserServiceService } from '../user-service.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Package } from '../shared/package.model';
 import { PackageService } from '../package.service';
 
@@ -46,6 +46,7 @@ export class UsersComponent implements OnInit {
   availablePackages: Array<Package> = new Array<Package>(); // paketi koji mogu biti dodeljeni pri kreiranju
   selectedPackage: Package = null; // izabrani paket
 
+  domain: string;
   matcher = new MyErrorStateMatcher();
 
   // status i poruka 
@@ -53,10 +54,12 @@ export class UsersComponent implements OnInit {
   message: string;
   IsHidden = true;
 
-  constructor(private _userService: UserServiceService, private router: Router, private _packageService: PackageService) { }
+  constructor(private _userService: UserServiceService, private route: ActivatedRoute,private router: Router, private _packageService: PackageService) { 
+    this.domain = this.route.snapshot.params['domain'];
+  }
 
   async ngOnInit() {
-    this.packageStringList = await this._packageService.getPackageStringList();
+    this.packageStringList = await this._packageService.getPackageStringList(this.domain);
     this.allPackages = this._packageService.getAllPackagesObjs(this.packageStringList);
     this.availablePackages = this._packageService.getAvailablePackagesObjs(this.allPackages);
   }
@@ -109,12 +112,12 @@ export class UsersComponent implements OnInit {
 
       // za E-mail
       attributes.push({ "name": "mail", "values": [{ "value": String(this.firstFormGroup.value.firstName).toLowerCase()  + "." 
-      + String(this.firstFormGroup.value.lastName).toLowerCase()  + "@domen1.rs" }] });
+      + String(this.firstFormGroup.value.lastName).toLowerCase()  + this.domain }] });
       
       attributes.push({"name": "mailUserStatus", "values": [{ "value": "active" }] });
     }
 
-    formResult = { "dn": "uid=" + uid + ",ou=People,o=domen1.rs,o=isp", "attributes": attributes };
+    formResult = { "dn": "uid=" + uid + ",ou=People,o="+ this.domain +",o=isp", "attributes": attributes };
     console.log("stara lista:   " + this.packageStringList)
 
     let addResult = await this._userService.addUser(formResult);
@@ -128,7 +131,7 @@ export class UsersComponent implements OnInit {
       res = await this._packageService.modifySunAvailableServices(this.packageStringList);
     }
     setTimeout(() => {
-      this.router.navigate(['user-search']);
+      this.router.navigate(['user-search', this.domain]);
     }, 1000);
 
   }

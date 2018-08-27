@@ -14,10 +14,10 @@ export class PackageService {
       setTimeout(resolve, ms));
   }
 
-  async getPackageStringList(): Promise<Array<string>> {
+  async getPackageStringList(domain: string): Promise<Array<string>> {
     let response;
     try {
-      response = await this._userService.getMailDomain();
+      response = await this._userService.getMailDomain(domain);
     } catch (error) {
     }
     return response.ldapSearch[0].sunAvailableServices;

@@ -4,26 +4,34 @@ import { Observable } from 'rxjs';
 import { CookieServiceService } from './cookie-service.service';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class UserPageGuard implements CanActivate {
 
   constructor(private cookieService: CookieServiceService, private router: Router) { }
-
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    return this.checkNSRole();
+      var domain = this.cookieService.getDomain();
+      var segmentUrl = next.url;
+
+      if (this.checkNSRole()) {
+        return true;
+      } else if (segmentUrl[1].path === domain) {
+        console.log('User guard radi samo ako user nije top lvl admin.....')
+        return true;
+      }
+    return false;
   }
+
 
   checkNSRole(): boolean {
     var nsrole = this.cookieService.getNSRole();
     if (nsrole === "Top-level Admin Role"){
       return true;
     } else {
-      var domain = this.cookieService.getDomain()
-      this.router.navigate(['/user-search', domain]);
       return false;
     }
   }
 
+  
 }

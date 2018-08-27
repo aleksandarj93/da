@@ -1,6 +1,5 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { DomainService } from '../domain.service';
-import { SharedService } from '../shared.service';
 
 @Component({
   selector: 'app-domains',
@@ -9,15 +8,8 @@ import { SharedService } from '../shared.service';
 })
 export class DomainsComponent implements OnInit {
 
-  constructor(private _domainService: DomainService, private _sharedService: SharedService) { }
-
-
+  constructor(private _domainService: DomainService) { }
   ngOnInit() {
   }
-
-  sendDomain(value: string) {
-    this._sharedService.domain = value;
-  }
-
 
 }

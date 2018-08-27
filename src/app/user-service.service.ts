@@ -41,8 +41,8 @@ export class UserServiceService {
     }
   }
 
-  async deleteUser(uid: string): Promise<any> {
-    var _userDeleteUrl = this._userBasicUrl + "?dn=uid=" + uid + ",ou=People,o=domen1.rs,o=isp";
+  async deleteUser(uid: string, domain: string): Promise<any> {
+    var _userDeleteUrl = this._userBasicUrl + "?dn=uid=" + uid + ",ou=People,o=" + domain + ",o=isp";
     try {
       let response = await this._http.delete(_userDeleteUrl)
       .toPromise();
@@ -57,8 +57,8 @@ export class UserServiceService {
       setTimeout(resolve, ms));
   }
 
-  async getMailDomain(): Promise<any> {
-    var _mailDomainGetUrl = this._userBasicUrl + "?baseDN=o=domen1.rs,o=isp&searchScope=SUB&filter=(objectclass=maildomain)";
+  async getMailDomain(domain: string): Promise<any> {
+    var _mailDomainGetUrl = this._userBasicUrl + "?baseDN=o=" + domain + ",o=isp&searchScope=SUB&filter=(objectclass=maildomain)";
     try {
       let response = await this._http.get<any>(_mailDomainGetUrl)
       .toPromise();

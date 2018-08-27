@@ -6,8 +6,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { SingleDeleteDialogComponent } from '../dialogs/single-delete-dialog/single-delete-dialog.component';
 import { Package } from '../shared/package.model';
 import { PackageService } from '../package.service';
-import { Subscription } from 'rxjs';
-import { SharedService } from '../shared.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -17,14 +16,14 @@ import { SharedService } from '../shared.service';
 })
 export class UserSearchComponent implements OnInit {
   baseDN: string = ""; 
-  // domain: any;
+  domain: string;
   
- get domain(): string {
-    return this._sharedService.domain;
- }
- set domain(value: string) {
-  this._sharedService.domain = value;
- }
+//  get domain(): string {
+//     return this._sharedService.domain;
+//  }
+//  set domain(value: string) {
+//   this._sharedService.domain = value;
+//  }
   
 
 
@@ -48,6 +47,8 @@ export class UserSearchComponent implements OnInit {
   userDetailsUID: any;
   isLoadingResults = true;
 
+  userAndDomani = { uid: '', domain: ''}
+
   displayedColumns = ['select', 'Full name', 'E-mail', 'Options'];
   dataSource: MatTableDataSource<ldapSearchData>;
   selection = new SelectionModel<ldapSearchData>(true, []);
@@ -60,13 +61,13 @@ export class UserSearchComponent implements OnInit {
   allPackages: Array<Package> = new Array<Package>(); // svi paketi kao objekti
   selectedPackage: Package = undefined; // izabrani paket
 
-  constructor(private _sharedService: SharedService, private _userService: UserServiceService, public dialog: MatDialog, private _packageService: PackageService) {
+  constructor(private route: ActivatedRoute, private _userService: UserServiceService, public dialog: MatDialog, private _packageService: PackageService) {
     // this.subscription = this._sharedService.getDomain().subscribe(message => { this.domain = message; });
-    this.domain = this._sharedService.domain;
+    this.domain = this.route.snapshot.params['domain'];
    }
 
   async ngOnInit() {
-    this.packageStringList = await this._packageService.getPackageStringList();
+    this.packageStringList = await this._packageService.getPackageStringList(this.domain);
     this.allPackages = this._packageService.getAllPackagesObjs(this.packageStringList);
     this.onSubmit();
     
@@ -94,13 +95,15 @@ export class UserSearchComponent implements OnInit {
   }
 
   onDetails(uid: string) {
-    this.userDetailsUID = uid;
+    this.userAndDomani.uid = uid
+    this.userAndDomani.domain = this.domain;
+    // this.userDetailsUID = uid;
     this.hiddenDetails = false;
   }
 
 
   async DeleteSingleUser(userDel: ldapSearchData) {
-    let delResult = await this._userService.deleteUser(userDel.uid);
+    let delResult = await this._userService.deleteUser(userDel.uid, this.domain);
     if (delResult.resultStatus === 'SUCCESS') {
       if (userDel.inetCos != undefined && userDel.inetCos != null) {
         let selectedPackage = this._packageService.findSelectedPackage(userDel.inetCos, this.allPackages);
@@ -114,7 +117,9 @@ export class UserSearchComponent implements OnInit {
       window.alert("Wrong user uid!");
     }
     else { window.alert("An error has occurred!"); }
-    this.userDetailsUID = null;
+    this.userAndDomani.uid = null;
+    this.userAndDomani.domain = this.domain;
+    // this.userDetailsUID = null;
     this.hiddenDetails = true;
     this.selection.clear();
     this.onSubmit();
@@ -126,7 +131,7 @@ export class UserSearchComponent implements OnInit {
     var fDeleted: Array<string> = new Array<string>();
 
     for (const element of this.selection.selected) {
-      let delResult = await this._userService.deleteUser(element.uid);
+      let delResult = await this._userService.deleteUser(element.uid, this.domain);
 
       if (delResult.resultStatus === 'SUCCESS') {
         sDeleted.push(element.cn);
@@ -155,7 +160,9 @@ export class UserSearchComponent implements OnInit {
 
     this.isLoadingResults = false;
     window.alert(SalertString + "\n" + FalertString);
-    this.userDetailsUID = null;
+     // this.userDetailsUID = null;
+    this.userAndDomani.uid = null;
+    this.userAndDomani.domain = this.domain;
     this.hiddenDetails = true;
     this.selection.clear();
     this.onSubmit();
