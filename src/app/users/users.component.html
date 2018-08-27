@@ -94,7 +94,7 @@
       <div class="form-group">
           <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="notEntered()">Create</button> |
           <!-- <button mat-raised-button (click)="stepper.reset()">Reset</button> -->
-          <button mat-raised-button  routerLink="/user-search">Cancel</button>
+          <button mat-raised-button  [routerLink]="['/user-search', domain]">Cancel</button>
       </div>
      
       <div *ngIf="!IsHidden">

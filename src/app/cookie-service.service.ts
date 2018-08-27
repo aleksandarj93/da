@@ -17,7 +17,7 @@ export class CookieServiceService {
 
   getNSRole(): string {
     // staviti komentar kad se postavlja na server
-    this.cookieService.set( 'OAM_USER_ADMIN', 'cn=Top-level Admin Role\\,o=mts.rs\\,o=isp' );
+    // this.cookieService.set( 'OAM_USER_ADMIN', 'cn=Top-level Admin Role\\,o=mts.rs\\,o=isp' );
     
     var cookieValue = this.cookieService.get('OAM_USER_ADMIN');
     return this.extractNSRoleValue(cookieValue);
@@ -31,7 +31,7 @@ export class CookieServiceService {
 
   getDomain(): string {
     // staviti komentar kad se postavlja na server
-    this.cookieService.set( 'OAM_USER_DN', 'uid=bogdan_bogdanovic\\,ou=People\\,o=domen1.rs\\,o=isp' );
+    // this.cookieService.set( 'OAM_USER_DN', 'uid=bogdan_bogdanovic\\,ou=People\\,o=domen1.rs\\,o=isp' );
     
     var cookieValue = this.cookieService.get('OAM_USER_DN');
     return this.extractDomainValue(cookieValue);
