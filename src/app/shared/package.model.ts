@@ -12,26 +12,31 @@ export class Package {
     this.status = status;
   }
 
-
-  // Metoda kao ulazni parametar prima listu stringova u formatu: "paket:broj alociranih:broj potrosenih"
-  //na osnovu tih stringova prave se paketi, pakektu se dodeljuje status = true (moguce ga je dodeliti novom korisniku)
-  // ako je broj alociranih veci od broja potrosenih
   public static extractAllPackages(stringPackageList: Array<string>): Array<Package> {
     var packages: Array<Package> = new Array<Package>();
-    stringPackageList.forEach(element => {
-      var list: Array<string> = element.split(':');
+    if (typeof stringPackageList === 'string') {
+      var list: Array<string> = String(stringPackageList).split(':');
       var status: boolean = false;
       if (Number(list[1]) > Number(list[2])) {
         status = true;
       }
       var p = new Package(list[0], Number(list[1]), Number(list[2]), status);
       packages.push(p);
-    });
+    }
+    else {
+      stringPackageList.forEach(element => {
+        var list: Array<string> = element.split(':');
+        var status: boolean = false;
+        if (Number(list[1]) > Number(list[2])) {
+          status = true;
+        }
+        var p = new Package(list[0], Number(list[1]), Number(list[2]), status);
+        packages.push(p);
+      });
+    }
     return packages;
   }
 
-  // Metoda koja dobija listu svih paketa koji su update-ovani, za izabrani paket
-  // i konvertuje ih u niz stringova
   public static convertPackagesToStringList(allPackages: Array<Package>): Array<string> {
     var stringList = Array<string>();
     allPackages.forEach(element => {

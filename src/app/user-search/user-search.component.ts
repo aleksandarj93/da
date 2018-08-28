@@ -17,15 +17,6 @@ import { ActivatedRoute } from '@angular/router';
 export class UserSearchComponent implements OnInit {
   baseDN: string = ""; 
   domain: string;
-  
-//  get domain(): string {
-//     return this._sharedService.domain;
-//  }
-//  set domain(value: string) {
-//   this._sharedService.domain = value;
-//  }
-  
-
 
   scope: string = 'SUB';
   filterString: string = "";
