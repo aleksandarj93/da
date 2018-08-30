@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { UserServiceService } from '../user-service.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatPaginator, MatSort, MatTableDataSource, MatDialog } from '@angular/material';
@@ -7,6 +7,8 @@ import { SingleDeleteDialogComponent } from '../dialogs/single-delete-dialog/sin
 import { Package } from '../shared/package.model';
 import { PackageService } from '../package.service';
 import { ActivatedRoute } from '@angular/router';
+import { SharedService } from '../services/shared.service';
+import { ChosenDomain } from '../shared/interfaces';
 
 
 @Component({
@@ -14,7 +16,10 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './user-search.component.html',
   styleUrls: ['./user-search.component.css']
 })
-export class UserSearchComponent implements OnInit {
+export class UserSearchComponent implements OnInit, OnDestroy {
+
+
+
   baseDN: string = ""; 
   domain: string;
 
@@ -52,9 +57,12 @@ export class UserSearchComponent implements OnInit {
   allPackages: Array<Package> = new Array<Package>(); // svi paketi kao objekti
   selectedPackage: Package = undefined; // izabrani paket
 
-  constructor(private route: ActivatedRoute, private _userService: UserServiceService, public dialog: MatDialog, private _packageService: PackageService) {
-    // this.subscription = this._sharedService.getDomain().subscribe(message => { this.domain = message; });
+  constructor(private route: ActivatedRoute, private _userService: UserServiceService, public dialog: MatDialog, private _packageService: PackageService,
+    private sharedService: SharedService) {
+
     this.domain = this.route.snapshot.params['domain'];
+    var chosenDomain = new ChosenDomain(this.domain, true);
+    this.sharedService.changeSelectedDomainParam(chosenDomain);
    }
 
   async ngOnInit() {
@@ -62,6 +70,11 @@ export class UserSearchComponent implements OnInit {
     this.allPackages = this._packageService.getAllPackagesObjs(this.packageStringList);
     this.onSubmit();
     
+  }
+
+  ngOnDestroy(): void {
+    var chosenDomain = new ChosenDomain('', false);
+    this.sharedService.changeSelectedDomainParam(chosenDomain);
   }
 
 

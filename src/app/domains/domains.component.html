@@ -52,7 +52,7 @@
       </ng-container>
 
       <ng-container matColumnDef="Domain name" >
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Domain name </th>
+        <th mat-header-cell *matHeaderCellDef > Domain name </th>
         <td mat-cell *matCellDef="let row"> {{row.sunPreferredDomain}} </td>
       </ng-container>
 
@@ -74,9 +74,3 @@
   </div>
   <hr />
 </div>
-<!-- 
-<a [routerLink]="['/user-search', 'domen1.rs']" >domen1.rs</a>
-<br>
-<a [routerLink]="['/user-search', 'domen2.rs']" >domen2.rs</a>
-<br>
-<a [routerLink]="['/user-search', 'mts.rs']">mts.rs</a> -->

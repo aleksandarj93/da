@@ -17,7 +17,7 @@ export class UserPageGuard implements CanActivate {
       if (this.checkNSRole()) {
         return true;
       } else if (segmentUrl[1].path === domain) {
-        console.log('User guard radi samo ako user nije top lvl admin.....')
+        console.log('User-page guard radi samo ako user nije top lvl admin.....')
         return true;
       }
     return false;

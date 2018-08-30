@@ -1,11 +1,9 @@
-export interface User {
-    dn: string;
-    attributes?: (AttributesEntity)[] | null;
+export class ChosenDomain {
+  domainParam: string;
+  isChosen: boolean;
+
+  constructor(domainParam: string, isChosen: boolean) {
+    this.domainParam =domainParam;
+    this.isChosen = isChosen;
   }
-  export interface AttributesEntity {
-    name: string;
-    values?: (ValuesEntity)[] | null;
-  }
-  export interface ValuesEntity {
-    value: string;
-  }
+}

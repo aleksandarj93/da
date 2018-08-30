@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { DomainService } from '../domain.service';
+import { DomainService } from '../services/domain.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
@@ -63,7 +63,6 @@ export class DomainsComponent implements OnInit {
     this.dataSource.sortingDataAccessor = (item, property) => {
       switch(property) {
         case 'Name': return item.o;
-        case 'Number of users': return item.sunNumUsers;
       }
     };
     this.dataSource.sort = this.sort;

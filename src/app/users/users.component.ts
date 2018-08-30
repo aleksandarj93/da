@@ -6,6 +6,8 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Package } from '../shared/package.model';
 import { PackageService } from '../package.service';
+import { SharedService } from '../services/shared.service';
+import { ChosenDomain } from '../shared/interfaces';
 
 
 @Component({
@@ -54,8 +56,11 @@ export class UsersComponent implements OnInit {
   message: string;
   IsHidden = true;
 
-  constructor(private _userService: UserServiceService, private route: ActivatedRoute,private router: Router, private _packageService: PackageService) { 
+  constructor(private _userService: UserServiceService, private route: ActivatedRoute,private router: Router, private _packageService: PackageService,
+  private sharedService: SharedService) { 
     this.domain = this.route.snapshot.params['domain'];
+    var chosenDomain = new ChosenDomain(this.domain, true);
+    this.sharedService.changeSelectedDomainParam(chosenDomain);
   }
 
   async ngOnInit() {

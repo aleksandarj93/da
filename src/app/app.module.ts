@@ -15,12 +15,13 @@ import { CookieService } from 'ngx-cookie-service';
 import { AppComponent } from './app.component';
 import { UsersComponent } from './users/users.component';
 import { UserSearchComponent } from './user-search/user-search.component';
-import { RouterModule,Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { SingleDeleteDialogComponent } from './dialogs/single-delete-dialog/single-delete-dialog.component';
 import { UserModifyDialogComponent } from './dialogs/user-modify-dialog/user-modify-dialog.component';
 import { DomainsComponent } from './domains/domains.component';
 import { UserPageGuard } from './user-page.guard';
+import { SharedService } from './services/shared.service';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,7 @@ import { UserPageGuard } from './user-page.guard';
     ]),
     
   ],
-  providers: [AuthGuard, UserPageGuard, CookieService],
+  providers: [AuthGuard, UserPageGuard, CookieService, SharedService],
   bootstrap: [AppComponent],
   entryComponents: [SingleDeleteDialogComponent, UserModifyDialogComponent]
 })
