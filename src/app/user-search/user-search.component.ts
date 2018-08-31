@@ -17,9 +17,6 @@ import { ChosenDomain } from '../shared/interfaces';
   styleUrls: ['./user-search.component.css']
 })
 export class UserSearchComponent implements OnInit, OnDestroy {
-
-
-
   baseDN: string = ""; 
   domain: string;
 
@@ -231,6 +228,7 @@ export class UserSearchComponent implements OnInit, OnDestroy {
     }
     return false;
   }
+
   onNotifyClose(hideDetails: boolean): void {
     this.hiddenDetails = hideDetails;
     this.selection.clear();

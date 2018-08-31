@@ -6,6 +6,8 @@ import { DomainService } from './services/domain.service';
 import { Router } from '@angular/router';
 import { SharedService } from './services/shared.service';
 
+
+const SMALL_WIDTH_BREAKPOINT = 720;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,18 +15,17 @@ import { SharedService } from './services/shared.service';
   providers: [UserServiceService, PackageService, CookieServiceService, DomainService]
 })
 export class AppComponent implements OnInit {
+  // parametri za logiku navigacije
   domain: any;
   isChosen: boolean;
   nsRole: any;
- 
-  
-   
-  constructor(private cookieService: CookieServiceService, private router: Router, private sharedService: SharedService) { 
-  }
 
-  // domain: string = 'UNKNOWN';
-  // da se pojavi uid u nav baru!
-  uid: string = 'UNKNOWN';
+  private mediaMatcher: MediaQueryList = matchMedia(`(max-width: ${SMALL_WIDTH_BREAKPOINT}px)`);
+ 
+  constructor(private cookieService: CookieServiceService, private router: Router, private sharedService: SharedService) { 
+    // ako se ne menja side nav u odnosu na velicinu (dodati i zonu)
+    // this.mediaMatcher.addListener(mql => this.mediaMatcher = mql);
+  }
 
   ngOnInit(): void {
     this.sharedService.selectedDomainChanged$.subscribe(
@@ -37,8 +38,9 @@ export class AppComponent implements OnInit {
 
   }
 
-  goUserSearch() {
-    this.router.navigate(['/user-search', this.domain]);
+  isScreenSmall(): boolean {
+    return this.mediaMatcher.matches;
   }
+
  
 }

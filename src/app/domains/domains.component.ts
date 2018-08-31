@@ -5,6 +5,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-domains',
@@ -14,7 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class DomainsComponent implements OnInit {
   baseDN: string = "o=isp"; 
   scope: string = 'SUB';
-  filterString: string = "(sunpreferreddomain=*)";
+  filterString: string = ""; // default (sunpreferreddomain=*)
   isLoadingResults = true;
 
   displayedColumns = ['select', 'Name', 'Domain name', 'Domain status', 'Number of users'];
@@ -23,6 +24,16 @@ export class DomainsComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+
+  domainForm = new FormGroup({
+    value: new FormControl()
+  });
+
+
+  filter = [
+    { id: "sunpreferreddomain", attribute: "Domain name" }
+  ];
+  selectedAttribute = null;
 
   constructor(private _domainService: DomainService, public dialog: MatDialog) { }
 
@@ -53,6 +64,11 @@ export class DomainsComponent implements OnInit {
   async getDomainData() {
     this.isLoadingResults = true;
 
+    if (this.selectedAttribute !== null && this.domainForm.value.value !== null) {
+      this.filterString = "(" + this.selectedAttribute + "=" + this.domainForm.value.value + ")";
+    }
+    else { this.filterString = "(sunpreferreddomain=*)"; }
+
     var res = await this._domainService.asyncGetDomain(this.baseDN, this.scope, this.filterString);
     var getData: ldapSearchDomainData[] = [];
     for (const iterator of res.ldapSearch) {
@@ -67,9 +83,14 @@ export class DomainsComponent implements OnInit {
     };
     this.dataSource.sort = this.sort;
     this.isLoadingResults = false;
-
   }
 
+  checkDeleteEnable(): boolean {
+    if (this.selection.isEmpty()) {
+      return true;
+    }
+    return false;
+  }
 }
 
 function mapJsonDomain(obj: any): ldapSearchDomainData {

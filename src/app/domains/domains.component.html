@@ -1,10 +1,10 @@
 <div class="container">
   <div class="form-group row">
-      <!-- <button type="button" class="btn btn-primary" [routerLink]="['/users', domain]">Create new</button> | 
-      <button type="button" class="btn btn-danger" [disabled]="checkDeleteEnable()" (click)="onDeleteButton()">Delete users</button> -->
+      <button type="button" class="btn btn-primary" >Create</button> | 
+      <button type="button" class="btn btn-danger" [disabled]="checkDeleteEnable()" (click)="onDeleteButton()">Delete</button>
   </div>
   
-  <!-- <form [formGroup]="userForm" #form="ngForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="domainForm" #form="ngForm" (ngSubmit)="getDomainData()">
     <div class="input-group mb-3">
       <div class="input-group-prepend">
         <select class="custom-select" [(ngModel)]="selectedAttribute" [ngModelOptions]="{standalone: true}">
@@ -16,7 +16,7 @@
         <button class="btn btn-outline-primary" type="submit">Search</button>
       </div>
     </div>
-  </form> -->
+  </form>
   <hr />
   <div class="example-header">
     <mat-form-field>
