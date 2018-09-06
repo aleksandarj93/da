@@ -7,9 +7,9 @@ import { HttpClient } from '@angular/common/http';
 export class DomainService {
 
     // 130.61.18.71:7809 direktno gadjanje isb
-    // private _domainBasicUrl = "http://130.61.18.71:7809/ldaprest/domain";
+    private _domainBasicUrl = "http://130.61.18.71:7809/ldaprest/domain";
     // private _domainBasicUrl = "http://172.20.2.162:7809/ldaprest/domain";
-    private _domainBasicUrl = "http://" + window.location.host + "/ldaprest/domain";
+    // private _domainBasicUrl = "http://" + window.location.host + "/ldaprest/domain";
 
   constructor(private _http: HttpClient) { }
 

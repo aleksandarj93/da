@@ -1,4 +1,4 @@
-box: node:8.10.0
+box: node:latest
 build:
   steps:
     # Install latest npm version
@@ -8,7 +8,7 @@ build:
     # Install latest angular-cli
     - script:
         name: install latest angular-cli version
-        code: npm install -g @angular/cli@6.0.0 --unsafe-perm
+        code: npm install -g @angular/cli@latest --unsafe-perm
     # Install npm dependencies
     - script:
         name: install npm dependencies
