@@ -1,110 +1,113 @@
 <div class="container">
   <h3>New User</h3>
-    <mat-horizontal-stepper class="fixedHeight" #stepper>
-        <mat-step [stepControl]="firstFormGroup">
-          <form [formGroup]="firstFormGroup">
-            <ng-template matStepLabel>User Information</ng-template>
-            <div class="form-group">
-                <mat-form-field class="example-full-width" appearance="outline">
-                  <input matInput placeholder="First Name*" formControlName="firstName" [errorStateMatcher]="matcher">
-                  <mat-hint>Enter a Firs Name</mat-hint>
-                  <mat-error *ngIf="firstFormGroup.value.firstName == ''">
-                    First Name is
-                    <strong>required!</strong>
-                  </mat-error>
-                </mat-form-field>
-              </div>
-              <div class="form-group">
-                <mat-form-field class="example-full-width" appearance="outline">
-                  <input matInput placeholder="Last Name*" formControlName="lastName" [errorStateMatcher]="matcher">
-                  <mat-hint>Enter a Last Name</mat-hint>
-                  <mat-error *ngIf="firstFormGroup.value.lastName == ''">
-                    Last Name is
-                    <strong>required!</strong>
-                  </mat-error>
-                </mat-form-field>
-              </div>
-              <div class="form-group">
-                <mat-form-field class="example-full-width" appearance="outline">
-                  <input matInput placeholder="Password*" formControlName="password" [errorStateMatcher]="matcher" type="password">
-                  <mat-hint>Enter a Password</mat-hint>
-                  <mat-error *ngIf="firstFormGroup.value.password == ''">
-                    Password is
-                    <strong>required!</strong>
-                  </mat-error>
-                </mat-form-field>
-              </div>
-              <div class="form-group">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-select [(ngModel)]="selectedLanguage" [ngModelOptions]="{standalone: true}" placeholder="Language">
-                      <mat-option *ngFor="let l of languages" [value]="l.id">
-                        {{ l.name }}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-            <div>
-              <button mat-raised-button matStepperNext [disabled]="notEntered()">Next</button>
-            </div>
-          </form>
-        </mat-step>
-        <mat-step [stepControl]="secondFormGroup">
-            <form [formGroup]="secondFormGroup">
-              <ng-template matStepLabel>Select Service Package</ng-template>
-              <div class="form-group">
-                  <mat-form-field class="example-full-width">
-                    <mat-select [(ngModel)]="selectedPackage" [ngModelOptions]="{standalone: true}" placeholder="Service Packages">
-                      <mat-option *ngFor="let p of availablePackages" [value]="p">
-                        {{ p.name }}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <div *ngIf="selectedPackage != null">
-                  <mat-card>
-                    <mat-card-content>
-                      <h4 class="example-h2">Service Package Details</h4>
-                      <mat-tab-group class="demo-tab-group">
-                        <mat-tab label="Mail Service Details">
-                          <div class="form-group">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Disk Space Quota" formControlName="mailQuota">
-                              <mat-hint>Use suffix K, M, G to specify kilo, mega, and giga bytes respectively</mat-hint>
-                            </mat-form-field>
-                          </div>
-                          <div class="form-group">
+  <mat-horizontal-stepper class="fixedHeight" #stepper>
+    <mat-step [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>User Information</ng-template>
+        <div class="form-group">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <input matInput placeholder="First Name*" formControlName="firstName" [errorStateMatcher]="matcher">
+            <mat-hint>Enter a Firs Name</mat-hint>
+            <mat-error *ngIf="firstFormGroup.value.firstName == ''">
+              First Name is
+              <strong>required!</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <input matInput placeholder="Last Name*" formControlName="lastName" [errorStateMatcher]="matcher">
+            <mat-hint>Enter a Last Name</mat-hint>
+            <mat-error *ngIf="firstFormGroup.value.lastName == ''">
+              Last Name is
+              <strong>required!</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <input matInput placeholder="Password*" formControlName="password" [errorStateMatcher]="matcher" type="password">
+            <mat-hint>Enter a Password</mat-hint>
+            <mat-error *ngIf="firstFormGroup.value.password == ''">
+              Password is
+              <strong>required!</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-select [(ngModel)]="selectedLanguage" [ngModelOptions]="{standalone: true}" placeholder="Language">
+              <mat-option *ngFor="let l of languages" [value]="l.id">
+                {{ l.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div>
+          <button mat-raised-button matStepperNext [disabled]="notEntered()">Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step >
+      <form >
+        <ng-template matStepLabel>Select Service Package</ng-template>
+        <div class="form-group">
+          <mat-form-field class="example-full-width">
+            <mat-select [(ngModel)]="selectedPackage" [ngModelOptions]="{standalone: true}" placeholder="Service Packages">
+              <mat-option *ngFor="let p of availablePackages" [value]="p">
+                {{ p.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div *ngIf="selectedPackage != null">
+          <mat-card>
+            <mat-card-content>
+              <h4 class="example-h2">Service Package Details</h4>
+              <mat-tab-group class="demo-tab-group">
+                <mat-tab label="Mail Service Details">
+                  <div class="form-group">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="E-mail" [formControl]="mail">
+                      <mat-hint>Enter a mail</mat-hint>
+                      <mat-error *ngIf="mail.hasError('email')">
+                          Please enter a valid email address
+                        </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <!-- <div class="form-group">
                             <mat-form-field class="example-full-width">
                               <input matInput placeholder="Message Number Quota" formControlName="mailMsgQuota">
                               <mat-hint>Message Number Quota</mat-hint>
                             </mat-form-field>
-                          </div>
-                        </mat-tab>
-                      </mat-tab-group>
-                    </mat-card-content>
-                  </mat-card>
-                </div>
-              <div>
-                  <br>
-                <button mat-raised-button matStepperPrevious>Back</button>
-              </div>
-            </form>
-          </mat-step>
-      </mat-horizontal-stepper>
-      <hr />
-      <div class="form-group">
-          <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="notEntered()">Create</button> |
-          <!-- <button mat-raised-button (click)="stepper.reset()">Reset</button> -->
-          <button mat-raised-button  [routerLink]="['/user-search', domain]">Cancel</button>
-      </div>
-     
-      <div *ngIf="!IsHidden">
-        <div class="alert alert-success" *ngIf="onlyStatus == 'SUCCESS'; else errorResponse">
-          <strong>{{ message }}</strong>
+                          </div> -->
+                </mat-tab>
+              </mat-tab-group>
+            </mat-card-content>
+          </mat-card>
         </div>
-        <ng-template #errorResponse>
-          <div class="alert alert-danger">
-            <strong>{{ message }}</strong>
-          </div>
-        </ng-template>
-      </div> 
+        <div>
+          <br>
+          <button mat-raised-button matStepperPrevious>Back</button>
+        </div>
+      </form>
+    </mat-step>
+  </mat-horizontal-stepper>
+  <hr />
+  <div class="form-group">
+    <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="notEntered()">Create</button> |
+    <!-- <button mat-raised-button (click)="stepper.reset()">Reset</button> -->
+    <button mat-raised-button [routerLink]="['/user-search', domain]">Cancel</button>
+  </div>
+
+  <div *ngIf="!IsHidden">
+    <div class="alert alert-success" *ngIf="onlyStatus == 'SUCCESS'; else errorResponse">
+      <strong>{{ message }}</strong>
+    </div>
+    <ng-template #errorResponse>
+      <div class="alert alert-danger">
+        <strong>{{ message }}</strong>
+      </div>
+    </ng-template>
+  </div>
 </div>

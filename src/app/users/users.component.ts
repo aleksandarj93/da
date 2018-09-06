@@ -24,10 +24,7 @@ export class UsersComponent implements OnInit {
     password: new FormControl('', [Validators.required])
   });
 
-  secondFormGroup = new FormGroup({
-    mailQuota: new FormControl(),
-    mailMsgQuota: new FormControl()
-  });
+  mail = new FormControl('', [Validators.email]);
 
   languages =
     [
@@ -77,9 +74,6 @@ export class UsersComponent implements OnInit {
     return false;
   }
 
-  // Metoda se izvrsava klikom na dugme Create. Uzima sa forme sve unete informacije i pozvia servis addUser(user)
-  // ako je user uspesno kreiran i neki paket odabran poziva se metoda za update-ovanje iskoriscenih paketa
-  // modifySunAvailableServices().
   async onSubmit() {
 
     var formResult = {};
@@ -116,8 +110,14 @@ export class UsersComponent implements OnInit {
       attributes.push({ "name": "inetCos", "values": [{ "value": this.selectedPackage.name }] });
 
       // za E-mail
-      attributes.push({ "name": "mail", "values": [{ "value": String(this.firstFormGroup.value.firstName).toLowerCase()  + "." 
-      + String(this.firstFormGroup.value.lastName).toLowerCase()  + this.domain }] });
+      if (this.mail.value != null && this.mail.value != '') {
+        attributes.push({ "name": "mail", "values": [{ "value": String(this.mail.value).toLowerCase()  }] });
+      }
+      else {
+        attributes.push({ "name": "mail", "values": [{ "value": String(this.firstFormGroup.value.firstName).toLowerCase()  + "." 
+        + String(this.firstFormGroup.value.lastName).toLowerCase()  + "@" + this.domain }] });
+      }
+     
       
       attributes.push({"name": "mailUserStatus", "values": [{ "value": "active" }] });
     }

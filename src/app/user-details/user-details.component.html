@@ -1,8 +1,7 @@
 <mat-card *ngIf="newUser != null">
-    <div class="example-loading-shade"
-    *ngIf="isLoadingResults">
- <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
- </div>
+  <div class="example-loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
   <div class="modal-header">
     <h4 class="example-h2">{{ newUser.cn }} - Properties</h4>
     <button type="button" class="close" aria-label="Close" (click)="onClose()">
@@ -40,66 +39,27 @@
         </div>
       </mat-tab>
       <mat-tab label="Service Package Details">
-        <div id="accordion">
-          <div class="card">
-            <div class="card-header" id="headingOne">
-                <mat-form-field class="example-full-width">
-                    <mat-select [(ngModel)]="newSelectedPackage" [ngModelOptions]="{standalone: true}" placeholder="Service Packages">
-                      <mat-option *ngFor="let p of allPackages" [value]="p">
-                        {{ p.name }}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-              <!-- <h5 class="mb-0">
-                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                  {{ user.inetCOS }}
-                </button>
-              </h5> -->
+        <div class="demo-tab-content">
+          <div class="card-header" id="headingOne">
+            <mat-form-field class="example-full-width">
+              <mat-select [(ngModel)]="newSelectedPackage" [ngModelOptions]="{standalone: true}" placeholder="Service Packages">
+                <mat-option *ngFor="let p of allPackages" [value]="p">
+                  {{ p.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Email Address" [(ngModel)]="newUser.mail" [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
             </div>
-            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-              <div class="card-body">
-                <div class="form-group">
-                  <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Mail Quota" [(ngModel)]="newUser.mailQuota" [ngModelOptions]="{standalone: true}">
-                  </mat-form-field>
-                </div>
-                <div class="form-group">
-                  <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Attachment Size Limit"  [(ngModel)]="newUser.mailMsgQuota" [ngModelOptions]="{standalone: true}">
-                  </mat-form-field>
-                </div>
-              </div>
+            <div class="form-group">
+              <mat-form-field class="example-full-width">
+                <input matInput placeholder="Mail servis status" [(ngModel)]="newUser.mailUserStatus" [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
             </div>
-          </div>
-        </div>
-      </mat-tab>
-      <mat-tab label="Mail servis">
-        <div class="demo-tab-content" >
-          <br>
-          <div class="form-group">
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Mail Host" [(ngModel)]="newUser.mailHost" [ngModelOptions]="{standalone: true}">
-            </mat-form-field>
-          </div>
-          <div class="form-group">
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Email Address" [(ngModel)]="newUser.mail" [ngModelOptions]="{standalone: true}">
-            </mat-form-field>
-          </div>
-          <div class="form-group">
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Mail servis status" [(ngModel)]="newUser.mailUserStatus" [ngModelOptions]="{standalone: true}">
-            </mat-form-field>
-          </div>
-        </div>
-      </mat-tab>
-      <mat-tab label="Calendar Service Details">
-        <div class="demo-tab-content" *ngIf="newUser != null">
-          <br>
-          <div class="form-group">
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Timezone" [(ngModel)]="newUser.icsTimezone" [ngModelOptions]="{standalone: true}">
-            </mat-form-field>
           </div>
         </div>
       </mat-tab>
@@ -107,7 +67,7 @@
   </mat-card-content>
   <hr />
   <div class="form-group">
-      <button mat-raised-button color="primary" (click)="openModifyUserDialog()">Modify</button> |
-      <button mat-raised-button (click)="onClose()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="openModifyUserDialog()">Modify</button> |
+    <button mat-raised-button (click)="onClose()">Cancel</button>
   </div>
 </mat-card>

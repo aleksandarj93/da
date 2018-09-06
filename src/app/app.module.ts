@@ -23,6 +23,7 @@ import { UserModifyDialogComponent } from './dialogs/user-modify-dialog/user-mod
 import { DomainsComponent } from './domains/domains.component';
 import { UserPageGuard } from './user-page.guard';
 import { SharedService } from './services/shared.service';
+import { DomainCreateComponent } from './domain-create/domain-create.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { SharedService } from './services/shared.service';
     UserDetailsComponent,
     SingleDeleteDialogComponent,
     UserModifyDialogComponent,
-    DomainsComponent
+    DomainsComponent,
+    DomainCreateComponent
   ],
   imports: [
     FlexLayoutModule,
@@ -68,6 +70,11 @@ import { SharedService } from './services/shared.service';
       {
         path: 'domains',
         component:DomainsComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'domain-create',
+        component:DomainCreateComponent,
         canActivate: [AuthGuard]
       },
       {

@@ -13,7 +13,7 @@
       <mat-nav-list>
         <div *ngIf="nsRole === 'Top-level Admin Role'">
             <a mat-list-item [routerLink]="['/domains']" (click)="isScreenSmall() == true ? snav.toggle() : false">Organizations</a>
-            <a mat-list-item (click)="isScreenSmall() == true ? snav.toggle() : false">New Organization</a>
+            <a mat-list-item [routerLink]="['/domain-create']" (click)="isScreenSmall() == true ? snav.toggle() : false">New Organization</a>
             <a mat-list-item (click)="isScreenSmall() == true ? snav.toggle() : false">Alocate service packages</a>
         </div>
         <div *ngIf="isChosen === true">
