@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, EventEmitter, Output, OnChanges, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { UserServiceService } from '../user-service.service';
+import { UserServiceService } from '../services/user-service.service';
 import { UserModifyDialogComponent } from '../dialogs/user-modify-dialog/user-modify-dialog.component';
 import { Package } from '../shared/package.model';
-import { PackageService } from '../package.service';
+import { PackageService } from '../services/package.service';
 import { BuildJSObjects } from '../shared/buildJSObjects';
 
 @Component({

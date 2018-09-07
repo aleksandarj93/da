@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UserServiceService } from './user-service.service';
-import { PackageService } from './package.service'
-import { CookieServiceService } from './cookie-service.service';
+import { UserServiceService } from './services/user-service.service';
+import { PackageService } from './services/package.service'
+import { CookieServiceService } from './services/cookie-service.service';
 import { DomainService } from './services/domain.service';
 import { Router } from '@angular/router';
 import { SharedService } from './services/shared.service';

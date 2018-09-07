@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UserServiceService } from './user-service.service';
-import { Package } from './shared/package.model';
+import { Package } from '../shared/package.model';
 
 @Injectable({
   providedIn: 'root'

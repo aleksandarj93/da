@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { UserServiceService } from '../user-service.service';
+import { UserServiceService } from '../services/user-service.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Package } from '../shared/package.model';
-import { PackageService } from '../package.service';
+import { PackageService } from '../services/package.service';
 import { SharedService } from '../services/shared.service';
 import { ChosenDomain } from '../shared/interfaces';
 

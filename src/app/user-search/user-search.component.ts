@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { UserServiceService } from '../user-service.service';
+import { UserServiceService } from '../services/user-service.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatPaginator, MatSort, MatTableDataSource, MatDialog } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { SingleDeleteDialogComponent } from '../dialogs/single-delete-dialog/single-delete-dialog.component';
 import { Package } from '../shared/package.model';
-import { PackageService } from '../package.service';
+import { PackageService } from '../services/package.service';
 import { ActivatedRoute } from '@angular/router';
 import { SharedService } from '../services/shared.service';
 import { ChosenDomain } from '../shared/interfaces';
