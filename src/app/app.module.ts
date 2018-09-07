@@ -9,7 +9,6 @@ import {MatButtonModule,MatSidenavModule, MatSelectModule, MatInputModule, MatLi
   MatTableModule, MatPaginatorModule, MatCardModule, MatStepperModule, MatExpansionModule, MatToolbarModule, MatIconModule, MatCheckboxModule, MatSortModule } from '@angular/material';
 import {MatTabsModule} from '@angular/material/tabs';
 import { AuthGuard } from './auth.guard';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 import { CookieService } from 'ngx-cookie-service';
@@ -37,7 +36,6 @@ import { DomainCreateComponent } from './domain-create/domain-create.component';
     DomainCreateComponent
   ],
   imports: [
-    FlexLayoutModule,
     BrowserModule,
     FormsModule,
     HttpClientModule,
