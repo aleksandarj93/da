@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserServiceService } from '../services/user-service.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { FormGroupDirective, NgForm, Validators } from '@angular/forms';
@@ -16,7 +16,7 @@ import { ChosenDomain } from '../shared/interfaces';
   styleUrls: ['./users.component.css']
 })
 
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnDestroy {
 
   firstFormGroup = new FormGroup({
     firstName: new FormControl('', [Validators.required]),
@@ -64,6 +64,11 @@ export class UsersComponent implements OnInit {
     this.packageStringList = await this._packageService.getPackageStringList(this.domain);
     this.allPackages = this._packageService.getAllPackagesObjs(this.packageStringList);
     this.availablePackages = this._packageService.getAvailablePackagesObjs(this.allPackages);
+  }
+
+  ngOnDestroy(): void {
+    var chosenDomain = new ChosenDomain('', false);
+    this.sharedService.changeSelectedDomainParam(chosenDomain);
   }
 
   // Metoda koja proverava da li su obavezni parametri popunjeni i omogucava korisniku da klikne dugme Create
