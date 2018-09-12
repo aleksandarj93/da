@@ -1,0 +1,149 @@
+{
+	"dn": "o=delta,o=isp",
+	"attributes": [
+		{
+			"name": "Objectclass",
+			"values": [
+				{
+					"value": "top"
+				},
+				{
+					"value": "icscalendardomain"
+				},
+				{
+					"value": "nabDomain"
+				},
+				{
+					"value": "inetdomainauthinfo"
+				},
+				{
+					"value": "maildomain"
+				},
+				{
+					"value": "organization"
+				},
+				{
+					"value": "sunmanagedorganization"
+				},
+				{
+					"value": "sunnamespace"
+				},
+				{
+					"value": "sundelegatedorganization"
+				}
+			]
+		},
+		{
+			"name": "o",
+			"values": [
+				{
+					"value": "delta"
+				}
+			]
+		},
+		{
+			"name": "sunpreferreddomain",
+			"values": [
+				{
+					"value": "delta.rs"
+				}
+			]
+		},
+		{
+			"name": "inetDomainStatus",
+			"values": [
+				{
+					"value": "active"
+				}
+			]
+		},
+		{
+			"name": "preferredLanguage",
+			"values": [
+				{
+					"value": "en"
+				}
+			]
+		},
+		{
+			"name": "preferredMailHost",
+			"values": [
+				{
+					"value": "ucs7.sun.saga.rs"
+				}
+			]
+		},
+		{
+			"name": "sunAvailableServices",
+			"values": [
+				{
+					"value": "neptune:10:0"
+				},
+				{
+					"value": "mars:10:0"
+				}
+			]
+		},
+		{
+			"name": "sunOrgType",
+			"values": [
+				{
+					"value": "full"
+				}
+			]
+		},
+		{
+			"name": "sunMaxUsers",
+			"values": [
+				{
+					"value": "-1"
+				}
+			]
+		},
+		{
+			"name": "sunMaxGroups",
+			"values": [
+				{
+					"value": "-1"
+				}
+			]
+		},
+		{
+			"name": "sunNameSpaceUniqueAttrs",
+			"values": [
+				{
+					"value": "uid"
+				}
+			]
+		},
+		{
+			"name": "sunRegisteredServiceName",
+			"values": [
+				{
+					"value": "UserCalendarService"
+				},
+				{
+					"value": "DomainMailService"
+				},
+				{
+					"value": "DomainContactsService"
+				},
+				{
+					"value": "DomainIMService"
+				},
+				{
+					"value": "UserMailService"
+				},
+				{
+					"value": "DomainCalendarService"
+				},
+				{
+					"value": "UserIMService"
+				},
+				{
+					"value": "UserContactsService"
+				}
+			]
+		}
+	]
+}
