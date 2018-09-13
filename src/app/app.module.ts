@@ -23,6 +23,7 @@ import { DomainsComponent } from './domains/domains.component';
 import { UserPageGuard } from './user-page.guard';
 import { SharedService } from './services/shared.service';
 import { DomainCreateComponent } from './domain-create/domain-create.component';
+import { AllocateServicePackageComponent } from './allocate-service-package/allocate-service-package.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { DomainCreateComponent } from './domain-create/domain-create.component';
     SingleDeleteDialogComponent,
     UserModifyDialogComponent,
     DomainsComponent,
-    DomainCreateComponent
+    DomainCreateComponent,
+    AllocateServicePackageComponent
   ],
   imports: [
     BrowserModule,

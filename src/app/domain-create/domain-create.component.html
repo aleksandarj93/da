@@ -32,6 +32,7 @@
     <mat-step >
       <form >
         <ng-template matStepLabel>Alocate Service Package</ng-template>
+        <app-allocate-service-package></app-allocate-service-package>
 
 
         <div>
@@ -48,7 +49,7 @@
     <button mat-raised-button [routerLink]="['/domains']">Cancel</button>
   </div>
 
-  <div *ngIf="!IsHidden">
+  <!-- <div *ngIf="!IsHidden">
     <div class="alert alert-success" *ngIf="onlyStatus == 'SUCCESS'; else errorResponse">
       <strong>{{ message }}</strong>
     </div>
@@ -57,5 +58,6 @@
         <strong>{{ message }}</strong>
       </div>
     </ng-template>
-  </div>
+  </div> -->
 </div>
+{{ selectedPackages | json }}
