@@ -6,7 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CdkTableModule} from '@angular/cdk/table';
 import {MatButtonModule,MatSidenavModule, MatSelectModule, MatInputModule, MatListModule, MatMenuModule, MatDialogModule, MatButtonToggleModule, MatProgressSpinnerModule,
-  MatTableModule, MatPaginatorModule, MatCardModule, MatStepperModule, MatExpansionModule, MatToolbarModule, MatIconModule, MatCheckboxModule, MatSortModule } from '@angular/material';
+  MatTableModule, MatPaginatorModule, MatCardModule, MatStepperModule, MatExpansionModule, MatToolbarModule, MatIconModule, MatCheckboxModule, MatSortModule, MatTooltipModule } from '@angular/material';
 import {MatTabsModule} from '@angular/material/tabs';
 import { AuthGuard } from './auth.guard';
 
@@ -61,6 +61,7 @@ import { DomainCreateComponent } from './domain-create/domain-create.component';
     MatDialogModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
+    MatTooltipModule,
     RouterModule.forRoot([
       {
         path: '', pathMatch: 'full',  redirectTo: 'domains'
@@ -83,6 +84,11 @@ import { DomainCreateComponent } from './domain-create/domain-create.component';
       {
         path:'user-search/:domain',
         component:UserSearchComponent,
+        canActivate: [UserPageGuard]
+      },
+      {
+        path:'user-details',
+        component:UserDetailsComponent,
         canActivate: [UserPageGuard]
       }
     ]),

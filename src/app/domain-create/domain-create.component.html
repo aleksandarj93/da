@@ -1,3 +1,61 @@
-<p>
-  domain-create works!
-</p>
+<div class="container">
+  <h3>New Organization</h3>
+  <mat-horizontal-stepper class="fixedHeight" #stepper>
+    <mat-step>
+      <form>
+        <ng-template matStepLabel>Domain Information</ng-template>
+        <div class="form-group">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <input matInput placeholder="Name" [formControl]="name">
+            <mat-hint>Enter a Name</mat-hint>
+            <mat-error *ngIf="name.hasError('required')">
+              Name is
+              <strong>required!</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <input matInput placeholder="Domain Name (example.rs)" [formControl]="domainName">
+              <mat-hint>Enter a Domain Name</mat-hint>
+              <mat-error *ngIf="domainName.hasError('required')">
+                Domain Name is
+                <strong>required!</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        <div>
+          <button mat-raised-button matStepperNext [disabled]="notEntered()">Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step >
+      <form >
+        <ng-template matStepLabel>Alocate Service Package</ng-template>
+
+
+        <div>
+          <br>
+          <button mat-raised-button matStepperPrevious>Back</button>
+        </div>
+      </form>
+    </mat-step>
+  </mat-horizontal-stepper>
+  <hr />
+  <div class="form-group">
+    <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="notEntered()">Create</button> |
+    <!-- <button mat-raised-button (click)="stepper.reset()">Reset</button> -->
+    <button mat-raised-button [routerLink]="['/domains']">Cancel</button>
+  </div>
+
+  <div *ngIf="!IsHidden">
+    <div class="alert alert-success" *ngIf="onlyStatus == 'SUCCESS'; else errorResponse">
+      <strong>{{ message }}</strong>
+    </div>
+    <ng-template #errorResponse>
+      <div class="alert alert-danger">
+        <strong>{{ message }}</strong>
+      </div>
+    </ng-template>
+  </div>
+</div>

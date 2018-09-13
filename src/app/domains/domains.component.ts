@@ -91,6 +91,13 @@ export class DomainsComponent implements OnInit {
     }
     return false;
   }
+
+  checkAlocateEnable(): boolean {
+    if (this.selection.selected.length === 1) {
+      return false;
+    }
+    return true;
+  }
 }
 
 function mapJsonDomain(obj: any): ldapSearchDomainData {

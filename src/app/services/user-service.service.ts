@@ -59,6 +59,7 @@ export class UserServiceService {
 
   async getMailDomain(domain: string): Promise<any> {
     var _mailDomainGetUrl = this._userBasicUrl + "?baseDN=o=" + domain + ",o=isp&searchScope=SUB&filter=(objectclass=maildomain)";
+    // var _mailDomainGetUrl = this._userBasicUrl + "?baseDN=o=isp&searchScope=SUB&filter=(sunPreferredDomain=" + domain + ")";
     try {
       let response = await this._http.get<any>(_mailDomainGetUrl)
       .toPromise();

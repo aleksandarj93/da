@@ -24,4 +24,26 @@ export class DomainService {
     }
   }
 
+  async asyncGetMailCalendarUser(): Promise<any> {
+    var _domainGetUrl = this._domainBasicUrl + "?baseDN=o=mailcalendaruser,o=costemplates,o=isp&searchScope=SUB&filter=(objectclass=LDAPsubentry)";
+    try {
+      let response = await this._http.get<any>(_domainGetUrl)
+      .toPromise();
+      return response;
+    } catch (error) {
+      
+    }
+  }
+
+  async asyncGetMailUser(): Promise<any> {
+    var _domainGetUrl = this._domainBasicUrl + "?baseDN=o=mailuser,o=costemplates,o=isp&searchScope=SUB&filter=(objectclass=LDAPsubentry)";
+    try {
+      let response = await this._http.get<any>(_domainGetUrl)
+      .toPromise();
+      return response;
+    } catch (error) {
+      
+    }
+  }
+
 }
