@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
  
   constructor(private cookieService: CookieServiceService, private router: Router, private sharedService: SharedService) { 
     // ako se ne menja side nav u odnosu na velicinu (dodati i zonu)
-    // this.mediaMatcher.addListener(mql => this.mediaMatcher = mql);
+       //this.mediaMatcher.addListener(mql => this.mediaMatcher = mql);
   }
 
   ngOnInit(): void {

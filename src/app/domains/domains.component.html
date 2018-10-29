@@ -1,8 +1,8 @@
 <div class="container">
   <div class="form-group row">
       <button mat-raised-button color="primary" [routerLink]="['/domain-create']" >Create</button> | 
-      <button mat-raised-button color="warn" [disabled]="checkDeleteEnable()" (click)="onDeleteButton()">Delete</button> | 
-      <button mat-raised-button color="primary" [disabled]="checkAlocateEnable()" (click)="onDeleteButton()" matTooltip="Select just 1 domain">Alocate packages</button>
+      <button mat-raised-button color="warn" [disabled]="checkDeleteEnable()" >Delete</button> | 
+      <button mat-raised-button color="primary" [disabled]="checkAlocateEnable()" matTooltip="Select just 1 domain">Alocate packages</button>
       <!-- <button type="button" class="btn btn-primary" [routerLink]="['/domain-create']" >Create</button> |  -->
       <!-- <button type="button" class="btn btn-danger" [disabled]="checkDeleteEnable()" (click)="onDeleteButton()">Delete</button> | 
       <button type="button" class="btn btn-danger" [disabled]="checkAlocateEnable()" (click)="onDeleteButton()">Alocate packages</button> -->
